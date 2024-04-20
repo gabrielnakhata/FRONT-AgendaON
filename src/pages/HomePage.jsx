@@ -1,32 +1,39 @@
-import { Box, Text, Image, Center } from '@chakra-ui/react';
+import { Box, Image, Center, Flex } from '@chakra-ui/react';
 import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
 
 const HomePage = () => {
   return (
-
-    <Box minW="100vw">
+    <Flex direction="column" minH="100vh" bg="#fff" w="100vw" m="0" p="0" overflowX="hidden">
       <Header />
-      <Center>
-        <Image src="../src/assets/banner-agenda-online.jpg" boxSize="full" objectFit="cover" objectPosition="center" />
-      </Center>
-      <Center my={4}>
-        <Box
-          align="center"
-          as='button'
-          p={4}
-          color='white'
-          fontWeight='bold'
-          borderRadius='md'
-          bgGradient='linear(to-l, #C02428, #67469B)'
-          _hover={{
-            bgGradient: 'linear(to-l, #C02428, #D5A52F)',
-          }}
-        >
-          AGENDAR
-        </Box>
-      </Center>
-    </Box>
-
+      <Box flex="1" w="100%" overflow="hidden" p="0"> {/* Remove padding e margem */}
+        <Image
+          src="../src/assets/banner-agenda-online.jpg" // Ajuste o caminho se necessário
+          w="100%"
+          h="500px"
+          objectFit="cover"
+          m="0" // Remove qualquer margem para garantir que encoste no Header
+        />
+        <Center my={4}>
+          <Box
+            as='button'
+            p={5}
+            color='white'
+            fontWeight='bold'
+            borderRadius='md'
+            bgGradient='linear(to-l, #C02428, #C02428)'
+            _hover={{
+              bg:"#244196",
+            }}
+          >
+            AGENDAR
+          </Box>
+        </Center>
+      </Box>
+      <Footer />
+    </Flex>
   );
 };
+
 export default HomePage;
+
