@@ -6,13 +6,13 @@ const HomePage = () => {
   return (
     <Flex direction="column" minH="100vh" bg="#fff" w="100vw" m="0" p="0" overflowX="hidden">
       <Header />
-      <Box flex="1" w="100%" overflow="hidden" p="0"> {/* Remove padding e margem */}
+      <Box flex="1" w="100%" overflow="hidden" p="0">
         <Image
-          src="../src/assets/banner-agenda-online.jpg" // Ajuste o caminho se necessário
+          src="../src/assets/banner-agenda-online.jpg"
           w="100%"
           h="500px"
           objectFit="cover"
-          m="0" // Remove qualquer margem para garantir que encoste no Header
+          m="0"
         />
         <Center my={4}>
           <Box
@@ -23,7 +23,7 @@ const HomePage = () => {
             borderRadius='md'
             bgGradient='linear(to-l, #C02428, #C02428)'
             _hover={{
-              bg:"#244196",
+              bg: "#244196",
             }}
           >
             AGENDAR
