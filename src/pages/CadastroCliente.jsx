@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import CustomInput from '../components/layout/CustomInput';
 import TitleSection from '../components/layout/TitleSection';
 import { registerClient } from '../services/clientService';
+import moment from 'moment-timezone';
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phoneRegex = /^\d{10,11}$/;
+const dateOfBirthRegex = /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+
 
 const CadastroCliente = () => {
 
@@ -26,28 +32,57 @@ const CadastroCliente = () => {
     };
 
     const handleClose = () => {
-        navigate('/');  
+        navigate('/');
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!dateOfBirthRegex.test(formData.dataNascimento)) {
+            toast({
+                title: "Erro de validação",
+                description: "Por favor, insira uma data de nascimento válida.",
+                status: "error",
+                duration: 1000,
+                isClosable: true,
+            });
+            return;
+        } if (!emailRegex.test(formData.email)) {
+            toast({
+                title: "Erro de validação",
+                description: "Por favor, insira um e-mail válido.",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            });
+            return;
+        } if (!phoneRegex.test(formData.celular)) {
+            toast({
+                title: "Erro de validação",
+                description: "Por favor, insira um número de celular válido. (10 a 11 dígitos)",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            });
+            return;
+        }
         try {
-            const dataCadastro = new Date().toISOString();  
+            const dataCadastro = moment().tz("America/Sao_Paulo").format();
             const data = await registerClient({ ...formData, dataCadastro });
             toast({
                 title: "Cliente cadastrado",
                 description: `Os dados foram cadastrados com sucesso! Bem-vindo(a), ${data.nome || 'cliente'}.`,
                 status: "success",
-                duration: 9000,
+                duration: 2500,
                 isClosable: true,
+                onCloseComplete: () => navigate('/login-modal')
             });
-            navigate('/');  
         } catch (error) {
             toast({
                 title: "Erro ao cadastrar",
                 description: error.message || "Não foi possível cadastrar o cliente.",
                 status: "error",
-                duration: 9000,
+                duration: 4000,
                 isClosable: true,
             });
         }

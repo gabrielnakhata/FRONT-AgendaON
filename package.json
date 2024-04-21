@@ -16,6 +16,8 @@
     "@emotion/styled": "^11.11.5",
     "axios": "^1.6.8",
     "framer-motion": "^11.1.7",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
