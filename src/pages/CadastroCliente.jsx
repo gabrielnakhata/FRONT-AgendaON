@@ -1,9 +1,16 @@
 import { useState } from 'react';
-import { Center, Flex, Box, VStack, useToast } from '@chakra-ui/react';
+import { HStack, Flex, Box, VStack, useToast, Center } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import CustomInput from '../components/layout/CustomInput'
 import TitleSection from '../components/layout/TitleSection';
 
 const CadastroCliente = () => {
+    const navigate = useNavigate();
+
+    const handleClose = () => {
+        navigate('/');
+    };
+
     const [formData, setFormData] = useState({
         nome: '',
         email: '',
@@ -55,23 +62,39 @@ const CadastroCliente = () => {
                         <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
                         <CustomInput label="Data de Nascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
                         <Box height="20px" />
-                        <Center my={4}>
+                        <HStack spacing={4} width="full" justify="center">
                             <Box
                                 isFullWidth
                                 type='submit'
                                 as='button'
-                                p={5}
+                                onClick={handleClose}
+                                p={3}
                                 color='white'
                                 fontWeight='bold'
                                 borderRadius='md'
-                                bgGradient='linear(to-l, #244196, #244196)'
+                                bgGradient='linear(to-l, #FA7F08, #F24405)'
+                                _hover={{
+                                    bg: "#FA7F08",
+                                }}
+                            >
+                                VOLTAR
+                            </Box>
+                            <Box
+                                isFullWidth
+                                type='submit'
+                                as='button'
+                                p={3}
+                                color='white'
+                                fontWeight='bold'
+                                borderRadius='md'
+                                bgGradient='linear(to-l, #7786D9, #244196)'
                                 _hover={{
                                     bg: "#7786D9",
                                 }}
                             >
                                 CADASTRAR
                             </Box>
-                        </Center>
+                        </HStack>
                     </VStack>
                 </form>
             </Box>

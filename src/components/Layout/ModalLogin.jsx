@@ -6,24 +6,25 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    Button,
     useDisclosure,
     Input,
     FormControl,
     FormLabel,
     Stack,
+    Image,
+    Box,
+    HStack 
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ModalLogin() {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const navigate = useNavigate(); // Hook para programar navegações
+    const navigate = useNavigate();
     const location = useLocation();
     const [overlayType, setOverlayType] = useState('blur');
 
     useEffect(() => {
-        // Abre o modal automaticamente se a rota for '/login-modal'
         if (location.pathname === '/login-modal') {
             setOverlayType('blur');
             onOpen();
@@ -31,14 +32,17 @@ function ModalLogin() {
     }, [location, onOpen]);
 
     const handleClose = () => {
-        onClose();         // Fecha o modal
-        navigate('/');     // Navega para a página inicial
+        onClose();         // Close the modal
+        navigate('/');     // Navigate to home page
     };
 
     const OverlayOne = () => (
         <ModalOverlay
             bg='blackAlpha.300'
-            backdropFilter='blur(10px) hue-rotate(90deg)'
+            backdropFilter='blur(50px) hue-rotate(90deg)'
+            style={{
+                backgroundImage: 'repeating-linear-gradient(45deg, #606dbc, #606dbc 10px, #465298 10px, #465298 20px)'
+            }}
         />
     );
 
@@ -47,7 +51,7 @@ function ModalLogin() {
             bg='none'
             backdropFilter='auto'
             backdropInvert='80%'
-            backdropBlur='2px'
+            backdropBlur='8px'
         />
     );
 
@@ -64,23 +68,59 @@ function ModalLogin() {
             <Modal isCentered isOpen={isOpen} onClose={handleClose} motionPreset="scale">
                 {getOverlay()}
                 <ModalContent>
-                    <ModalHeader>Login to Your Account</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Stack spacing={4}>
+                        <Stack align="center" paddingTop={10}>
+                            <Image
+                                src="../src/assets/logo-kezuka.svg"
+                                boxSize="180px"
+                                alt="Logo AgendaOn Kezuka Style's"
+                            />
+                            <ModalHeader>Acessar AgendaOn</ModalHeader>
                             <FormControl isRequired>
-                                <FormLabel>Email</FormLabel>
-                                <Input placeholder="Enter your email" />
+                                <FormLabel>E-mail</FormLabel>
+                                <Input placeholder="Insira seu e-mail" />
                             </FormControl>
                             <FormControl isRequired>
-                                <FormLabel>Password</FormLabel>
-                                <Input type="password" placeholder="Enter your password" />
+                                <FormLabel>Senha</FormLabel>
+                                <Input type="password" placeholder="Insira sua senha" />
                             </FormControl>
                         </Stack>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={handleClose}>Login</Button>
-                        <Button variant="ghost" onClick={handleClose}>Cancel</Button>
+                    <HStack spacing={4} width="full" justify="center">
+                    <Box
+                            isFullWidth
+                            as='button'
+                            onClick={handleClose}
+                            p={3}
+                            color='white'
+                            fontWeight='bold'
+                            borderRadius='md'
+                            bgGradient='linear(to-l, #7786D9, #244196)'
+                            _hover={{
+                                bg: "#7786D9",
+                            }}
+                        >
+                            LOGIN
+                        </Box>
+                        <Box
+                            isFullWidth
+                            as='button'
+                            onClick={handleClose}
+                            p={3}
+                            color='white'
+                            fontWeight='bold'
+                            borderRadius='md'
+                            bgGradient='linear(to-l, #FA7F08, #F24405)'
+                            _hover={{
+                                bg: "#FA7F08",
+                            }}
+                            mr={3}
+                        >
+                            CANCEL
+                        </Box>
+                        </HStack>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
