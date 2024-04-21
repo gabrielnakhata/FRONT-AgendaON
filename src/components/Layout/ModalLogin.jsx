@@ -13,7 +13,9 @@ import {
     Stack,
     Image,
     Box,
-    HStack 
+    HStack,
+    Link,
+    Text 
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -84,6 +86,9 @@ function ModalLogin() {
                             <FormControl isRequired>
                                 <FormLabel>Senha</FormLabel>
                                 <Input type="password" placeholder="Insira sua senha" />
+                                <Text mt={2} textAlign="center" fontSize="sm">
+                                <Link color="black" mt={2} onClick={() => navigate('/forgot-password')}>Esqueci minha senha</Link>
+                                </Text>
                             </FormControl>
                         </Stack>
                     </ModalBody>
@@ -97,29 +102,14 @@ function ModalLogin() {
                             color='white'
                             fontWeight='bold'
                             borderRadius='md'
-                            bgGradient='linear(to-l, #7786D9, #244196)'
+                            bgGradient='linear(to-l, #244196, #244196)'
                             _hover={{
                                 bg: "#7786D9",
                             }}
                         >
-                            LOGIN
+                            LOGAR
                         </Box>
-                        <Box
-                            isFullWidth
-                            as='button'
-                            onClick={handleClose}
-                            p={3}
-                            color='white'
-                            fontWeight='bold'
-                            borderRadius='md'
-                            bgGradient='linear(to-l, #FA7F08, #F24405)'
-                            _hover={{
-                                bg: "#FA7F08",
-                            }}
-                            mr={3}
-                        >
-                            CANCEL
-                        </Box>
+                    
                         </HStack>
                     </ModalFooter>
                 </ModalContent>
