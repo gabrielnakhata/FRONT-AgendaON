@@ -28,13 +28,13 @@ const Header = () => {
                         <DrawerCloseButton color="white" />
                         <DrawerBody>
                             <Flex direction="column" paddingTop={20} align="center" mt={4}>
-                                <Button bg="white" mb={4} onClick={onClose} w="full">
-                                    Login
-                                </Button>
+                                <RouterLink to="/login-modal" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                    <Button bg="white" mb={4} onClick={onClose} w="full">
+                                        Login
+                                    </Button>
+                                </RouterLink>
                                 <RouterLink to="/cadastro-cliente" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                    <Button color="white" bg="#244196" _hover={{
-                                        bg: "#244196",
-                                    }} w="full">Cadastre-se</Button>
+                                    <Button color="white" bg="#244196" _hover={{ bg: "#244196" }} w="full">Cadastre-se</Button>
                                 </RouterLink>
                             </Flex>
                         </DrawerBody>

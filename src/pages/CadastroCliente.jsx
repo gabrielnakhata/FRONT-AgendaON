@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Center, Flex, Box, VStack, useToast } from '@chakra-ui/react';
-import CustomInput from '../components/Layout/CustomInput'
-import TitleSection from '../components/Layout/TitleSection';
+import CustomInput from '../components/layout/CustomInput'
+import TitleSection from '../components/layout/TitleSection';
 
 const CadastroCliente = () => {
     const [formData, setFormData] = useState({

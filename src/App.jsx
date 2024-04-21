@@ -1,17 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from '../src/pages/HomePage';
-import CadastroCliente from '../src/pages/CadastroCliente';
+import HomePage from './pages/HomePage';
+import CadastroCliente from './pages/CadastroCliente';
+import ModalLogin from './components/layout/ModalLogin';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/cadastro-cliente" element={<CadastroCliente />} />
-        {/* Defina outras rotas aqui se necessário */}
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/cadastro-cliente" element={<CadastroCliente />} />
+          <Route path="/login-modal" element={<ModalLogin />} />
+        </Routes>
+      </Router>
   );
 }
-export default App;
 
+export default App;

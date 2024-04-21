@@ -7,7 +7,7 @@ const CustomInput = ({ label, name, type = 'text', placeholder, onChange, value 
         <FormControl isRequired>
             <FormLabel htmlFor={name}>{label}</FormLabel>
             <Input
-                id={name}
+                id={name}h
                 name={name}
                 type={type}
                 placeholder={placeholder}
