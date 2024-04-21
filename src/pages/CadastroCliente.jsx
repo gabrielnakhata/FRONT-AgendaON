@@ -1,16 +1,13 @@
 import { useState } from 'react';
-import { HStack, Flex, Box, VStack, useToast, Center } from '@chakra-ui/react';
+import { HStack, Flex, Box, VStack, useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import CustomInput from '../components/layout/CustomInput'
+import CustomInput from '../components/layout/CustomInput';
 import TitleSection from '../components/layout/TitleSection';
+import { registerClient } from '../services/clientService';
 
 const CadastroCliente = () => {
+
     const navigate = useNavigate();
-
-    const handleClose = () => {
-        navigate('/');
-    };
-
     const [formData, setFormData] = useState({
         nome: '',
         email: '',
@@ -28,26 +25,32 @@ const CadastroCliente = () => {
         }));
     };
 
+    const handleClose = () => {
+        navigate('/');  
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log({
-            ...formData,
-            dataCadastro: new Date().toISOString(),
-        });
-        setFormData({
-            nome: '',
-            email: '',
-            senha: '',
-            celular: '',
-            dataNascimento: '',
-        });
-        toast({
-            title: "Cliente cadastrado",
-            description: "Os dados foram cadastrados com sucesso!",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-        });
+        try {
+            const dataCadastro = new Date().toISOString();  
+            const data = await registerClient({ ...formData, dataCadastro });
+            toast({
+                title: "Cliente cadastrado",
+                description: `Os dados foram cadastrados com sucesso! Bem-vindo(a), ${data.nome || 'cliente'}.`,
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+            });
+            navigate('/');  
+        } catch (error) {
+            toast({
+                title: "Erro ao cadastrar",
+                description: error.message || "Não foi possível cadastrar o cliente.",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+            });
+        }
     };
 
     return (
@@ -61,11 +64,8 @@ const CadastroCliente = () => {
                         <CustomInput label="Senha" name="senha" type="password" placeholder="Senha" value={formData.senha} onChange={handleChange} />
                         <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
                         <CustomInput label="Data de Nascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
-                        <Box height="20px" />
                         <HStack spacing={4} width="full" justify="center">
                             <Box
-                                isFullWidth
-                                type='submit'
                                 as='button'
                                 onClick={handleClose}
                                 p={3}
@@ -80,7 +80,6 @@ const CadastroCliente = () => {
                                 VOLTAR
                             </Box>
                             <Box
-                                isFullWidth
                                 type='submit'
                                 as='button'
                                 p={3}
