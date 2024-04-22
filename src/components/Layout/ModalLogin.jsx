@@ -15,60 +15,74 @@ import {
     Box,
     HStack,
     Link,
-    Text 
+    Text,
+    useToast
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { loginUser } from '../../services/loginService';
+import { useAuth } from '../../contexts/AuthContext';
 
 function ModalLogin() {
+    const { login } = useAuth(); 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
     const location = useLocation();
-    const [overlayType, setOverlayType] = useState('blur');
+    const toast = useToast();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     useEffect(() => {
         if (location.pathname === '/login-modal') {
-            setOverlayType('blur');
             onOpen();
         }
     }, [location, onOpen]);
 
-    const handleClose = () => {
-        onClose();         // Close the modal
-        navigate('/');     // Navigate to home page
+    const handleLogin = async () => {
+        try {
+            const data = await loginUser({ email, senha: password });
+            login(data, data.token);
+            toast({
+                title: "Login efetuado com sucesso!",
+                description: `Seja bem vindo, ${data.nome}!`,
+                status: "success",
+                duration: 2000,
+                isClosable: true
+            });
+            onClose();
+            navigate('/dashboard');
+        } catch (error) {
+            toast({
+                title: "Ops, o login falhou...",
+                description: error.response?.data?.message || "Verifique o login e senha, os dados podem estar errados...",
+                status: "error",
+                duration: 3000,
+                isClosable: true
+            });
+        }
     };
 
-    const OverlayOne = () => (
-        <ModalOverlay
-            bg='blackAlpha.300'
-            backdropFilter='blur(50px) hue-rotate(90deg)'
-            style={{
-                backgroundImage: 'repeating-linear-gradient(45deg, #606dbc, #606dbc 10px, #465298 10px, #465298 20px)'
-            }}
-        />
-    );
+    // const handleClose = () => {
+    //     onClose();
+    //     navigate('/');
+    // };
 
-    const OverlayTwo = () => (
-        <ModalOverlay
-            bg='none'
-            backdropFilter='auto'
-            backdropInvert='80%'
-            backdropBlur='8px'
-        />
-    );
-
-    const getOverlay = () => {
-        if (overlayType === 'blur') {
-            return <OverlayOne />;
-        } else {
-            return <OverlayTwo />;
+    const handleClose = () => {
+        onClose();
+        if (!location.pathname.includes('dashboard')) {
+            navigate('/');  // Só navega para a home se não estiver já no dashboard
         }
     };
 
     return (
         <>
-            <Modal isCentered isOpen={isOpen} onClose={handleClose} motionPreset="scale">
-                {getOverlay()}
+            <Modal isCentered isOpen={isOpen} onClose={handleClose} isClosable={false} motionPreset="scale">
+                <ModalOverlay
+                    bg='blackAlpha.300'
+                    style={{
+                        backgroundImage: 'repeating-linear-gradient(45deg, #606dbc, #606dbc 10px, #465298 10px, #465298 20px)'
+                    }}
+                />
                 <ModalContent>
                     <ModalCloseButton />
                     <ModalBody>
@@ -81,35 +95,34 @@ function ModalLogin() {
                             <ModalHeader>Acessar AgendaOn</ModalHeader>
                             <FormControl isRequired>
                                 <FormLabel>E-mail</FormLabel>
-                                <Input placeholder="Insira seu e-mail" />
+                                <Input value={email} onChange={e => setEmail(e.target.value)} placeholder="Insira seu e-mail" />
                             </FormControl>
                             <FormControl isRequired>
                                 <FormLabel>Senha</FormLabel>
-                                <Input type="password" placeholder="Insira sua senha" />
+                                <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Insira sua senha" />
                                 <Text mt={2} textAlign="center" fontSize="sm">
-                                <Link color="black" mt={2} onClick={() => navigate('/forgot-password')}>Esqueci minha senha</Link>
+                                    <Link color="black" onClick={() => navigate('/forgot-password')}>Esqueci minha senha</Link>
                                 </Text>
                             </FormControl>
                         </Stack>
                     </ModalBody>
                     <ModalFooter>
-                    <HStack spacing={4} width="full" justify="center">
-                    <Box
-                            isFullWidth
-                            as='button'
-                            onClick={handleClose}
-                            p={3}
-                            color='white'
-                            fontWeight='bold'
-                            borderRadius='md'
-                            bgGradient='linear(to-l, #244196, #244196)'
-                            _hover={{
-                                bg: "#7786D9",
-                            }}
-                        >
-                            LOGAR
-                        </Box>
-                    
+                        <HStack spacing={4} width="full" justify="center">
+                            <Box
+                                isFullWidth
+                                as='button'
+                                onClick={handleLogin}
+                                p={3}
+                                color='white'
+                                fontWeight='bold'
+                                borderRadius='md'
+                                bgGradient='linear(to-l, #244196, #244196)'
+                                _hover={{
+                                    bg: "#7786D9",
+                                }}
+                            >
+                                LOGAR
+                            </Box>
                         </HStack>
                     </ModalFooter>
                 </ModalContent>
