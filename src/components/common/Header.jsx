@@ -24,7 +24,7 @@ const Header = () => {
                     size="xs"
                 >
                     <DrawerOverlay />
-                    <DrawerContent bg="#244196">
+                    <DrawerContent bg="#182625">
                         <DrawerCloseButton color="white" />
                         <DrawerBody>
                             <Flex direction="column" paddingTop={20} align="center" mt={4}>

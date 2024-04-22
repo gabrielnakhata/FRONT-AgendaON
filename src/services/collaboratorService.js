@@ -1,0 +1,23 @@
+import axios from 'axios';
+
+const collaboratorApi = axios.create({
+    baseURL: 'https://api.kezukastyles.com.br/api/v1',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
+
+export const registerCollaborator = async (collaboratorData, token) => {
+    try {
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        const response = await collaboratorApi.post('/Colaboradores', collaboratorData, config);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error("An unexpected error occurred");
+    }
+};

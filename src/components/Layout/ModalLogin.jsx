@@ -50,7 +50,21 @@ function ModalLogin() {
                 isClosable: true
             });
             onClose();
-            navigate('/dashboard');
+
+            switch (data.tipoUsuario) {
+                case 'Gestor':
+                    navigate('/dashboard');
+                    break;
+                case 'Colaborador':
+                    navigate('/profile');
+                    break;
+                case 'Cliente':
+                    navigate('/cadastro-cliente');
+                    break;
+                default:
+                    navigate('/');
+                    break;
+            }
         } catch (error) {
             toast({
                 title: "Ops, o login falhou...",

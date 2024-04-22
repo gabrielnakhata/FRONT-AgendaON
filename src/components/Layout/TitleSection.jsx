@@ -5,11 +5,12 @@ const TitleSection = ({ title, subtitle }) => {
     return (
         <Flex
             w="full"
-            bg="#244196"
+            bg="#182625"
             p={5}
             alignItems="center"
             justifyContent="center"
             flexDirection="column"
+            textAlign="center" 
         >
             <Heading
                 as="h1"

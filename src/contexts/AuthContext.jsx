@@ -8,25 +8,30 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
+    const [authState, setAuthState] = useState({
+        user: null,
+        token: null,
+        tipoUsuario: null 
+    });
 
     const login = (userData, authToken) => {
-        setUser(userData);
-        setToken(authToken);
+        setAuthState({
+            user: userData,
+            token: authToken,
+            tipoUsuario: userData.tipoUsuario
+        });
         localStorage.setItem('userToken', authToken);
         localStorage.setItem('userData', JSON.stringify(userData));
     };
 
     const logout = () => {
-        setUser(null);
-        setToken(null);
+        setAuthState({ user: null, token: null, tipoUsuario: null });
         localStorage.removeItem('userToken');
         localStorage.removeItem('userData');
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout }}>
+        <AuthContext.Provider value={{ ...authState, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

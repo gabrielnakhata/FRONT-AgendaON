@@ -11,6 +11,7 @@ const ProfilePage = () => {
                 <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
                     <Text><b>ID:</b> {user.id}</Text>
                     <Text><b>Nome:</b> {user.nome}</Text>
+                    <Text><b>Tipo Usuário:</b> {user.tipoUsuario}</Text>
                     <Text><b>Email:</b> {user.email}</Text>
                     <Text><b>Token:</b> {token}</Text>
                 </Box>

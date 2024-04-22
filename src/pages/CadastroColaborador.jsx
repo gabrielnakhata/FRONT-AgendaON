@@ -3,16 +3,18 @@ import { HStack, Flex, Box, VStack, useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import CustomInput from '../components/layout/CustomInput';
 import TitleSection from '../components/layout/TitleSection';
-import { registerClient } from '../services/clientService';
+import { registerCollaborator } from '../services/collaboratorService';
 import moment from 'moment-timezone';
+import { useAuth } from '../contexts/AuthContext'; 
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;
 const dateOfBirthRegex = /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 
 
-const CadastroCliente = () => {
+const CadastroColaborador = () => {
 
+    const { token } = useAuth(); 
     const toast = useToast();
     const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ const CadastroCliente = () => {
         celular: '',
         dataNascimento: '',
     });
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,7 +36,7 @@ const CadastroCliente = () => {
     };
 
     const handleClose = () => {
-        navigate('/');
+        navigate('/dashboard');
     };
 
     const handleSubmit = async (e) => {
@@ -69,19 +72,19 @@ const CadastroCliente = () => {
         }
         try {
             const dataCadastro = moment().tz("America/Sao_Paulo").format();
-            const data = await registerClient({ ...formData, dataCadastro });
+            const data = await registerCollaborator({ ...formData, dataCadastro }, token);
             toast({
-                title: "Cliente cadastrado",
-                description: `Os dados foram cadastrados com sucesso! Bem-vindo(a), ${data.nome || 'cliente'}.`,
+                title: "Colaborador cadastrado",
+                description: `Os dados cadastrados com sucesso! ${data.nome || 'colaborador'}.`,
                 status: "success",
                 duration: 2500,
                 isClosable: true,
-                onCloseComplete: () => navigate('/login-modal')
+                onCloseComplete: () => navigate('/dashboard')
             });
         } catch (error) {
             toast({
                 title: "Erro ao cadastrar",
-                description: error.message || "Não foi possível cadastrar o cliente.",
+                description: error.message || "Não foi possível cadastrar o colaborador.",
                 status: "error",
                 duration: 4000,
                 isClosable: true,
@@ -91,7 +94,7 @@ const CadastroCliente = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Cadastro de Clientes" subtitle="Olá amigo(a) cliente para obter um login de acesso, gentileza efetuar cadastro." />
+            <TitleSection title="Cadastro de Colaboradores" subtitle="Formulário de cadastro de colaboradores." />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="5rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
@@ -137,4 +140,4 @@ const CadastroCliente = () => {
     );
 };
 
-export default CadastroCliente;
+export default CadastroColaborador;
