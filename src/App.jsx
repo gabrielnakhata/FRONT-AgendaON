@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/common/PrivateRoute';
 import HomePage from './pages/HomePage';
 import CadastroColaborador from './pages/CadastroColaborador';
+import ListaColaboradores from './pages/ListaColaboradores';
 import CadastroServico from './pages/CadastroServico';
 import CadastroCliente from './pages/CadastroCliente';
 import ModalLogin from './components/layout/ModalLogin';
@@ -22,6 +23,10 @@ function App() {
           <Route path="/cadastro-colaborador" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <CadastroColaborador />
+            </PrivateRoute>} />
+            <Route path="/lista-colaborador" element={
+            <PrivateRoute allowedTypes={['Gestor']}>
+              <ListaColaboradores />
             </PrivateRoute>} />
             <Route path="/cadastro-servico" element={
             <PrivateRoute allowedTypes={['Gestor']}>

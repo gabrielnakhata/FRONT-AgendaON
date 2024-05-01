@@ -77,6 +77,11 @@ const MenuGestor = () => {
                                     Cadastro de Colaborador
                                 </Button>
                             </RouterLink>
+                            <RouterLink to="/lista-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                <Button bg="white" mb={4} w="full">
+                                    Listar Colaboradores
+                                </Button>
+                            </RouterLink>
                             <RouterLink to="/cadastro-servico" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                 <Button bg="white" mb={4} w="full">
                                     Cadastro de serviço
