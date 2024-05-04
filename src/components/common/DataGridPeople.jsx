@@ -2,6 +2,7 @@ import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Button } from '@chakra
 import PropTypes from 'prop-types';
 
 const DataGridPeople = ({ data, onUpdate, onDelete }) => {
+
   return (
     <TableContainer>
       <Table size='md'>
@@ -9,7 +10,6 @@ const DataGridPeople = ({ data, onUpdate, onDelete }) => {
           <Tr>
             <Th>Nome</Th>
             <Th>Email</Th>
-            <Th>Senha</Th>
             <Th>Celular</Th>
             <Th>Data de Nascimento</Th>
             <Th>Data de Cadastro</Th>
@@ -22,14 +22,15 @@ const DataGridPeople = ({ data, onUpdate, onDelete }) => {
             <Tr key={item.colaboradorId}>
               <Td>{item.nome}</Td>
               <Td>{item.email}</Td>
-              <Td>{item.senha}</Td>
               <Td>{item.celular}</Td>
+              {/* <Td>{item.dataNascimento}</Td>
+              <Td>{item.dataCadastro}</Td> */}
               <Td>{new Date(item.dataNascimento).toLocaleDateString()}</Td>
               <Td>
                 {new Date(item.dataCadastro).toLocaleDateString()} {new Date(item.dataCadastro).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </Td>
               <Td>
-                <Button onClick={() => onUpdate(item.colaboradorId)} colorScheme="blue">Atualizar</Button>
+                <Button onClick={() => onUpdate(item)} colorScheme="blue">Atualizar</Button>
               </Td>
               <Td>
                 <Button onClick={() => onDelete(item.colaboradorId)} colorScheme="red">Deletar</Button>

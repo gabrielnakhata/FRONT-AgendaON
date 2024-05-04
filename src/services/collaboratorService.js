@@ -37,20 +37,21 @@ export const getCollaborators = async (token) => {
     }
 };
 
-// export const updateCollaborator = async (token) => {
-//     try {
-//         const config = {
-//             headers: {
-//                 'Authorization': `Bearer ${token}`
-//             }
-//         };
+export const updateCollaborator = async (id, collaboratorData, token) => {
+    try {
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
 
-//         const response = await collaboratorApi.get('/Colaboradores', config);
-//         return response.data;
-//     } catch (error) {
-//         throw error.response ? error.response.data : new Error("An unexpected error occurred");
-//     }
-// };
+        const response = await collaboratorApi.put(`/Colaboradores/${id}`, collaboratorData, config);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error("An unexpected error occurred");
+    }
+};
+
 
 export const deleteCollaborator = async (id, token) => {
     try {

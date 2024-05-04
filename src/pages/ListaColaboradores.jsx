@@ -12,6 +12,10 @@ const ListaColaboradores = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
+  const handleUpdate = (collaborator) => {
+    navigate(`/atualizar-colaborador/${collaborator.colaboradorId}`, { state: { collaborator } });
+  };
+
   const handleClose = () => {
     navigate('/dashboard');
   };
@@ -29,11 +33,12 @@ const ListaColaboradores = () => {
           isClosable: true,
         });
       });
-  }, [0]);
+  }, [token]);
 
   const handleDelete = async (id) => {
     try {
       await deleteCollaborator(id, token);
+      setData(prevData => prevData.filter(item => item.colaboradorId !== id));
       toast({
         title: "Colaborador deletado",
         description: `O colaborador com ID ${id} foi removido.`,
@@ -41,8 +46,7 @@ const ListaColaboradores = () => {
         duration: 2500,
         isClosable: true,
       });
-
-      setData(prevData => prevData.filter(item => item.colaboradorId != id));
+     
     } catch (error) {
       toast({
         title: "Erro ao deletar",
@@ -60,7 +64,7 @@ const ListaColaboradores = () => {
       <TitleSection title="Lista de Colaboradores" subtitle="Nossa equipe é nossa força. Cada colaborador contribui para o nosso sucesso." />
       <Box bg="#fff" p={1} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '70%']} maxWidth="1350px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="5rem">
         <ChakraProvider>
-          <DataGridPeople data={data} onUpdate={null} onDelete={handleDelete} />
+          <DataGridPeople data={data} onUpdate={handleUpdate} onDelete={handleDelete} />
         </ChakraProvider>
       </Box>
       <HStack spacing={4} width="full" justify="center">
