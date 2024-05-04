@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import { HStack, ChakraProvider, Flex, Box, useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import DataGridPeople from '../components/common/DataGridPeople';
+import DataGridService from '../components/common/DataGridService';
 import TitleSection from '../components/layout/TitleSection';
-import { getCollaborators, deleteCollaborator } from '../services/collaboratorService';
+import { getServices, deleteService } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext';
 
-const ListaColaboradores = () => {
+const ListaServicos = () => {
   const { token } = useAuth();
   const [data, setData] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
 
-  const handleUpdate = (collaborator) => {
-    navigate(`/atualizar-colaborador/${collaborator.colaboradorId}`, { state: { collaborator } });
+  const handleUpdate = (service) => {
+    navigate(`/atualizar-servico/${service.servicoId}`, { state: { service } });
   };
 
   const handleClose = () => {
@@ -21,13 +21,13 @@ const ListaColaboradores = () => {
   };
 
   useEffect(() => {
-    getCollaborators(token)
+    getServices(token)
       .then(setData)
       .catch(error => {
         console.error("Erro ao carregar dados:", error);
         toast({
           title: "Erro ao carregar dados",
-          description: "Não foi possível carregar os dados dos colaboradores. Por favor, tente novamente.",
+          description: "Não foi possível carregar os dados dos serviços. Por favor, tente novamente.",
           status: "error",
           duration: 4000,
           isClosable: true,
@@ -37,19 +37,19 @@ const ListaColaboradores = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteCollaborator(id, token);
+      await deleteService(id, token);
       toast({
-        title: "Colaborador deletado",
-        description: `O colaborador com ID ${id} foi removido.`,
+        title: "Serviço deletado",
+        description: `O serviço com ID ${id} foi removido.`,
         status: "success",
         duration: 2500,
         isClosable: true,
       });
-      setData(prevData => prevData.filter(item => item.colaboradorId !== id));
+      setData(prevData => prevData.filter(item => item.servicoId !== id));
     } catch (error) {
       toast({
         title: "Erro ao deletar",
-        description: "Não foi possível remover o colaborador.",
+        description: "Não foi possível remover o servico.",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -60,10 +60,10 @@ const ListaColaboradores = () => {
   return (
 
     <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-      <TitleSection title="Lista de Colaboradores" subtitle="Nossa equipe é nossa força. Cada colaborador contribui para o nosso sucesso." />
+      <TitleSection title="Lista de Serviços" subtitle="As pessoas não compram bens e serviços. Elas compram relacionamentos, histórias e magia." />
       <Box bg="#fff" p={1} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '70%']} maxWidth="1350px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="5rem">
         <ChakraProvider>
-          <DataGridPeople data={data} onUpdate={handleUpdate} onDelete={handleDelete} />
+          <DataGridService data={data} onUpdate={handleUpdate}  onDelete={handleDelete} />
         </ChakraProvider>
       </Box>
       <HStack spacing={4} width="full" justify="center">
@@ -86,4 +86,4 @@ const ListaColaboradores = () => {
   );
 };
 
-export default ListaColaboradores;
+export default ListaServicos;

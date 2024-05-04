@@ -6,6 +6,8 @@ import CadastroColaborador from './pages/CadastroColaborador';
 import AtualizarColaborador from './pages/AtualizarColaborador';
 import ListaColaboradores from './pages/ListaColaboradores';
 import CadastroServico from './pages/CadastroServico';
+import AtualizarServico from './pages/AtualizarServico';
+import ListaServicos from './pages/ListaServicos';
 import CadastroCliente from './pages/CadastroCliente';
 import ModalLogin from './components/layout/ModalLogin';
 import ProfilePage from './pages/ProfilePage';
@@ -36,6 +38,14 @@ function App() {
           <Route path="/cadastro-servico" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <CadastroServico />
+            </PrivateRoute>} />
+          <Route path="/lista-servico" element={
+            <PrivateRoute allowedTypes={['Gestor']}>
+              <ListaServicos />
+            </PrivateRoute>} />
+            <Route path="/atualizar-servico/:id" element={
+            <PrivateRoute allowedTypes={['Gestor']}>
+              <AtualizarServico />
             </PrivateRoute>} />
           <Route path="/cadastro-cliente" element={<CadastroCliente />} />
           <Route path="/login-modal" element={<ModalLogin />} />

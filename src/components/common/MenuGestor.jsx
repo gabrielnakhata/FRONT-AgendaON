@@ -87,6 +87,11 @@ const MenuGestor = () => {
                                     Cadastro de serviço
                                 </Button>
                             </RouterLink>
+                            <RouterLink to="/lista-servico" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                <Button bg="white" mb={4} w="full">
+                                    Listar de serviços
+                                </Button>
+                            </RouterLink>
                             <RouterLink to="/" onClick={handleLogout} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                                 <Button color="white" bg="#3D5A73" _hover={{ bg: "#7786D9" }} w="full" rightIcon={<ArrowBackIcon />} justifyContent="space-between">
                                     Logout

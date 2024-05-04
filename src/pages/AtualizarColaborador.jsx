@@ -155,7 +155,7 @@ const AtualizarColaborador = () => {
                                     bg: "#7786D9",
                                 }}
                             >
-                                Atualizar
+                                ATUALIZAR
                             </Box>
                         </HStack>
                     </VStack>

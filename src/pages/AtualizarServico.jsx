@@ -1,22 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { HStack, Flex, Box, VStack, useToast } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import CustomInput from '../components/layout/CustomInput';
 import TitleSection from '../components/layout/TitleSection';
-import { registerService } from '../services/serviceService';
+import { updateService } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext'; 
 
-const CadastroServico = () => {
+const AtualizarServico = () => {
 
     const { token } = useAuth(); 
     const toast = useToast();
+    const location = useLocation();
     const navigate = useNavigate();
+    const service = location.state.service;
 
     const [formData, setFormData] = useState({
         nome: '',
         valor: '',
     });
-    
+
+    useEffect(() => {
+        if (service) {
+            setFormData({
+                servicoId: service.servicoId,
+                nome: service.nome,
+                valor: service.valor,
+            });
+        }
+    }, [service]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,12 +43,18 @@ const CadastroServico = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const dataToUpdate = {
+            servicoId: formData.servicoId,
+            nome: formData.nome,
+            valor: formData.valor,
+        };
    
         try {
-            const data = await registerService({ ...formData}, token);
+            const data = await updateService(formData.servicoId, dataToUpdate, token);
             toast({
-                title: "Serviço cadastrado",
-                description: `Os dados foram cadastrados com sucesso! ${data.nome || 'serviço'}.`,
+                title: "Serviço atualizado",
+                description: `Os dados foram atualizados com sucesso! ${data.nome || 'serviço'}.`,
                 status: "success",
                 duration: 2500,
                 isClosable: true,
@@ -45,8 +62,8 @@ const CadastroServico = () => {
             });
         } catch (error) {
             toast({
-                title: "Erro ao cadastrar",
-                description: error.message || "Não foi possível cadastrar o serviço.",
+                title: "Erro ao atualizar",
+                description: error.message || "Não foi possível atualizar o serviço.",
                 status: "error",
                 duration: 4000,
                 isClosable: true,
@@ -56,7 +73,7 @@ const CadastroServico = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Cadastro de Serviços" subtitle="Formulário de cadastro de serviços." />
+            <TitleSection title="Atualização de Serviços" subtitle="Formulário de atualização de serviços." />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="5rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
@@ -89,7 +106,7 @@ const CadastroServico = () => {
                                     bg: "#7786D9",
                                 }}
                             >
-                                CADASTRAR
+                                ATUALIZAR
                             </Box>
                         </HStack>
                     </VStack>
@@ -99,4 +116,4 @@ const CadastroServico = () => {
     );
 };
 
-export default CadastroServico;
+export default AtualizarServico;
