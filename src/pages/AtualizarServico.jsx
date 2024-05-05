@@ -7,7 +7,6 @@ import { updateService } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext'; 
 
 const AtualizarServico = () => {
-
     const { token } = useAuth(); 
     const toast = useToast();
     const location = useLocation();
@@ -15,6 +14,7 @@ const AtualizarServico = () => {
     const service = location.state.service;
 
     const [formData, setFormData] = useState({
+        servicoId: '',
         nome: '',
         valor: '',
     });
@@ -44,12 +44,15 @@ const AtualizarServico = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Substituir vírgulas por pontos no valor
+        const valorCorrigido = formData.valor.replace(',', '.');
+
         const dataToUpdate = {
             servicoId: formData.servicoId,
             nome: formData.nome,
-            valor: formData.valor,
+            valor: valorCorrigido,
         };
-   
+
         try {
             const data = await updateService(formData.servicoId, dataToUpdate, token);
             toast({
@@ -78,7 +81,7 @@ const AtualizarServico = () => {
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
                         <CustomInput label="Nome" name="nome" placeholder="Digite o nome completo" value={formData.nome} onChange={handleChange} />
-                        <CustomInput label="Valor" name="valor" type="valor" placeholder="Digite o valor do serviço" value={formData.valor} onChange={handleChange} />
+                        <CustomInput label="Valor" name="valor" placeholder="Digite o valor do serviço" value={formData.valor} onChange={handleChange} />
                         <HStack spacing={4} width="full" justify="center">
                             <Box
                                 as='button'

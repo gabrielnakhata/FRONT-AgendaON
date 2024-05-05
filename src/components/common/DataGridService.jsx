@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 
 const DataGridService = ({ data, onUpdate, onDelete }) => {
 
+    const formatCurrency = (value) => {
+        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    };
+
     return (
         <TableContainer>
             <Table size='md'>
@@ -18,7 +22,7 @@ const DataGridService = ({ data, onUpdate, onDelete }) => {
                     {data.map(item => (
                         <Tr key={item.servicoId}>
                             <Td>{item.nome}</Td>
-                            <Td>{item.valor}</Td>
+                            <Td>{formatCurrency(parseFloat(item.valor))}</Td>
                             <Td>
                                 <Button onClick={() => onUpdate(item)} colorScheme="blue">Atualizar</Button>
                             </Td>

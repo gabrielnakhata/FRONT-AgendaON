@@ -7,7 +7,6 @@ import { registerService } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext';
 
 const CadastroServico = () => {
-
     const { token } = useAuth();
     const toast = useToast();
     const navigate = useNavigate();
@@ -16,7 +15,6 @@ const CadastroServico = () => {
         nome: '',
         valor: '',
     });
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -43,8 +41,11 @@ const CadastroServico = () => {
             });
             return;
         }
-    
-        if (!formData.valor.trim()) {
+
+        // Substituir vírgulas por pontos no valor
+        const valorCorrigido = formData.valor.replace(',', '.');
+
+        if (!valorCorrigido.trim()) {
             toast({
                 title: "Erro de validação",
                 description: "Por favor, insira o valor do serviço.",
@@ -54,8 +55,8 @@ const CadastroServico = () => {
             });
             return;
         }
-    
-        if (isNaN(Number(formData.valor)) || Number(formData.valor) <= 0) {
+
+        if (isNaN(Number(valorCorrigido)) || Number(valorCorrigido) <= 0) {
             toast({
                 title: "Erro de validação",
                 description: "O valor do serviço deve ser um número positivo.",
@@ -66,8 +67,11 @@ const CadastroServico = () => {
             return;
         }
 
+        // Atualizar o valor no objeto `formData`
+        const formDataCorrigido = { ...formData, valor: valorCorrigido };
+
         try {
-            const data = await registerService({ ...formData }, token);
+            const data = await registerService(formDataCorrigido, token);
             toast({
                 title: "Serviço cadastrado",
                 description: `Os dados foram cadastrados com sucesso! ${data.nome || 'serviço'}.`,
@@ -94,7 +98,7 @@ const CadastroServico = () => {
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
                         <CustomInput label="Nome" name="nome" placeholder="Digite o nome completo" value={formData.nome} onChange={handleChange} />
-                        <CustomInput label="Valor" name="valor" type="valor" placeholder="Digite o valor do serviço" value={formData.valor} onChange={handleChange} />
+                        <CustomInput label="Valor" name="valor" placeholder="Digite o valor do serviço" value={formData.valor} onChange={handleChange} />
                         <HStack spacing={4} width="full" justify="center">
                             <Box
                                 as='button'
