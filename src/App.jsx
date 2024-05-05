@@ -8,6 +8,9 @@ import ListaColaboradores from './pages/ListaColaboradores';
 import CadastroServico from './pages/CadastroServico';
 import AtualizarServico from './pages/AtualizarServico';
 import ListaServicos from './pages/ListaServicos';
+import CadastroComissoes from './pages/CadastroComissoes';
+import ListaComissoes from './pages/ListaComissoes';
+import AtualizarComissoes from './pages/AtualizarComissoes';
 import CadastroCliente from './pages/CadastroCliente';
 import ModalLogin from './components/layout/ModalLogin';
 import ProfilePage from './pages/ProfilePage';
@@ -43,10 +46,22 @@ function App() {
             <PrivateRoute allowedTypes={['Gestor']}>
               <ListaServicos />
             </PrivateRoute>} />
-            <Route path="/atualizar-servico/:id" element={
+          <Route path="/atualizar-servico/:id" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <AtualizarServico />
             </PrivateRoute>} />
+          <Route path="/cadastro-comissao" element={
+            <PrivateRoute allowedTypes={['Gestor']}>
+              <CadastroComissoes />
+            </PrivateRoute>} />
+          <Route path="/lista-comissao" element={
+            <PrivateRoute allowedTypes={['Gestor']}>
+              <ListaComissoes />
+            </PrivateRoute>} />
+          <Route path="/atualizar-comissao/:id" element={
+            <PrivateRoute allowedTypes={['Gestor']}>
+              <AtualizarComissoes />
+            </PrivateRoute>} />   
           <Route path="/cadastro-cliente" element={<CadastroCliente />} />
           <Route path="/login-modal" element={<ModalLogin />} />
           <Route path="/profile" element={<ProfilePage />} />

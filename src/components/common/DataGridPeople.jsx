@@ -14,7 +14,7 @@ const DataGridPeople = ({ data, onUpdate, onDelete }) => {
             <Th>Data de Nascimento</Th>
             <Th>Data de Cadastro</Th>
             <Th>Atualizar</Th>
-            <Th>Deletar</Th>
+            <Th>Excluir</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -23,8 +23,6 @@ const DataGridPeople = ({ data, onUpdate, onDelete }) => {
               <Td>{item.nome}</Td>
               <Td>{item.email}</Td>
               <Td>{item.celular}</Td>
-              {/* <Td>{item.dataNascimento}</Td>
-              <Td>{item.dataCadastro}</Td> */}
               <Td>{new Date(item.dataNascimento).toLocaleDateString()}</Td>
               <Td>
                 {new Date(item.dataCadastro).toLocaleDateString()} {new Date(item.dataCadastro).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -33,7 +31,7 @@ const DataGridPeople = ({ data, onUpdate, onDelete }) => {
                 <Button onClick={() => onUpdate(item)} colorScheme="blue">Atualizar</Button>
               </Td>
               <Td>
-                <Button onClick={() => onDelete(item.colaboradorId)} colorScheme="red">Deletar</Button>
+                <Button onClick={() => onDelete(item.colaboradorId)} colorScheme="red">Excluir</Button>
               </Td>
             </Tr>
           ))}

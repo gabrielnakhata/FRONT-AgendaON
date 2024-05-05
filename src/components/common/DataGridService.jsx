@@ -11,7 +11,7 @@ const DataGridService = ({ data, onUpdate, onDelete }) => {
                         <Th>Nome</Th>
                         <Th>Valor</Th>
                         <Th>Atualizar</Th>
-                        <Th>Deletar</Th>
+                        <Th>Excluir</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -23,7 +23,7 @@ const DataGridService = ({ data, onUpdate, onDelete }) => {
                                 <Button onClick={() => onUpdate(item)} colorScheme="blue">Atualizar</Button>
                             </Td>
                             <Td>
-                                <Button onClick={() => onDelete(item.servicoId)} colorScheme="red">Deletar</Button>
+                                <Button onClick={() => onDelete(item.servicoId)} colorScheme="red">Excluir</Button>
                             </Td>
                         </Tr>
                     ))}

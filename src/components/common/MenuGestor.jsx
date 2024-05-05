@@ -74,7 +74,7 @@ const MenuGestor = () => {
                             <Flex direction="column" mt="50px" align="center" w="100%">
                             <RouterLink to="/cadastro-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                 <Button bg="white" mb={4} w="full">
-                                    Cadastro de Colaborador
+                                    Cadastrar Colaborador
                                 </Button>
                             </RouterLink>
                             <RouterLink to="/lista-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
@@ -84,12 +84,22 @@ const MenuGestor = () => {
                             </RouterLink>
                             <RouterLink to="/cadastro-servico" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                 <Button bg="white" mb={4} w="full">
-                                    Cadastro de serviço
+                                    Cadastrar Serviço
                                 </Button>
                             </RouterLink>
                             <RouterLink to="/lista-servico" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                 <Button bg="white" mb={4} w="full">
-                                    Listar de serviços
+                                    Listar Serviços
+                                </Button>
+                            </RouterLink>
+                            <RouterLink to="/cadastro-comissao" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                <Button bg="white" mb={4} w="full">
+                                    Cadastrar Comissão
+                                </Button>
+                            </RouterLink>
+                            <RouterLink to="/lista-comissao" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                <Button bg="white" mb={4} w="full">
+                                    Listar Comissões
                                 </Button>
                             </RouterLink>
                             <RouterLink to="/" onClick={handleLogout} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>

@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import CustomInput from '../components/layout/CustomInput';
 import TitleSection from '../components/layout/TitleSection';
 import { registerService } from '../services/serviceService';
-import { useAuth } from '../contexts/AuthContext'; 
+import { useAuth } from '../contexts/AuthContext';
 
 const CadastroServico = () => {
 
-    const { token } = useAuth(); 
+    const { token } = useAuth();
     const toast = useToast();
     const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ const CadastroServico = () => {
         nome: '',
         valor: '',
     });
-    
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,9 +32,42 @@ const CadastroServico = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-   
+
+        if (!formData.nome.trim()) {
+            toast({
+                title: "Erro de validação",
+                description: "Por favor, insira o nome do serviço.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+    
+        if (!formData.valor.trim()) {
+            toast({
+                title: "Erro de validação",
+                description: "Por favor, insira o valor do serviço.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+    
+        if (isNaN(Number(formData.valor)) || Number(formData.valor) <= 0) {
+            toast({
+                title: "Erro de validação",
+                description: "O valor do serviço deve ser um número positivo.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+
         try {
-            const data = await registerService({ ...formData}, token);
+            const data = await registerService({ ...formData }, token);
             toast({
                 title: "Serviço cadastrado",
                 description: `Os dados foram cadastrados com sucesso! ${data.nome || 'serviço'}.`,
@@ -48,7 +81,7 @@ const CadastroServico = () => {
                 title: "Erro ao cadastrar",
                 description: error.message || "Não foi possível cadastrar o serviço.",
                 status: "error",
-                duration: 4000,
+                duration: 2000,
                 isClosable: true,
             });
         }
