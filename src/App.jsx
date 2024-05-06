@@ -1,7 +1,12 @@
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/common/PrivateRoute';
 import HomePage from './pages/HomePage';
+import DisponibilidadeCalendario from './pages/DisponibilidadeCalendario';
 import CadastroColaborador from './pages/CadastroColaborador';
 import AtualizarColaborador from './pages/AtualizarColaborador';
 import ListaColaboradores from './pages/ListaColaboradores';
@@ -26,6 +31,10 @@ function App() {
           <Route path="/dashboard" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <Dashboard />
+            </PrivateRoute>} />
+          <Route path="/disponibilidade-calendario" element={
+            <PrivateRoute allowedTypes={['Gestor']}>
+              <DisponibilidadeCalendario />
             </PrivateRoute>} />
           <Route path="/cadastro-colaborador" element={
             <PrivateRoute allowedTypes={['Gestor']}>

@@ -76,6 +76,11 @@ const MenuGestor = () => {
                                 <Button bg="white" mb={4} w="full">
                                     Listar Clientes
                                 </Button>
+                            </RouterLink>
+                            <RouterLink to="/disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                <Button bg="white" mb={4} w="full">
+                                    Cadastrar Disponibilidade
+                                </Button>
                             </RouterLink>    
                             <RouterLink to="/cadastro-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                 <Button bg="white" mb={4} w="full">
