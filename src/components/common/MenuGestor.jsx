@@ -72,6 +72,11 @@ const MenuGestor = () => {
                                 &#9679; Acesso: {user?.tipoUsuario || 'Desconhecido'}
                             </Badge>
                             <Flex direction="column" mt="50px" align="center" w="100%">
+                            <RouterLink to="/lista-cliente" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                <Button bg="white" mb={4} w="full">
+                                    Listar Clientes
+                                </Button>
+                            </RouterLink>    
                             <RouterLink to="/cadastro-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                 <Button bg="white" mb={4} w="full">
                                     Cadastrar Colaborador

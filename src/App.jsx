@@ -12,6 +12,7 @@ import CadastroComissoes from './pages/CadastroComissoes';
 import ListaComissoes from './pages/ListaComissoes';
 import AtualizarComissoes from './pages/AtualizarComissoes';
 import CadastroCliente from './pages/CadastroCliente';
+import ListaCliente from './pages/ListaCliente';
 import ModalLogin from './components/layout/ModalLogin';
 import ProfilePage from './pages/ProfilePage';
 import Dashboard from './pages/Dashboard';
@@ -61,7 +62,11 @@ function App() {
           <Route path="/atualizar-comissao/:id" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <AtualizarComissoes />
-            </PrivateRoute>} />   
+            </PrivateRoute>} />
+          <Route path="/lista-cliente" element={
+            <PrivateRoute allowedTypes={['Gestor']}>
+              <ListaCliente />
+            </PrivateRoute>} />       
           <Route path="/cadastro-cliente" element={<CadastroCliente />} />
           <Route path="/login-modal" element={<ModalLogin />} />
           <Route path="/profile" element={<ProfilePage />} />
