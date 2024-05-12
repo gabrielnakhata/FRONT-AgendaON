@@ -13,6 +13,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.p-calendar .p-button {
+  color: white;
+}
+
+.p-calendar .p-inputtext {
+  border-radius: 0.25rem;
+  border-right: none; 
+  border-width: 2px;
+  border-color: #3D5A73; 
+  padding: 0.5rem;
+}
+
+.p-calendar .p-button {
+  border-radius: 0 0.25rem 0.25rem 0;
+  margin-left: -1px; 
+  background-color: #3D5A73;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -45,13 +63,6 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {

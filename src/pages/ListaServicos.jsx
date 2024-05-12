@@ -7,7 +7,7 @@ import { getServices, deleteService } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext';
 
 const ListaServicos = () => {
-  const { token } = useAuth();
+  const { token } = useAuth(); 
   const [data, setData] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
