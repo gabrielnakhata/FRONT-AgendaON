@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
-import usePrimeReactLocale from '../hooks/usePrimeReactLocale'; 
-import { Flex, Box, VStack, HStack, useToast, Select, Table, TableContainer, Thead, Tbody, Tr, Th, Td, IconButton } from '@chakra-ui/react';
-import {TimeIcon, Icon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
+import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
+import { Flex, Box, VStack, useToast, Select, Table, TableContainer, Thead, Tbody, Tr, Th, Td, IconButton } from '@chakra-ui/react';
+import { TimeIcon, Icon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
 import TitleSection from '../components/layout/TitleSection';
 import { useNavigate } from 'react-router-dom';
 import { registerCalendar } from '../services/serviceCalendar';
@@ -40,6 +40,74 @@ const DisponibilidadeCalendario = () => {
         fetchData();
     }, [token, toast]);
 
+    // const handleAddSchedule = () => {
+    //     if (!selectedCollaboratorId) {
+    //         toast({
+    //             title: "Atenção!",
+    //             description: "Por favor, selecione um colaborador.",
+    //             status: "error",
+    //             duration: 3000,
+    //             isClosable: true,
+    //         });
+    //         return;
+    //     }
+
+    //     if (!selectedDate || !selectedHour) {
+    //         toast({
+    //             title: "Atenção!",
+    //             description: "Por favor, insira uma data e horário válido.",
+    //             status: "info",
+    //             duration: 3000,
+    //             isClosable: true,
+    //         });
+    //         return;
+    //     }
+
+    //     const newScheduleDate = new Date(selectedDate);
+    //     newScheduleDate.setHours(selectedHour.getHours(), selectedHour.getMinutes(), 0, 0);
+
+    //     if (!referenceDate) {
+    //         setReferenceDate(newScheduleDate);  // Set reference date if not already set
+    //     } else if (new Date(referenceDate).toDateString() !== newScheduleDate.toDateString()) {
+    //         toast({
+    //             title: "Erro de validação",
+    //             description: "Horário não corresponde à data inicialmente selecionada!",
+    //             status: "error",
+    //             duration: 3000,
+    //             isClosable: true,
+    //         });
+    //         return;
+    //     }
+
+    //     if (scheduleList.some(item => new Date(item.dataHoraConfigurada).getTime() === newScheduleDate.getTime())) {
+    //         toast({
+    //             title: "Erro de validação",
+    //             description: "Este horário já foi adicionado à lista!",
+    //             status: "error",
+    //             duration: 3000,
+    //             isClosable: true,
+    //         });
+    //         return;
+    //     }
+    //     // Adicionar o novo horário à lista
+    //     const formattedDate = newScheduleDate.toISOString().replace(/:\d+\.\d+Z$/, ':00Z');
+    //     const newSchedule = {
+    //         dataHoraConfigurada: formattedDate,
+    //         gestorId: user.id,
+    //         colaboradorId: selectedCollaboratorId
+    //     };
+    //     setScheduleList((prev) => [...prev, newSchedule]);
+    //     setSelectedHour(null);
+
+    //     toast({
+    //         title: "Horário Adicionado",
+    //         description: "Um novo horário foi adicionado com sucesso a lista.",
+    //         status: "success",
+    //         duration: 2000,
+    //         isClosable: true,
+    //     });
+    // };
+
     const handleAddSchedule = () => {
         if (!selectedCollaboratorId) {
             toast({
@@ -51,7 +119,7 @@ const DisponibilidadeCalendario = () => {
             });
             return;
         }
-
+    
         if (!selectedDate || !selectedHour) {
             toast({
                 title: "Atenção!",
@@ -62,13 +130,13 @@ const DisponibilidadeCalendario = () => {
             });
             return;
         }
-
-        const newScheduleDate = new Date(selectedDate);
-        newScheduleDate.setHours(selectedHour.getHours(), selectedHour.getMinutes(), 0, 0);
-
+    
+        const date = new Date(selectedDate);
+        date.setHours(selectedHour.getHours(), selectedHour.getMinutes(), 0, 0);
+    
         if (!referenceDate) {
-            setReferenceDate(newScheduleDate);  // Set reference date if not already set
-        } else if (new Date(referenceDate).toDateString() !== newScheduleDate.toDateString()) {
+            setReferenceDate(date);
+        } else if (new Date(referenceDate).toDateString() !== date.toDateString()) {
             toast({
                 title: "Erro de validação",
                 description: "Horário não corresponde à data inicialmente selecionada!",
@@ -78,8 +146,8 @@ const DisponibilidadeCalendario = () => {
             });
             return;
         }
-
-        if (scheduleList.some(item => new Date(item.dataHoraConfigurada).getTime() === newScheduleDate.getTime())) {
+    
+        if (scheduleList.some(item => new Date(item.dataHoraConfigurada).getTime() === date.getTime())) {
             toast({
                 title: "Erro de validação",
                 description: "Este horário já foi adicionado à lista!",
@@ -89,16 +157,20 @@ const DisponibilidadeCalendario = () => {
             });
             return;
         }
-        // Adicionar o novo horário à lista
-        const formattedDate = newScheduleDate.toISOString().replace(/:\d+\.\d+Z$/, ':00Z');
+    
+        // Criando a string ISO sem conversão de fuso horário
+        const offset = date.getTimezoneOffset() * 60000; // Offset em milissegundos
+        const localISOTime = (new Date(date.getTime() - offset)).toISOString().slice(0, -1);
+    
         const newSchedule = {
-            dataHoraConfigurada: formattedDate,
+            dataHoraConfigurada: localISOTime,
             gestorId: user.id,
             colaboradorId: selectedCollaboratorId
         };
+    
         setScheduleList((prev) => [...prev, newSchedule]);
         setSelectedHour(null);
-
+    
         toast({
             title: "Horário Adicionado",
             description: "Um novo horário foi adicionado com sucesso a lista.",
@@ -107,34 +179,35 @@ const DisponibilidadeCalendario = () => {
             isClosable: true,
         });
     };
-
+    
+    
     const handleRemoveSchedule = index => {
         const newScheduleList = scheduleList.filter((_, i) => i !== index);
         setScheduleList(newScheduleList);
     };
 
+const handleSubmit = async () => {
+    try {
+        await registerCalendar(scheduleList, token);
+        toast({
+            title: "Disponibilidade cadastrada",
+            description: "Os horários foram cadastrados com sucesso.",
+            status: "success",
+            duration: 2500,
+            isClosable: true,
+            onCloseComplete: () => navigate('/dashboard')
+        });
+    } catch (error) {
+        toast({
+            title: "Erro ao cadastrar",
+            description: error.message || "Não foi possível cadastrar a disponibilidade.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+        });
+    }
+};
 
-    const handleSubmit = async () => {
-        try {
-            await registerCalendar(scheduleList, token);
-            toast({
-                title: "Disponibilidade cadastrada",
-                description: "Os horários foram cadastrados com sucesso.",
-                status: "success",
-                duration: 2500,
-                isClosable: true,
-                onCloseComplete: () => navigate('/dashboard')
-            });
-        } catch (error) {
-            toast({
-                title: "Erro ao cadastrar",
-                description: error.message || "Não foi possível cadastrar a disponibilidade.",
-                status: "error",
-                duration: 2000,
-                isClosable: true,
-            });
-        }
-    };
 
     const handleClose = () => {
         navigate('/dashboard');
@@ -153,19 +226,19 @@ const DisponibilidadeCalendario = () => {
                         </Select>
                         <div className="flex-auto">
                             <Calendar
-                            id="buttondisplay"
-                            value={selectedDate}
-                            onChange={(e) => setSelectedDate(e.value)}
-                            showIcon style={{ fontSize: '20px' }}
-                            dateFormat="dd/mm/yy"
-                            icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />} />
+                                id="buttondisplay"
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.value)}
+                                showIcon style={{ fontSize: '20px' }}
+                                dateFormat="dd/mm/yy"
+                                icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />} />
                         </div>
                         <div className="flex-auto">
                             <Calendar
-                            value={selectedHour}
-                            onChange={(e) => setSelectedHour(e.value)}
-                            showIcon style={{ fontSize: '20px' }} timeOnly
-                            icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
+                                value={selectedHour}
+                                onChange={(e) => setSelectedHour(e.value)}
+                                showIcon style={{ fontSize: '20px' }} timeOnly
+                                icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
                         </div>
                         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                             <Box
@@ -212,9 +285,7 @@ const DisponibilidadeCalendario = () => {
                             </Tbody>
                         </Table>
                     </TableContainer>
-
                     <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={scheduleList.length === 0} />
-                                
                 </VStack>
             </Box>
         </Flex>

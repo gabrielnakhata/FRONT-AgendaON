@@ -15,7 +15,7 @@ export const registerCalendar = async (CalendarData, token) => {
             }
         };
 
-        const response = await calendarApi.post('/Servicos', CalendarData, config);
+        const response = await calendarApi.post('/Calendario', CalendarData, config);
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : new Error("An unexpected error occurred");
