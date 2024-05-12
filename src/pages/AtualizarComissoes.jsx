@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { HStack, Flex, Box, VStack, useToast, Select } from '@chakra-ui/react';
+import { Flex, Box, VStack, useToast, Select } from '@chakra-ui/react';
 import CustomInput from '../components/layout/CustomInput';
 import TitleSection from '../components/layout/TitleSection';
 import { updateCommission } from '../services/commissionService';
 import { useAuth } from '../contexts/AuthContext';
+import ActionButtons from '../components/layout/ActionButtons'; 
 
 const AtualizarComissoes = () => {
     const { token } = useAuth();
@@ -83,7 +84,7 @@ const AtualizarComissoes = () => {
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Atualizar Comissão" subtitle="Formulário para atualização de comissões." />
-            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="5rem">
+            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
                         <Select
@@ -112,36 +113,7 @@ const AtualizarComissoes = () => {
                             value={formData.percentual}
                             onChange={handleChange}
                         />
-                        <HStack spacing={4} width="full" justify="center">
-                            <Box
-                                as="button"
-                                onClick={handleClose}
-                                p={3}
-                                color="white"
-                                fontWeight="bold"
-                                borderRadius="md"
-                                bgGradient="linear(to-l, #3D5A73, #3D5A73)"
-                                _hover={{
-                                    bg: "#182625",
-                                }}
-                            >
-                                VOLTAR
-                            </Box>
-                            <Box
-                                type="submit"
-                                as="button"
-                                p={3}
-                                color="white"
-                                fontWeight="bold"
-                                borderRadius="md"
-                                bgGradient="linear(to-l, #244196, #244196)"
-                                _hover={{
-                                    bg: "#7786D9",
-                                }}
-                            >
-                                ATUALIZAR
-                            </Box>
-                        </HStack>
+                    <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
                     </VStack>
                 </form>
             </Box>

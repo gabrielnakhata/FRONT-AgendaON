@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { registerCalendar } from '../services/serviceCalendar';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
+import ActionButtons from '../components/layout/ActionButtons';
 
 const DisponibilidadeCalendario = () => {
     usePrimeReactLocale();
@@ -140,9 +141,9 @@ const DisponibilidadeCalendario = () => {
     };
 
     return (
-        <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
+        <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Registro de Disponibilidade" subtitle="Formulário para registrar a disponibilidade do colaborador." />
-            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="5rem">
+            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">
                         <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(e.target.value)}>
@@ -169,7 +170,7 @@ const DisponibilidadeCalendario = () => {
                         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                             <Box
                                 as='button'
-                                p={3}
+                                px={4} py={2}
                                 color='white'
                                 fontWeight='bold'
                                 borderRadius='md'
@@ -212,33 +213,8 @@ const DisponibilidadeCalendario = () => {
                         </Table>
                     </TableContainer>
 
-                    <HStack spacing={4} width="full" justify="center">
-                        <Box
-                            as='button'
-                            onClick={handleClose}
-                            p={3}
-                            color='white'
-                            fontWeight='bold'
-                            borderRadius='md'
-                            bgGradient='linear(to-l, #3D5A73, #3D5A73)'
-                            _hover={{ bg: "#182625" }}
-                        >
-                            VOLTAR
-                        </Box>
-                        <Box
-                            as='button'
-                            p={3}
-                            color='white'
-                            fontWeight='bold'
-                            borderRadius='md'
-                            bgGradient='linear(to-l, #244196, #244196)'
-                            _hover={{ bg: "#7786D9" }}
-                            onClick={handleSubmit}
-                            isDisabled={scheduleList.length === 0}
-                        >
-                            GRAVAR
-                        </Box>
-                    </HStack>
+                    <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={scheduleList.length === 0} />
+                                
                 </VStack>
             </Box>
         </Flex>

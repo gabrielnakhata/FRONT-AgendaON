@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { HStack, Flex, Box, VStack, useToast } from '@chakra-ui/react';
+import { Flex, Box, VStack, useToast } from '@chakra-ui/react';
 import CustomInput from '../components/layout/CustomInput';
 import TitleSection from '../components/layout/TitleSection';
 import { updateCollaborator } from '../services/collaboratorService';
-import { useAuth } from '../contexts/AuthContext'; 
+import { useAuth } from '../contexts/AuthContext';
+import ActionButtons from '../components/layout/ActionButtons'; 
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;
@@ -120,7 +121,7 @@ const AtualizarColaborador = () => {
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Atualizar dados do Colaborador" subtitle="Formulário de atualização de colaboradores." />
-            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="5rem">
+            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
                         <CustomInput label="Nome" name="nome" placeholder="Digite o nome completo" value={formData.nome} onChange={handleChange} />
@@ -128,36 +129,7 @@ const AtualizarColaborador = () => {
                         <CustomInput label="Senha" name="senha" type="password" placeholder="Senha" value={formData.senha} onChange={handleChange} />
                         <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
                         <CustomInput label="Data de Nascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
-                        <HStack spacing={4} width="full" justify="center">
-                            <Box
-                                as='button'
-                                onClick={handleClose}
-                                p={3}
-                                color='white'
-                                fontWeight='bold'
-                                borderRadius='md'
-                                bgGradient='linear(to-l, #3D5A73, #3D5A73)'
-                                _hover={{
-                                    bg: "#182625",
-                                }}
-                            >
-                                VOLTAR
-                            </Box>
-                            <Box
-                                type='submit'
-                                as='button'
-                                p={3}
-                                color='white'
-                                fontWeight='bold'
-                                borderRadius='md'
-                                bgGradient='linear(to-l, #244196, #244196)'
-                                _hover={{
-                                    bg: "#7786D9",
-                                }}
-                            >
-                                ATUALIZAR
-                            </Box>
-                        </HStack>
+                        <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
                     </VStack>
                 </form>
             </Box>

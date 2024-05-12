@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { HStack, Flex, Box, VStack, useToast } from '@chakra-ui/react';
+import { Flex, Box, VStack, useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import CustomInput from '../components/layout/CustomInput';
 import TitleSection from '../components/layout/TitleSection';
 import { registerService } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext';
+import ActionButtons from '../components/layout/ActionButtons';
 
 const CadastroServico = () => {
     const { token } = useAuth();
@@ -42,7 +43,6 @@ const CadastroServico = () => {
             return;
         }
 
-        // Substituir vírgulas por pontos no valor
         const valorCorrigido = formData.valor.replace(',', '.');
 
         if (!valorCorrigido.trim()) {
@@ -67,7 +67,6 @@ const CadastroServico = () => {
             return;
         }
 
-        // Atualizar o valor no objeto `formData`
         const formDataCorrigido = { ...formData, valor: valorCorrigido };
 
         try {
@@ -94,41 +93,12 @@ const CadastroServico = () => {
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Cadastro de Serviços" subtitle="Formulário de cadastro de serviços." />
-            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="5rem">
+            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
                         <CustomInput label="Nome" name="nome" placeholder="Digite o nome completo" value={formData.nome} onChange={handleChange} />
                         <CustomInput label="Valor" name="valor" placeholder="Digite o valor do serviço" value={formData.valor} onChange={handleChange} />
-                        <HStack spacing={4} width="full" justify="center">
-                            <Box
-                                as='button'
-                                onClick={handleClose}
-                                p={3}
-                                color='white'
-                                fontWeight='bold'
-                                borderRadius='md'
-                                bgGradient='linear(to-l, #3D5A73, #3D5A73)'
-                                _hover={{
-                                    bg: "#182625",
-                                }}
-                            >
-                                VOLTAR
-                            </Box>
-                            <Box
-                                type='submit'
-                                as='button'
-                                p={3}
-                                color='white'
-                                fontWeight='bold'
-                                borderRadius='md'
-                                bgGradient='linear(to-l, #244196, #244196)'
-                                _hover={{
-                                    bg: "#7786D9",
-                                }}
-                            >
-                                CADASTRAR
-                            </Box>
-                        </HStack>
+                        <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
                     </VStack>
                 </form>
             </Box>

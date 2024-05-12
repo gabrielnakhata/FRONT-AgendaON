@@ -61,7 +61,7 @@ const ListaComissoes = () => {
 
     <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
       <TitleSection title="Lista de percentuais de Comissões" subtitle="Comissões sob serviços dos colaboradores." />
-      <Box bg="#fff" p={1} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '70%']} maxWidth="1350px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="5rem">
+      <Box bg="#fff" p={1} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '70%']} maxWidth="1350px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
         <ChakraProvider>
           <DataGridCommission data={data} onUpdate={handleUpdate} onDelete={handleDelete} />
         </ChakraProvider>
