@@ -17,18 +17,20 @@ const ActionButtons = ({ onBack, onSave, isSaveDisabled }) => {
                 >
                    <Icon boxSize="4" as={ArrowBackIcon} />&nbsp;&nbsp;Voltar
                 </Box>
-                <Box
-                    as='button'
-                    onClick={onSave}
-                    px={4} py={2}
-                    color='white'
-                    borderRadius='md'
-                    bgGradient='linear(to-l, green, green)'
-                    _hover={{ bg: "#2A542B" }}
-                    isDisabled={isSaveDisabled}
-                >
-                    <Icon boxSize="4" as={CheckCircleIcon} />&nbsp;&nbsp;Salvar
-                </Box>
+                {onSave && (
+                    <Box
+                        as='button'
+                        onClick={onSave}
+                        px={4} py={2}
+                        color='white'
+                        borderRadius='md'
+                        bgGradient='linear(to-l, green, green)'
+                        _hover={{ bg: "#2A542B" }}
+                        isDisabled={isSaveDisabled}
+                    >
+                        <Icon boxSize="4" as={CheckCircleIcon} />&nbsp;&nbsp;Salvar
+                    </Box>
+                )}
             </HStack>
         </Box>
     );
@@ -36,8 +38,8 @@ const ActionButtons = ({ onBack, onSave, isSaveDisabled }) => {
 
 ActionButtons.propTypes = {
     onBack: PropTypes.func.isRequired,  
-    onSave: PropTypes.func.isRequired,
-    isSaveDisabled: PropTypes.bool.isRequired          
+    onSave: PropTypes.func,
+    isSaveDisabled: PropTypes.bool          
 };
 
 export default ActionButtons;

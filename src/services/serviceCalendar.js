@@ -22,35 +22,38 @@ export const registerCalendar = async (CalendarData, token) => {
     }
 };
 
-export const getServices = async (token) => {
+export const getCalendarForCollaborator = async (colaboradorId, data, token) => {
     try {
         const config = {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         };
+        const url = `/Calendario/colaborador/${colaboradorId}/${data}`;
 
-        const response = await calendarApi.get('/Calendario', config);
+        const response = await calendarApi.get(url, config);
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : new Error("An unexpected error occurred");
     }
 };
 
-export const updateCalendar = async (id, CalendarData, token) => {
-    try {
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        };
 
-        const response = await calendarApi.put(`/Calendario/${id}`, CalendarData, config);
-        return response.data;
-    } catch (error) {
-        throw error.response ? error.response.data : new Error("An unexpected error occurred");
-    }
-};
+
+// export const updateCalendar = async (id, CalendarData, token) => {
+//     try {
+//         const config = {
+//             headers: {
+//                 'Authorization': `Bearer ${token}`
+//             }
+//         };
+
+//         const response = await calendarApi.put(`/Calendario/${id}`, CalendarData, config);
+//         return response.data;
+//     } catch (error) {
+//         throw error.response ? error.response.data : new Error("An unexpected error occurred");
+//     }
+// };
 
 export const deleteCalendar = async (id, token) => {
     try {
