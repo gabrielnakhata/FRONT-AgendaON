@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
-import { Flex, Box, VStack, useToast, Select, Table, TableContainer, Thead, Tbody, Tr, Th, Td, IconButton } from '@chakra-ui/react';
-import { TimeIcon, Icon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
+import { Flex, Box, VStack, useToast, Select, Table, TableContainer, Thead, Tbody, Tr, Th, Td, IconButton, Icon, Button } from '@chakra-ui/react';
+import { TimeIcon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
 import TitleSection from '../components/layout/TitleSection';
 import { useNavigate } from 'react-router-dom';
 import { registerCalendar } from '../services/serviceCalendar';
@@ -20,7 +20,9 @@ const DisponibilidadeCalendario = () => {
     const [selectedHour, setSelectedHour] = useState(null);
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [scheduleList, setScheduleList] = useState([]);
-    const [referenceDate, setReferenceDate] = useState(null);
+    const [isToastShowing, setIsToastShowing] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,43 +43,23 @@ const DisponibilidadeCalendario = () => {
     }, [token, toast]);
 
     const handleAddSchedule = () => {
-        if (!selectedCollaboratorId) {
-            toast({
-                title: "Atenção!",
-                description: "Por favor, selecione um colaborador.",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-            });
-            return;
-        }
-    
-        if (!selectedDate || !selectedHour) {
-            toast({
-                title: "Atenção!",
-                description: "Por favor, insira uma data e horário válido.",
-                status: "info",
-                duration: 3000,
-                isClosable: true,
-            });
+        if (!selectedCollaboratorId || !selectedDate || !selectedHour) {
+            if (!isToastShowing) {
+                setIsToastShowing(true);
+                toast({
+                    title: "Atenção!",
+                    description: "Por favor, selecione um colaborador, data e horário.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                    onCloseComplete: () => setIsToastShowing(false)
+                });
+            }
             return;
         }
     
         const date = new Date(selectedDate);
         date.setHours(selectedHour.getHours(), selectedHour.getMinutes(), 0, 0);
-    
-        if (!referenceDate) {
-            setReferenceDate(date);
-        } else if (new Date(referenceDate).toDateString() !== date.toDateString()) {
-            toast({
-                title: "Erro de validação",
-                description: "Horário não corresponde à data inicialmente selecionada!",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-            });
-            return;
-        }
     
         if (scheduleList.some(item => new Date(item.dataHoraConfigurada).getTime() === date.getTime())) {
             toast({
@@ -90,10 +72,8 @@ const DisponibilidadeCalendario = () => {
             return;
         }
     
-        // Criando a string ISO sem conversão de fuso horário
-        const offset = date.getTimezoneOffset() * 60000; // Offset em milissegundos
+        const offset = date.getTimezoneOffset() * 60000;
         const localISOTime = (new Date(date.getTime() - offset)).toISOString().slice(0, -1);
-    
         const newSchedule = {
             dataHoraConfigurada: localISOTime,
             gestorId: user.id,
@@ -103,43 +83,55 @@ const DisponibilidadeCalendario = () => {
         setScheduleList((prev) => [...prev, newSchedule]);
         setSelectedHour(null);
     
+        setIsAdding(true);
         toast({
             title: "Horário Adicionado",
-            description: "Um novo horário foi adicionado com sucesso a lista.",
+            description: "Um novo horário foi adicionado com sucesso à lista.",
             status: "success",
             duration: 2000,
             isClosable: true,
+            onCloseComplete: () => setIsAdding(false)
         });
     };
-    
-    
+
     const handleRemoveSchedule = index => {
         const newScheduleList = scheduleList.filter((_, i) => i !== index);
         setScheduleList(newScheduleList);
     };
 
-const handleSubmit = async () => {
-    try {
-        await registerCalendar(scheduleList, token);
-        toast({
-            title: "Disponibilidade cadastrada",
-            description: "Os horários foram cadastrados com sucesso.",
-            status: "success",
-            duration: 2500,
-            isClosable: true,
-            onCloseComplete: () => navigate('/dashboard')
-        });
-    } catch (error) {
-        toast({
-            title: "Erro ao cadastrar",
-            description: error.message || "Não foi possível cadastrar a disponibilidade.",
-            status: "error",
-            duration: 2000,
-            isClosable: true,
-        });
-    }
-};
-
+    const handleSubmit = async () => {
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+        try {
+            await registerCalendar(scheduleList, token);
+            toast({
+                title: "Disponibilidade cadastrada",
+                description: "Os horários foram cadastrados com sucesso.",
+                status: "success",
+                duration: 2500,
+                isClosable: true,
+                onCloseComplete: () => {
+                    navigate('/dashboard');
+                    setIsSubmitting(false);
+                }
+            });
+        } catch (error) {
+            if (!isToastShowing) {
+            setIsToastShowing(true);
+            toast({
+                title: "Erro ao cadastrar",
+                description: error.message || "Não foi possível cadastrar a disponibilidade.",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                    setIsToastShowing(false)
+                }
+            });
+            }
+        }
+    };
 
     const handleClose = () => {
         navigate('/dashboard');
@@ -151,7 +143,7 @@ const handleSubmit = async () => {
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">
-                        <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(e.target.value)}>
+                        <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
                             {collaborators.map(col => (
                                 <option key={col.colaboradorId} value={col.colaboradorId}>{col.nome}</option>
                             ))}
@@ -173,8 +165,7 @@ const handleSubmit = async () => {
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
                         </div>
                         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                            <Box
-                                as='button'
+                            <Button
                                 px={4} py={2}
                                 color='white'
                                 fontWeight='bold'
@@ -182,10 +173,13 @@ const handleSubmit = async () => {
                                 bgGradient='linear(to-l, green, green)'
                                 _hover={{ bg: "#2A542B" }}
                                 onClick={handleAddSchedule}
+                                isLoading={isAdding}
+                                loadingText="Adicionando"
+                                spinnerPlacement="end"
                             >
                                 <Icon boxSize="4" alignItems="center" as={AddIcon} />
                                 &nbsp;&nbsp;Adicionar
-                            </Box>
+                            </Button>
                         </div>
                     </div>
 
@@ -217,7 +211,7 @@ const handleSubmit = async () => {
                             </Tbody>
                         </Table>
                     </TableContainer>
-                    <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={scheduleList.length === 0} />
+                    <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={scheduleList.length === 0 || isSubmitting} />
                 </VStack>
             </Box>
         </Flex>

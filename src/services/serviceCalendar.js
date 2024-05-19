@@ -22,6 +22,8 @@ export const registerCalendar = async (CalendarData, token) => {
     }
 };
 
+import moment from 'moment';
+
 export const getCalendarForCollaborator = async (colaboradorId, data, token) => {
     try {
         const config = {
@@ -29,7 +31,10 @@ export const getCalendarForCollaborator = async (colaboradorId, data, token) => 
                 'Authorization': `Bearer ${token}`
             }
         };
-        const url = `/Calendario/colaborador/${colaboradorId}/${data}`;
+
+        const formattedDate = moment(data, 'YYYY-DD-MM').format('YYYY-MM-DD');
+
+        const url = `/Calendario/colaborador/${colaboradorId}/${formattedDate}`;
 
         const response = await calendarApi.get(url, config);
         return response.data;
@@ -37,23 +42,6 @@ export const getCalendarForCollaborator = async (colaboradorId, data, token) => 
         throw error.response ? error.response.data : new Error("An unexpected error occurred");
     }
 };
-
-
-
-// export const updateCalendar = async (id, CalendarData, token) => {
-//     try {
-//         const config = {
-//             headers: {
-//                 'Authorization': `Bearer ${token}`
-//             }
-//         };
-
-//         const response = await calendarApi.put(`/Calendario/${id}`, CalendarData, config);
-//         return response.data;
-//     } catch (error) {
-//         throw error.response ? error.response.data : new Error("An unexpected error occurred");
-//     }
-// };
 
 export const deleteCalendar = async (id, token) => {
     try {

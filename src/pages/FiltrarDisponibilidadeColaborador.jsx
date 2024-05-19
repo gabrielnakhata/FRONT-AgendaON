@@ -57,7 +57,6 @@ const FiltrarDisponibilidadeColaborador = () => {
         }
     }, [selectedCollaboratorId, selectedDate, token, toast]);
     
-    
     const handleClose = () => {
         navigate('/dashboard');
     };
@@ -87,11 +86,11 @@ const FiltrarDisponibilidadeColaborador = () => {
 
       return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Filtrar de Disponibilidade" subtitle="Veja a disponibilidade do colaborador." />
+            <TitleSection title="Filtrar Disponibilidade" subtitle="Veja a disponibilidade do colaborador." />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">
-                        <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(e.target.value)}>
+                        <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
                             {collaborators.map(col => (
                                 <option key={col.colaboradorId} value={col.colaboradorId}>{col.nome}</option>
                             ))}
@@ -110,7 +109,7 @@ const FiltrarDisponibilidadeColaborador = () => {
                         <DataGridCalendario data={data} onDelete={handleDelete} />
                     </ChakraProvider>
                    
-                    <ActionButtons onBack={handleClose} />
+                    <ActionButtons onBack={handleClose} onSave={null} isSaveDisabled={null} />
                 </VStack>
             </Box>
         </Flex>

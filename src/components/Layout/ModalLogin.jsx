@@ -24,13 +24,14 @@ import { loginUser } from '../../services/loginService';
 import { useAuth } from '../../contexts/AuthContext';
 
 function ModalLogin() {
-    const { login } = useAuth(); 
+    const { login } = useAuth();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
     const location = useLocation();
     const toast = useToast();
     const [email, setEmail] = useState('gabrielnakata@gmail.com');
     const [password, setPassword] = useState('acesso');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (location.pathname === '/login-modal') {
@@ -39,6 +40,7 @@ function ModalLogin() {
     }, [location, onOpen]);
 
     const handleLogin = async () => {
+        setIsLoading(true);
         try {
             const data = await loginUser({ email, senha: password });
             login(data, data.token);
@@ -50,6 +52,7 @@ function ModalLogin() {
                 isClosable: true
             });
             onClose();
+            setIsLoading(false);
 
             switch (data.tipoUsuario) {
                 case 'Gestor':
@@ -73,18 +76,14 @@ function ModalLogin() {
                 duration: 3000,
                 isClosable: true
             });
+            setIsLoading(false);
         }
     };
-
-    // const handleClose = () => {
-    //     onClose();
-    //     navigate('/');
-    // };
 
     const handleClose = () => {
         onClose();
         if (!location.pathname.includes('dashboard')) {
-            navigate('/');  // Só navega para a home se não estiver já no dashboard
+            navigate('/');
         }
     };
 
@@ -123,7 +122,6 @@ function ModalLogin() {
                     <ModalFooter>
                         <HStack spacing={4} width="full" justify="center">
                             <Box
-                                isFullWidth
                                 as='button'
                                 onClick={handleLogin}
                                 p={3}
@@ -134,6 +132,7 @@ function ModalLogin() {
                                 _hover={{
                                     bg: "#7786D9",
                                 }}
+                                disabled={isLoading}
                             >
                                 LOGAR
                             </Box>
