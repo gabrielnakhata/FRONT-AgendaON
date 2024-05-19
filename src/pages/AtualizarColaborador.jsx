@@ -17,6 +17,7 @@ const AtualizarColaborador = () => {
     const toast = useToast();
     const location = useLocation();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const collaborator = location.state.collaborator;
 
     const [formData, setFormData] = useState({
@@ -54,6 +55,8 @@ const AtualizarColaborador = () => {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (isSubmitting) return;
+        setIsSubmitting(true);
     
         if (!dateOfBirthRegex.test(formData.dataNascimento)) {
             toast({
@@ -62,6 +65,9 @@ const AtualizarColaborador = () => {
                 status: "error",
                 duration: 1000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -72,6 +78,9 @@ const AtualizarColaborador = () => {
                 status: "error",
                 duration: 2000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -82,6 +91,9 @@ const AtualizarColaborador = () => {
                 status: "error",
                 duration: 2000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -113,6 +125,9 @@ const AtualizarColaborador = () => {
                 status: "error",
                 duration: 4000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
         }
     };

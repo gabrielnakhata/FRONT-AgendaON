@@ -18,6 +18,7 @@ const CadastroColaborador = () => {
     const { token } = useAuth(); 
     const toast = useToast();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -42,6 +43,9 @@ const CadastroColaborador = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (isSubmitting) return;
+        setIsSubmitting(true);
 
         if (!dateOfBirthRegex.test(formData.dataNascimento)) {
             toast({
@@ -50,17 +54,26 @@ const CadastroColaborador = () => {
                 status: "error",
                 duration: 1000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         } if (!emailRegex.test(formData.email)) {
+            
             toast({
                 title: "Erro de validação",
                 description: "Por favor, insira um e-mail válido.",
                 status: "error",
                 duration: 2000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
+                
             });
             return;
+            
         } if (!phoneRegex.test(formData.celular)) {
             toast({
                 title: "Erro de validação",
@@ -68,6 +81,9 @@ const CadastroColaborador = () => {
                 status: "error",
                 duration: 2000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -80,7 +96,8 @@ const CadastroColaborador = () => {
                 status: "success",
                 duration: 2500,
                 isClosable: true,
-                onCloseComplete: () => navigate('/lista-colaborador')
+                onCloseComplete: () => {
+                    navigate('/lista-colaborador')}
             });
         } catch (error) {
             toast({
@@ -89,6 +106,9 @@ const CadastroColaborador = () => {
                 status: "error",
                 duration: 4000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
         }
     };

@@ -12,6 +12,7 @@ const AtualizarServico = () => {
     const toast = useToast();
     const location = useLocation();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const service = location.state.service;
 
     const [formData, setFormData] = useState({
@@ -45,7 +46,9 @@ const AtualizarServico = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Substituir vírgulas por pontos no valor
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+
         const valorCorrigido = formData.valor.replace(',', '.');
 
         const dataToUpdate = {
@@ -71,6 +74,9 @@ const AtualizarServico = () => {
                 status: "error",
                 duration: 4000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
         }
     };

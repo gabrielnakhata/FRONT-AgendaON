@@ -11,6 +11,7 @@ const CadastroServico = () => {
     const { token } = useAuth();
     const toast = useToast();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -32,6 +33,9 @@ const CadastroServico = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+
         if (!formData.nome.trim()) {
             toast({
                 title: "Erro de validação",
@@ -39,6 +43,9 @@ const CadastroServico = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -52,6 +59,9 @@ const CadastroServico = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -63,6 +73,9 @@ const CadastroServico = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -86,6 +99,9 @@ const CadastroServico = () => {
                 status: "error",
                 duration: 2000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
         }
     };

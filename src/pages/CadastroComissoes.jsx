@@ -16,6 +16,7 @@ const CadastroComissoes = () => {
     const [collaborators, setCollaborators] = useState([]);
     const [services, setServices] = useState([]);
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [formData, setFormData] = useState({
         colaboradorId: '',
@@ -67,6 +68,10 @@ const CadastroComissoes = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+
+
         if (!formData.colaboradorId) {
             toast({
                 title: "Erro de validação",
@@ -74,6 +79,9 @@ const CadastroComissoes = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -85,6 +93,9 @@ const CadastroComissoes = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -96,6 +107,9 @@ const CadastroComissoes = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -119,6 +133,9 @@ const CadastroComissoes = () => {
                     status: "error",
                     duration: 2000,
                     isClosable: true,
+                    onCloseComplete: () => {
+                        setIsSubmitting(false)
+                    }
                 });
             } else {
                 toast({
@@ -127,6 +144,9 @@ const CadastroComissoes = () => {
                     status: "error",
                     duration: 4000,
                     isClosable: true,
+                    onCloseComplete: () => {
+                        setIsSubmitting(false)
+                    }
                 });
             }
         }

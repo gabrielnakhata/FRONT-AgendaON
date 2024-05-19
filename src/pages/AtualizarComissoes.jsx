@@ -12,6 +12,7 @@ const AtualizarComissoes = () => {
     const toast = useToast();
     const location = useLocation();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const commission = location.state.commission; // Confirme que o estado contém a comissão
 
     const [formData, setFormData] = useState({
@@ -49,6 +50,9 @@ const AtualizarComissoes = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+
         const dataToUpdate = {
             comissaoId: formData.comissaoId,
             colaboradorId: formData.colaboradorId,
@@ -56,7 +60,6 @@ const AtualizarComissoes = () => {
             percentual: parseFloat(formData.percentual),
         };
 
-        // Depuração: mostra os dados que serão enviados para a API
         console.log("Dados a serem enviados:", dataToUpdate);
 
         try {
@@ -77,6 +80,9 @@ const AtualizarComissoes = () => {
                 status: "error",
                 duration: 4000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
         }
     };

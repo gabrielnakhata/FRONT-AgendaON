@@ -16,6 +16,7 @@ const CadastroCliente = () => {
 
     const toast = useToast();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -40,6 +41,9 @@ const CadastroCliente = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+
         if (!dateOfBirthRegex.test(formData.dataNascimento)) {
             toast({
                 title: "Erro de validação",
@@ -47,6 +51,9 @@ const CadastroCliente = () => {
                 status: "error",
                 duration: 1000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         } if (!emailRegex.test(formData.email)) {
@@ -56,6 +63,9 @@ const CadastroCliente = () => {
                 status: "error",
                 duration: 2000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         } if (!phoneRegex.test(formData.celular)) {
@@ -65,6 +75,9 @@ const CadastroCliente = () => {
                 status: "error",
                 duration: 2000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
             return;
         }
@@ -86,6 +99,9 @@ const CadastroCliente = () => {
                 status: "error",
                 duration: 4000,
                 isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
             });
         }
     };
