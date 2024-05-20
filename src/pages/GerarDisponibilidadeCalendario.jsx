@@ -46,37 +46,114 @@ const GerarDisponibilidadeCalendario = () => {
         fetchData();
     }, [token, toast]);
 
-    const handleRemoveSchedule = index => {
-        const newScheduleList = scheduleList.filter((_, i) => i !== index);
-        setScheduleList(newScheduleList);
-    };
-
     const handleGenerateSchedules = () => {
+        if (!selectedCollaboratorId || !selectedDate || !startWorkTime || !endWorkTime || !startLunchTime || !endLunchTime || !timeInterval) {
+            toast({
+                title: "Informações Incompletas",
+                description: "Por favor, preencha todos os campos necessários.",
+                status: "warning",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+    
+        // Calculando o intervalo em minutos a partir do timeInterval (que é um Date object)
+        const intervalMinutes = timeInterval.getHours() * 60 + timeInterval.getMinutes();
+        if (intervalMinutes <= 0) {
+            toast({
+                title: "Intervalo Inválido",
+                description: "O intervalo deve ser maior que zero minutos.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+    
         const schedules = [];
-        let currentTime = new Date(startWorkTime);
-
-        while (currentTime < endWorkTime) {
-            if (!(currentTime >= startLunchTime && currentTime < endLunchTime)) {
+        let currentTime = new Date(selectedDate);
+        currentTime.setHours(startWorkTime.getHours(), startWorkTime.getMinutes(), 0, 0);
+        const endTime = new Date(selectedDate);
+        endTime.setHours(endWorkTime.getHours(), endWorkTime.getMinutes(), 0, 0);
+        const lunchStartTime = new Date(selectedDate);
+        lunchStartTime.setHours(startLunchTime.getHours(), startLunchTime.getMinutes(), 0, 0);
+        const lunchEndTime = new Date(selectedDate);
+        lunchEndTime.setHours(endLunchTime.getHours(), endLunchTime.getMinutes(), 0, 0);
+    
+        while (currentTime < endTime) {
+            if (!(currentTime >= lunchStartTime && currentTime < lunchEndTime)) {
                 schedules.push({
                     dataHoraConfigurada: currentTime.toISOString(),
                     gestorId: user.id,
                     colaboradorId: parseInt(selectedCollaboratorId, 10)
                 });
             }
-            currentTime = new Date(currentTime.getTime() + timeInterval * 60000);
+            currentTime = new Date(currentTime.getTime() + intervalMinutes * 60000); // Incrementa o tempo baseado no intervalo
         }
-
+    
         setScheduleList(schedules);
-
+    
         setIsAdding(true);
         toast({
-            title: "Horário Adicionado",
-            description: "Um novo horário foi adicionado com sucesso à lista.",
+            title: "Horários Gerados",
+            description: "Os horários foram gerados com sucesso, excluindo o período de almoço.",
             status: "success",
             duration: 2000,
             isClosable: true,
             onCloseComplete: () => setIsAdding(false)
         });
+    };
+
+    // const handleGenerateSchedules = () => {
+    //     if (!selectedCollaboratorId || !selectedDate || !startWorkTime || !endWorkTime || !startLunchTime || !endLunchTime || timeInterval <= 0) {
+    //         toast({
+    //             title: "Informações Incompletas",
+    //             description: "Por favor, preencha todos os campos necessários e certifique-se de que o intervalo é positivo.",
+    //             status: "info",
+    //             duration: 3000,
+    //             isClosable: true,
+    //         });
+    //         return;
+    //     }
+
+    //     const schedules = [];
+    //     let currentTime = new Date(selectedDate);
+    //     currentTime.setHours(startWorkTime.getHours(), startWorkTime.getMinutes(), 0, 0);
+    //     const lunchStartTime = new Date(selectedDate);
+    //     lunchStartTime.setHours(startLunchTime.getHours(), startLunchTime.getMinutes(), 0, 0);
+    //     const lunchEndTime = new Date(selectedDate);
+    //     lunchEndTime.setHours(endLunchTime.getHours(), endLunchTime.getMinutes(), 0, 0);
+    //     const endTime = new Date(selectedDate);
+    //     endTime.setHours(endWorkTime.getHours(), endWorkTime.getMinutes(), 0, 0);
+
+    //     while (currentTime < endTime) {
+    //         if (!(currentTime >= lunchStartTime && currentTime < lunchEndTime)) {
+    //             schedules.push({
+    //                 dataHoraConfigurada: currentTime.toISOString(),
+    //                 gestorId: user.id,
+    //                 colaboradorId: parseInt(selectedCollaboratorId, 10)
+    //             });
+    //         }
+    //         currentTime = new Date(currentTime.getTime() + timeInterval * 60000); // Adicionando intervalo
+    //     }
+
+    //     setScheduleList(schedules);
+
+    //     setIsAdding(true);
+    //     toast({
+    //         title: "Horários Gerados",
+    //         description: "Os horários foram gerados com sucesso.",
+    //         status: "success",
+    //         duration: 2000,
+    //         isClosable: true,
+    //         onCloseComplete: () => setIsAdding(false)
+    //     });
+    // };
+
+    const handleRemoveSchedule = index => {
+        const newScheduleList = scheduleList.filter((_, i) => i !== index);
+        setScheduleList(newScheduleList);
     };
 
     const handleSubmit = async () => {
