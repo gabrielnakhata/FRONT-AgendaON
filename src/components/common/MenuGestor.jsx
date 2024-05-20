@@ -82,6 +82,11 @@ const MenuGestor = () => {
                                 <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Cadastrar Disponibilidade
                                 </Button>
                             </RouterLink>
+                            <RouterLink to="/gerar-disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" justifyContent="space-between">
+                                <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Gerar Disponibilidade
+                                </Button>
+                            </RouterLink>
                             <RouterLink to="/disponibilidade-filtro-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                 <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" justifyContent="space-between">
                                 <i className="pi pi-filter" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Listar Disponibilidade

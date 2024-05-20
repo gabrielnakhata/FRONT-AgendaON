@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/common/PrivateRoute';
 import HomePage from './pages/HomePage';
 import DisponibilidadeCalendario from './pages/DisponibilidadeCalendario';
+import GerarDisponibilidadeCalendario from './pages/GerarDisponibilidadeCalendario';
 import FiltrarDisponibilidadeColaborador from './pages/FiltrarDisponibilidadeColaborador';
 import CadastroColaborador from './pages/CadastroColaborador';
 import AtualizarColaborador from './pages/AtualizarColaborador';
@@ -33,10 +34,14 @@ function App() {
             <PrivateRoute allowedTypes={['Gestor']}>
               <DisponibilidadeCalendario />
             </PrivateRoute>} />
-            <Route path="/disponibilidade-filtro-calendario" element={
+            <Route path="/gerar-disponibilidade-calendario" element={
+            <PrivateRoute allowedTypes={['Gestor']}>
+              <GerarDisponibilidadeCalendario />
+            </PrivateRoute>} />
+          <Route path="/disponibilidade-filtro-calendario" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <FiltrarDisponibilidadeColaborador />
-            </PrivateRoute>} />  
+            </PrivateRoute>} />
           <Route path="/cadastro-colaborador" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <CadastroColaborador />
@@ -76,7 +81,7 @@ function App() {
           <Route path="/lista-cliente" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <ListaCliente />
-            </PrivateRoute>} />       
+            </PrivateRoute>} />
           <Route path="/cadastro-cliente" element={<CadastroCliente />} />
           <Route path="/login-modal" element={<ModalLogin />} />
           <Route path="/profile" element={<ProfilePage />} />
