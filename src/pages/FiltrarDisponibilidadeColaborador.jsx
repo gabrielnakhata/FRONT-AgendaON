@@ -21,6 +21,7 @@ const FiltrarDisponibilidadeColaborador = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
+
         const fetchData = async () => {
             try {
                 const collabData = await getCollaborators(token);
@@ -39,6 +40,7 @@ const FiltrarDisponibilidadeColaborador = () => {
     }, [token, toast]);
 
     useEffect(() => {
+        setData([]);
         if (selectedCollaboratorId && selectedDate) {
             // Correção na formatação da data
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
