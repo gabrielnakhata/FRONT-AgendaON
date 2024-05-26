@@ -25,7 +25,7 @@ import { HamburgerIcon, ArrowBackIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-const MenuGestor = () => {
+const MenuColaborador = () => {
     const toast = useToast();
     const { isOpen, onToggle, onClose } = useDisclosure();
     const { user, logout } = useAuth();
@@ -44,7 +44,7 @@ const MenuGestor = () => {
     };
 
     return (
-        <Box px={10} py={3} boxShadow="md" w="100%" bg="#172237">
+        <Box px={10} py={3} boxShadow="md" w="100%" bg="#173937">
             <Flex justify="space-between" align="center" w="100%">
                 <HStack spacing={4}>
                     <Avatar name={user?.nome || 'No Name'} src={user?.image || 'https://fallback-url.com/default-avatar.png'} mr={2} />
@@ -69,7 +69,7 @@ const MenuGestor = () => {
                 size="xs"
             >
                 <DrawerOverlay />
-                <DrawerContent bg="#172237">
+                <DrawerContent bg="#173937">
                     <DrawerCloseButton color="white" />
                     <DrawerBody>
                         <Flex direction="column" paddingTop={20} align="center" mt={4}>
@@ -97,23 +97,9 @@ const MenuGestor = () => {
                                             </RouterLink>
                                         </MenuItem>
                                         <MenuItem bg="#3D5A90">
-                                            <RouterLink to="/lista-cliente" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
-                                                    <i className="pi pi-users" style={{ fontSize: '30px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Clientes
-                                                </Button>
-                                            </RouterLink>
-                                        </MenuItem>
-                                        <MenuItem bg="#3D5A90">
                                             <RouterLink to="/lista-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                                 <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
                                                     <i className="pi pi-users" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Colaboradores
-                                                </Button>
-                                            </RouterLink>
-                                        </MenuItem>
-                                        <MenuItem bg="#3D5A90">
-                                            <RouterLink to="/lista-servico" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
-                                                    <i className="pi pi-list" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Serviços
                                                 </Button>
                                             </RouterLink>
                                         </MenuItem>
@@ -146,27 +132,6 @@ const MenuGestor = () => {
                                                 </Button>
                                             </RouterLink>
                                         </MenuItem>
-                                        <MenuItem bg="#3D5A90">
-                                            <RouterLink to="/cadastro-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
-                                                    <i className="pi pi-user-plus" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Colaborador
-                                                </Button>
-                                            </RouterLink>
-                                        </MenuItem>
-                                        <MenuItem bg="#3D5A90">
-                                            <RouterLink to="/cadastro-servico" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
-                                                    <i className="pi pi-clipboard" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Serviço
-                                                </Button>
-                                            </RouterLink>
-                                        </MenuItem>
-                                        <MenuItem bg="#3D5A90">
-                                            <RouterLink to="/cadastro-comissao" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
-                                                    <i className="pi pi-dollar" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Comissão
-                                                </Button>
-                                            </RouterLink>
-                                        </MenuItem>
                                     </MenuList>
                                 </Menu>
 
@@ -184,4 +149,4 @@ const MenuGestor = () => {
     );
 };
 
-export default MenuGestor;
+export default MenuColaborador;
