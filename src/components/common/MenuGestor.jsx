@@ -78,42 +78,48 @@ const MenuGestor = () => {
                             </Badge>
 
                             <Flex direction="column" mt="50px" align="center" w="100%">
+
+                                <RouterLink to="/disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                    <Button color="white" bg="green" _hover={{ bg: "#2A542B" }} mb={4} py={8} w="full" justifyContent="space-between">
+                                        <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Agendar
+                                    </Button>
+                                </RouterLink>
                                 <Menu>
-                                    <MenuButton color="white" boxSize="20" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" as={Button} rightIcon={<ChevronDownIcon />} justifyContent="space-between">
-                                        Listar
+                                    <MenuButton color="white" boxSize="20" bg="#313DFA" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" as={Button} rightIcon={<ChevronDownIcon />} justifyContent="space-between">
+                                        <i className="pi pi-list" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Listar
                                     </MenuButton>
-                                    <MenuList>
-                                        <MenuItem>
+                                    <MenuList bg="#3D5A90">
+                                        <MenuItem bg="#3D5A90">
                                             <RouterLink to="/disponibilidade-filtro-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
                                                     <i className="pi pi-filter" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Disponibilidades
                                                 </Button>
                                             </RouterLink>
                                         </MenuItem>
-                                        <MenuItem>
+                                        <MenuItem bg="#3D5A90">
                                             <RouterLink to="/lista-cliente" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
                                                     <i className="pi pi-users" style={{ fontSize: '30px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Clientes
                                                 </Button>
                                             </RouterLink>
                                         </MenuItem>
-                                        <MenuItem>
+                                        <MenuItem bg="#3D5A90">
                                             <RouterLink to="/lista-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
                                                     <i className="pi pi-users" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Colaboradores
                                                 </Button>
                                             </RouterLink>
                                         </MenuItem>
-                                        <MenuItem>
+                                        <MenuItem bg="#3D5A90">
                                             <RouterLink to="/lista-servico" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
                                                     <i className="pi pi-list" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Serviços
                                                 </Button>
                                             </RouterLink>
                                         </MenuItem>
-                                        <MenuItem>
+                                        <MenuItem bg="#3D5A90">
                                             <RouterLink to="/lista-comissao" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
                                                     <i className="pi pi-list-check" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Comissões
                                                 </Button>
                                             </RouterLink>
@@ -121,34 +127,48 @@ const MenuGestor = () => {
                                     </MenuList>
                                 </Menu>
 
-                                <RouterLink to="/disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                    <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" justifyContent="space-between">
-                                        <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Cadastrar Disponibilidade
-                                    </Button>
-                                </RouterLink>
-                                <RouterLink to="/gerar-disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                    <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" justifyContent="space-between">
-                                        <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Gerar Disponibilidade
-                                    </Button>
-                                </RouterLink>
-                                
-                                <RouterLink to="/cadastro-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                    <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" justifyContent="space-between">
-                                        <i className="pi pi-user-plus" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Cadastrar Colaborador
-                                    </Button>
-                                </RouterLink>
-
-                                <RouterLink to="/cadastro-servico" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                    <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" justifyContent="space-between">
-                                        <i className="pi pi-clipboard" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Cadastrar Serviço
-                                    </Button>
-                                </RouterLink>
-
-                                <RouterLink to="/cadastro-comissao" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                    <Button color="white" bg="#3D5A73" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" justifyContent="space-between">
-                                        <i className="pi pi-dollar" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Cadastrar Comissão
-                                    </Button>
-                                </RouterLink>
+                                <Menu>
+                                    <MenuButton color="white" boxSize="20" bg="orange" _hover={{ bg: "#FA7A32" }} mb={4} py={6} w="full" as={Button} rightIcon={<ChevronDownIcon />} justifyContent="space-between">
+                                        <i className="pi pi-plus-circle" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cadastrar
+                                    </MenuButton>
+                                    <MenuList bg="#3D5A90">
+                                        <MenuItem bg="#3D5A90">
+                                            <RouterLink to="/disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={8} w="full" justifyContent="space-between">
+                                                    <i className="pi pi-calendar-plus" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Customizar<br/>Disponibilidade
+                                                </Button>
+                                            </RouterLink>
+                                        </MenuItem>
+                                        <MenuItem bg="#3D5A90">
+                                            <RouterLink to="/gerar-disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={8} w="full" justifyContent="space-between">
+                                                    <i className="pi pi-calendar-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Programar<br/>Disponibilidade
+                                                </Button>
+                                            </RouterLink>
+                                        </MenuItem>
+                                        <MenuItem bg="#3D5A90">
+                                            <RouterLink to="/cadastro-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
+                                                    <i className="pi pi-user-plus" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Colaborador
+                                                </Button>
+                                            </RouterLink>
+                                        </MenuItem>
+                                        <MenuItem bg="#3D5A90">
+                                            <RouterLink to="/cadastro-servico" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
+                                                    <i className="pi pi-clipboard" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Serviço
+                                                </Button>
+                                            </RouterLink>
+                                        </MenuItem>
+                                        <MenuItem bg="#3D5A90">
+                                            <RouterLink to="/cadastro-comissao" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={6} w="full" justifyContent="space-between">
+                                                    <i className="pi pi-dollar" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Comissão
+                                                </Button>
+                                            </RouterLink>
+                                        </MenuItem>
+                                    </MenuList>
+                                </Menu>
 
                                 <RouterLink to="/" onClick={handleLogout} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                                     <Button color="white" boxSize="20" bg="#0B111B" _hover={{ bg: "#5381CB" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">
