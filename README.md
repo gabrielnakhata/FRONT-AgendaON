@@ -1,4 +1,4 @@
-# React + Vite
+# front-end in React + Vite
 
 ## Agenda ONLINE | Kezuka Style's Professional's
 
