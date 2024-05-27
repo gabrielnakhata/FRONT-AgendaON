@@ -7,6 +7,7 @@ import { registerCollaborator } from '../services/collaboratorService';
 import moment from 'moment-timezone';
 import { useAuth } from '../contexts/AuthContext';
 import ActionButtons from '../components/layout/ActionButtons'; 
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;
@@ -19,6 +20,7 @@ const CadastroColaborador = () => {
     const toast = useToast();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { redirectToDashboard } = useUserRedirect();
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -38,7 +40,7 @@ const CadastroColaborador = () => {
     };
 
     const handleClose = () => {
-        navigate('/dashboard');
+        redirectToDashboard();
     };
 
     const handleSubmit = async (e) => {

@@ -9,6 +9,7 @@ import { registerCalendar } from '../services/serviceCalendar';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
 import ActionButtons from '../components/layout/ActionButtons';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const GerarDisponibilidadeCalendario = () => {
     usePrimeReactLocale();
@@ -27,6 +28,7 @@ const GerarDisponibilidadeCalendario = () => {
     const [timeInterval, setTimeInterval] = useState(null);
     const [scheduleList, setScheduleList] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { redirectToDashboard } = useUserRedirect();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -139,7 +141,7 @@ const GerarDisponibilidadeCalendario = () => {
     };
 
     const handleClose = () => {
-        navigate('/dashboard');
+        redirectToDashboard();
     };
 
     return (

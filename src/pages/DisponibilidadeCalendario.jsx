@@ -9,6 +9,7 @@ import { registerCalendar } from '../services/serviceCalendar';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
 import ActionButtons from '../components/layout/ActionButtons';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const DisponibilidadeCalendario = () => {
     usePrimeReactLocale();
@@ -23,6 +24,7 @@ const DisponibilidadeCalendario = () => {
     const [isToastShowing, setIsToastShowing] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
+    const { redirectToDashboard } = useUserRedirect();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -134,7 +136,7 @@ const DisponibilidadeCalendario = () => {
     };
 
     const handleClose = () => {
-        navigate('/dashboard');
+        redirectToDashboard();
     };
 
     return (

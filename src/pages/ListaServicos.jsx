@@ -5,19 +5,21 @@ import DataGridService from '../components/common/DataGridService';
 import TitleSection from '../components/layout/TitleSection';
 import { getServices, deleteService } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const ListaServicos = () => {
   const { token } = useAuth(); 
   const [data, setData] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
+  const { redirectToDashboard } = useUserRedirect();
 
   const handleUpdate = (service) => {
     navigate(`/atualizar-servico/${service.servicoId}`, { state: { service } });
   };
 
   const handleClose = () => {
-    navigate('/dashboard');
+    redirectToDashboard();
   };
 
   useEffect(() => {

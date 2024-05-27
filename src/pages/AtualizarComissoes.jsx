@@ -6,6 +6,7 @@ import TitleSection from '../components/layout/TitleSection';
 import { updateCommission } from '../services/commissionService';
 import { useAuth } from '../contexts/AuthContext';
 import ActionButtons from '../components/layout/ActionButtons'; 
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const AtualizarComissoes = () => {
     const { token } = useAuth();
@@ -13,7 +14,8 @@ const AtualizarComissoes = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const commission = location.state.commission; // Confirme que o estado contém a comissão
+    const commission = location.state.commission;
+    const { redirectToDashboard } = useUserRedirect();
 
     const [formData, setFormData] = useState({
         comissaoId: 0,
@@ -44,7 +46,7 @@ const AtualizarComissoes = () => {
     };
 
     const handleClose = () => {
-        navigate('/dashboard');
+        redirectToDashboard();
     };
 
     const handleSubmit = async (e) => {

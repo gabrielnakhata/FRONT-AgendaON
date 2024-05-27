@@ -5,19 +5,21 @@ import DataGridCommission from '../components/common/DataGridCommission';
 import TitleSection from '../components/layout/TitleSection';
 import { getCommission, deleteCommission } from '../services/commissionService';
 import { useAuth } from '../contexts/AuthContext';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const ListaComissoes = () => {
   const { token } = useAuth();
   const [data, setData] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
+  const { redirectToDashboard } = useUserRedirect();
 
   const handleUpdate = (commission) => {
     navigate(`/atualizar-comissao/${commission.comissaoId}`, { state: { commission } });
   };
 
   const handleClose = () => {
-    navigate('/dashboard');
+    redirectToDashboard();
   };
 
   useEffect(() => {

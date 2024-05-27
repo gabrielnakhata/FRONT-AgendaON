@@ -8,6 +8,7 @@ import { getCollaborators } from '../services/collaboratorService';
 import { getServices } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext';
 import ActionButtons from '../components/layout/ActionButtons'; 
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const CadastroComissoes = () => {
 
@@ -17,6 +18,7 @@ const CadastroComissoes = () => {
     const [services, setServices] = useState([]);
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { redirectToDashboard } = useUserRedirect();
 
     const [formData, setFormData] = useState({
         colaboradorId: '',
@@ -61,7 +63,7 @@ const CadastroComissoes = () => {
     };
 
     const handleClose = () => {
-        navigate('/dashboard');
+        redirectToDashboard();
     };
 
     // Função para envio do formulário

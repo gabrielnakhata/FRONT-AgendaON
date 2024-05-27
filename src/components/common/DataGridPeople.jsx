@@ -1,7 +1,10 @@
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Button } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import { useUserRedirect } from '../../hooks/UseUserRedirect';
 
 const DataGridPeople = ({ data, onUpdate, onDelete }) => {
+  const { canEditOrDelete } = useUserRedirect();
+  const isEditable = canEditOrDelete();
 
   return (
     <TableContainer>
@@ -13,8 +16,8 @@ const DataGridPeople = ({ data, onUpdate, onDelete }) => {
             <Th>Celular</Th>
             <Th>Data de Nascimento</Th>
             <Th>Data de Cadastro</Th>
-            <Th>Atualizar</Th>
-            <Th>Excluir</Th>
+            {isEditable && <Th>Atualizar</Th>}
+            {isEditable && <Th>Excluir</Th>}
           </Tr>
         </Thead>
         <Tbody>
@@ -27,12 +30,16 @@ const DataGridPeople = ({ data, onUpdate, onDelete }) => {
               <Td>
                 {new Date(item.dataCadastro).toLocaleDateString()} {new Date(item.dataCadastro).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </Td>
+              {isEditable && (
               <Td>
-                <Button onClick={() => onUpdate(item)} colorScheme="blue">Atualizar</Button>
+                  <Button onClick={() => onUpdate(item)} colorScheme="blue">Atualizar</Button>
               </Td>
-              <Td>
-                <Button onClick={() => onDelete(item.colaboradorId)} colorScheme="red">Excluir</Button>
-              </Td>
+              )}
+              {isEditable && (
+                  <Td>
+                      <Button onClick={() => onDelete(item.comissaoId)} colorScheme="red">Excluir</Button>
+                  </Td>
+              )}
             </Tr>
           ))}
         </Tbody>

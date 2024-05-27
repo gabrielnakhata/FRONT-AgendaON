@@ -6,6 +6,7 @@ import TitleSection from '../components/layout/TitleSection';
 import { updateService } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext'; 
 import ActionButtons from '../components/layout/ActionButtons';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const AtualizarServico = () => {
     const { token } = useAuth(); 
@@ -14,6 +15,7 @@ const AtualizarServico = () => {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const service = location.state.service;
+    const { redirectToDashboard } = useUserRedirect();
 
     const [formData, setFormData] = useState({
         servicoId: '',
@@ -40,7 +42,7 @@ const AtualizarServico = () => {
     };
 
     const handleClose = () => {
-        navigate('/dashboard');
+        redirectToDashboard();
     };
 
     const handleSubmit = async (e) => {

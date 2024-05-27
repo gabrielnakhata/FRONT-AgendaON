@@ -4,21 +4,21 @@ import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
 import { ChakraProvider, Flex, Box, VStack, useToast, Select } from '@chakra-ui/react';
 import TitleSection from '../components/layout/TitleSection';
 import DataGridCalendario from '../components/common/DataGridCalendario';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
 import { getCalendarForCollaborator, deleteCalendar } from '../services/serviceCalendar';
 import ActionButtons from '../components/layout/ActionButtons';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const FiltrarDisponibilidadeColaborador = () => {
     usePrimeReactLocale();
     const { token } = useAuth();
     const toast = useToast();
-    const navigate = useNavigate();
     const [collaborators, setCollaborators] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [data, setData] = useState([]);
+    const { redirectToDashboard } = useUserRedirect();
 
     useEffect(() => {
 
@@ -60,7 +60,7 @@ const FiltrarDisponibilidadeColaborador = () => {
     }, [selectedCollaboratorId, selectedDate, token, toast]);
     
     const handleClose = () => {
-        navigate('/dashboard');
+        redirectToDashboard();
     };
 
     const handleDelete = async (id) => {

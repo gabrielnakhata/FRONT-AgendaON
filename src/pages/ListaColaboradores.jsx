@@ -5,19 +5,21 @@ import DataGridPeople from '../components/common/DataGridPeople';
 import TitleSection from '../components/layout/TitleSection';
 import { getCollaborators, deleteCollaborator } from '../services/collaboratorService';
 import { useAuth } from '../contexts/AuthContext';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const ListaColaboradores = () => {
   const { token } = useAuth();
   const [data, setData] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
+  const { redirectToDashboard } = useUserRedirect();
 
   const handleUpdate = (collaborator) => {
     navigate(`/atualizar-colaborador/${collaborator.colaboradorId}`, { state: { collaborator } });
   };
 
   const handleClose = () => {
-    navigate('/dashboard');
+    redirectToDashboard();
   };
 
   useEffect(() => {

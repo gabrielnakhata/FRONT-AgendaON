@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { HStack, ChakraProvider, Flex, Box, Button, useToast } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import DataGridClient from '../components/common/DataGridClient';
 import TitleSection from '../components/layout/TitleSection';
 import { getClient } from '../services/clientService';
 import { useAuth } from '../contexts/AuthContext';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const ListaCliente = () => {
   const { token } = useAuth();
@@ -13,7 +13,7 @@ const ListaCliente = () => {
   const [pageSize] = useState(8);
   const [totalPages, setTotalPages] = useState(1);
   const toast = useToast();
-  const navigate = useNavigate();
+  const { redirectToDashboard } = useUserRedirect();
 
   const loadClients = (page) => {
     getClient(token, page, pageSize)
@@ -51,7 +51,7 @@ const ListaCliente = () => {
   };
 
   const handleClose = () => {
-    navigate('/dashboard');
+    redirectToDashboard();
   };
 
   return (

@@ -6,6 +6,7 @@ import TitleSection from '../components/layout/TitleSection';
 import { updateCollaborator } from '../services/collaboratorService';
 import { useAuth } from '../contexts/AuthContext';
 import ActionButtons from '../components/layout/ActionButtons'; 
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;
@@ -19,6 +20,7 @@ const AtualizarColaborador = () => {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const collaborator = location.state.collaborator;
+    const { redirectToDashboard } = useUserRedirect();
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -51,7 +53,7 @@ const AtualizarColaborador = () => {
     };
 
     const handleClose = () => {
-        navigate('/dashboard');
+        redirectToDashboard();
     };
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -6,12 +6,14 @@ import TitleSection from '../components/layout/TitleSection';
 import { registerService } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext';
 import ActionButtons from '../components/layout/ActionButtons';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const CadastroServico = () => {
     const { token } = useAuth();
     const toast = useToast();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { redirectToDashboard } = useUserRedirect();
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -27,7 +29,7 @@ const CadastroServico = () => {
     };
 
     const handleClose = () => {
-        navigate('/dashboard');
+        redirectToDashboard();
     };
 
     const handleSubmit = async (e) => {
