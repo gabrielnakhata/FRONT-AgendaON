@@ -4,8 +4,7 @@ import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
 import { Flex, Box, VStack, useToast, Select, Table, TableContainer, Thead, Tbody, Tr, Th, Td, IconButton, Icon, Button } from '@chakra-ui/react';
 import { TimeIcon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
 import TitleSection from '../components/layout/TitleSection';
-import { useNavigate } from 'react-router-dom';
-import { registerCalendar } from '../services/serviceCalendar';
+import { registerCalendar } from '../services/calendarService';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
 import ActionButtons from '../components/layout/ActionButtons';
@@ -15,7 +14,6 @@ const DisponibilidadeCalendario = () => {
     usePrimeReactLocale();
     const { token, user } = useAuth();
     const toast = useToast();
-    const navigate = useNavigate();
     const [collaborators, setCollaborators] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedHour, setSelectedHour] = useState(null);
@@ -113,7 +111,7 @@ const DisponibilidadeCalendario = () => {
                 duration: 2500,
                 isClosable: true,
                 onCloseComplete: () => {
-                    navigate('/dashboard');
+                    redirectToDashboard();
                     setIsSubmitting(false);
                 }
             });
@@ -141,7 +139,7 @@ const DisponibilidadeCalendario = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Registro de Disponibilidade" subtitle="Formulário para registrar a disponibilidade do colaborador." />
+            <TitleSection title="Registro customizado de Disponibilidade" subtitle="Formulário para customizar o registro da disponibilidade do colaborador." />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">

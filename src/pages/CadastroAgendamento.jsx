@@ -6,11 +6,11 @@ import TitleSection from '../components/layout/TitleSection';
 import DataGridCalendario from '../components/common/DataGridCalendario';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
-import { getCalendarForCollaborator, deleteCalendar } from '../services/calendarService';
+import { getCalendarInDisponibility, deleteCalendar } from '../services/calendarService';
 import ActionButtons from '../components/layout/ActionButtons';
 import { useUserRedirect } from "../hooks/UseUserRedirect";
 
-const FiltrarDisponibilidadeColaborador = () => {
+const CadastroAgendamento = () => {
     usePrimeReactLocale();
     const { token } = useAuth();
     const toast = useToast();
@@ -44,7 +44,7 @@ const FiltrarDisponibilidadeColaborador = () => {
         if (selectedCollaboratorId && selectedDate) {
             // Correção na formatação da data
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
-            getCalendarForCollaborator(selectedCollaboratorId, formattedDate, token)
+            getCalendarInDisponibility(selectedCollaboratorId, formattedDate, token)
                 .then(setData)
                 .catch(error => {
                     console.error('Erro ao buscar disponibilidades:', error);
@@ -63,6 +63,15 @@ const FiltrarDisponibilidadeColaborador = () => {
         redirectToDashboard();
     };
 
+     const handleCheckboxClick = (calendarioId) => {
+        toast({
+            title: "Horário escolhido",
+            description: `A disponibilidade com ID ${calendarioId} foi selecionada.`,
+            status: "success",
+            duration: 2500,
+            isClosable: true,
+          });
+    };
     const handleDelete = async (id) => {
         try {
           await deleteCalendar(id, token);
@@ -88,7 +97,7 @@ const FiltrarDisponibilidadeColaborador = () => {
 
       return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Filtrar Disponibilidade" subtitle="Veja a disponibilidade do colaborador." />
+            <TitleSection title="Agendamento" subtitle="Preencha os campos para realizar o agendamento" />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">
@@ -108,7 +117,7 @@ const FiltrarDisponibilidadeColaborador = () => {
                         </div>
                     </div>
                     <ChakraProvider>
-                        <DataGridCalendario data={data} onDelete={handleDelete} />
+                        <DataGridCalendario data={data} onDelete={handleDelete} onCheckboxClick={handleCheckboxClick} />
                     </ChakraProvider>
                    
                     <ActionButtons onBack={handleClose} onSave={null} isSaveDisabled={null} />
@@ -118,4 +127,4 @@ const FiltrarDisponibilidadeColaborador = () => {
     );
 };
 
-export default FiltrarDisponibilidadeColaborador;
+export default CadastroAgendamento;

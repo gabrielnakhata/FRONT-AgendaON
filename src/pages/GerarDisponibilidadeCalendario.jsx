@@ -4,8 +4,7 @@ import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
 import { Flex, Box, VStack, useToast, Select, Table, TableContainer, Thead, Tbody, Tr, Th, Td, IconButton, Icon, Button } from '@chakra-ui/react';
 import { TimeIcon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
 import TitleSection from '../components/layout/TitleSection';
-import { useNavigate } from 'react-router-dom';
-import { registerCalendar } from '../services/serviceCalendar';
+import { registerCalendar } from '../services/calendarService';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
 import ActionButtons from '../components/layout/ActionButtons';
@@ -15,7 +14,6 @@ const GerarDisponibilidadeCalendario = () => {
     usePrimeReactLocale();
     const { token, user } = useAuth();
     const toast = useToast();
-    const navigate = useNavigate();
     const [collaborators, setCollaborators] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
@@ -125,7 +123,7 @@ const GerarDisponibilidadeCalendario = () => {
                 status: "success",
                 duration: 2500,
                 isClosable: true,
-                onCloseComplete: () => navigate('/dashboard')
+                onCloseComplete: () => { redirectToDashboard(); }
             });
         } catch (error) {
             toast({

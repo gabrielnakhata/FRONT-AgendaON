@@ -26,5 +26,13 @@ export function useUserRedirect() {
         return !(user.tipoUsuario === 'Colaborador' || user.tipoUsuario === 'Cliente');
     };
 
-    return { redirectToDashboard, canEditOrDelete };
+    const canDelete = () => {
+        return !(user.tipoUsuario === 'Cliente');
+    };
+
+    const canCheckBox = () => {
+        return !(user.tipoUsuario === 'Colaborador' || user.tipoUsuario === 'Gestor');
+    };
+
+    return { redirectToDashboard, canEditOrDelete, canDelete, canCheckBox };
 }

@@ -1,8 +1,14 @@
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, IconButton } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, IconButton, Checkbox } from '@chakra-ui/react';
 import { Icon, TimeIcon, DeleteIcon } from '@chakra-ui/icons';
 import PropTypes from 'prop-types';
+import { useUserRedirect } from '../../hooks/UseUserRedirect';
 
-const DataGridCalendario = ({ data, onDelete }) => {
+const DataGridCalendario = ({ data, onDelete, onCheckboxClick }) => {
+    const { canDelete, canCheckBox } = useUserRedirect();
+    const isEditable = canDelete();
+    const isEditableCommon = canCheckBox();
+
+
     const formatDate = (dateTimeStr) => {
         const date = new Date(dateTimeStr);
         return [
@@ -36,15 +42,27 @@ const DataGridCalendario = ({ data, onDelete }) => {
                             </Td>
                             <Td fontSize="18px" color="#3D5A73" fontWeight="bold" alignItems="center">
                                 {formatTime(item.dataHoraConfigurada)}</Td>
-                            <Td>
-                                <IconButton
-                                    aria-label="Delete schedule"
-                                    icon={<DeleteIcon />}
-                                    size="sm"
-                                    colorScheme="red"
-                                    onClick={() => onDelete(item.calendarioId)}
-                                />
-                            </Td>
+
+                            {isEditable && (
+                                <Td>
+                                    <IconButton
+                                        aria-label="Delete schedule"
+                                        icon={<DeleteIcon />}
+                                        size="sm"
+                                        colorScheme="red"
+                                        onClick={() => onDelete(item.calendarioId)}
+                                    />
+                                </Td>)}
+                            {isEditableCommon && (
+                                <Td>
+                                    <Checkbox
+                                        size='lg'
+                                        colorScheme='green'
+                                        onChange={() => onCheckboxClick(item.calendarioId)}
+                                    >
+                                    </Checkbox>
+                                </Td>
+                            )}
                         </Tr>
                     ))}
                 </Tbody>
@@ -61,6 +79,7 @@ DataGridCalendario.propTypes = {
         })
     ).isRequired,
     onDelete: PropTypes.func.isRequired,
+    onCheckboxClick: PropTypes.func.isRequired,
 };
 
 export default DataGridCalendario;

@@ -21,6 +21,7 @@ import ProfilePage from './pages/ProfilePage';
 import Dashboard from './pages/Dashboard';
 import DashboardColaborador from './pages/DashboardColaborador';
 import DashboardCliente from './pages/DashboardCliente';
+import CadastroAgendamento from './pages/CadastroAgendamento';
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/agendamento" element={
+            <PrivateRoute allowedTypes={['Cliente']}>
+              <CadastroAgendamento />
+            </PrivateRoute>} />
           <Route path="/dashboard" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <Dashboard />
