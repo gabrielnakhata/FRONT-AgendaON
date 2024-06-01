@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import { ScrollTop } from 'primereact/scrolltop';
 import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
-import { ChakraProvider, Flex, Box, VStack, useToast, Select, Switch, Text, HStack, Spacer } from '@chakra-ui/react';
+import { ChakraProvider, Flex, Box, VStack, useToast, Select, Switch, Text, HStack } from '@chakra-ui/react';
 import TitleSection from '../components/layout/TitleSection';
 import DataGridHour from '../components/common/DataGridHour';
 import DataGridHourService from '../components/common/DataGridHourService';
@@ -89,6 +89,7 @@ const CadastroAgendamento = () => {
             const alreadySelected = Array.isArray(prevSelected) ? prevSelected.includes(serviceId) : false;
             if (alreadySelected) {
                 return prevSelected.filter(id => id !== serviceId);
+                
             } else {
                 return [...(prevSelected || []), serviceId];
             }
@@ -100,7 +101,7 @@ const CadastroAgendamento = () => {
     };
 
     const filteredData = selectedItem ? data.filter(item => item.calendarioId === selectedItem) : data;
-    const filteredDataService = showSelectedServices ? dataService.filter(item => selectedItemService.includes(item.serviceId)) : dataService;
+    const filteredDataService = showSelectedServices ? dataService.filter(item => selectedItemService.includes(item.servicoId)) : dataService;
 
     const handleServiceSwitchChange = async () => {
         const newSwitchState = !isServiceSwitchOn;
