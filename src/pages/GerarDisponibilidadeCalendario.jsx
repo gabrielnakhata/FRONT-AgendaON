@@ -15,7 +15,7 @@ const GerarDisponibilidadeCalendario = () => {
     const { token, user } = useAuth();
     const toast = useToast();
     const [collaborators, setCollaborators] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [isAdding, setIsAdding] = useState(false);
 
@@ -144,7 +144,7 @@ const GerarDisponibilidadeCalendario = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Gerar Disponibilidade" subtitle="Formulário para gerar disponibilidades para colaborador." />
+            <TitleSection title="Programar Disponibilidade" subtitle="Formulário para gerar disponibilidades para colaborador." />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">

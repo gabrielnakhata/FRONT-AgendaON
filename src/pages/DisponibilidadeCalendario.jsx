@@ -15,7 +15,7 @@ const DisponibilidadeCalendario = () => {
     const { token, user } = useAuth();
     const toast = useToast();
     const [collaborators, setCollaborators] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedHour, setSelectedHour] = useState(null);
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [scheduleList, setScheduleList] = useState([]);

@@ -19,7 +19,7 @@ const CadastroAgendamento = () => {
     const { token } = useAuth();
     const toast = useToast();
     const [collaborators, setCollaborators] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [data, setData] = useState([]);
     const [dataService, setDataService] = useState([]);
@@ -29,6 +29,7 @@ const CadastroAgendamento = () => {
     const [isServiceSwitchOn, setIsServiceSwitchOn] = useState(false);
     const [isCalendarSelectOn, setIsCalendarSelectOn] = useState(false);
     const [containerHeight, setContainerHeight] = useState('200px');
+    const [containerHeight2, setContainerHeight2] = useState('200px');
     const [showSelectedServices, setShowSelectedServices] = useState(false);
 
     useEffect(() => {
@@ -87,6 +88,7 @@ const CadastroAgendamento = () => {
     const handleCheckboxServiceClick = (serviceId) => {
         setSelectedItemsService(prevSelected => {
             const alreadySelected = Array.isArray(prevSelected) ? prevSelected.includes(serviceId) : false;
+            setContainerHeight2(alreadySelected ? '200px' : '100px');
             if (alreadySelected) {
                 return prevSelected.filter(id => id !== serviceId);
                 
@@ -196,7 +198,7 @@ const CadastroAgendamento = () => {
                     </HStack>
                     {isServiceSwitchOn && (
                         <ChakraProvider>
-                            <Box w={{ base: '100%', md: '70%' }} height="200px" overflow="auto" position="relative">
+                            <Box w={{ base: '100%', md: '70%' }} height={containerHeight2} overflow="auto" position="relative">
                                 <DataGridHourService data={filteredDataService} onCheckboxClick={handleCheckboxServiceClick} selectedItemService={selectedItemService} />
                                 <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
                             </Box>

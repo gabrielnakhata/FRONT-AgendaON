@@ -15,7 +15,7 @@ const FiltrarDisponibilidadeColaborador = () => {
     const { token } = useAuth();
     const toast = useToast();
     const [collaborators, setCollaborators] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [data, setData] = useState([]);
     const { redirectToDashboard } = useUserRedirect();
