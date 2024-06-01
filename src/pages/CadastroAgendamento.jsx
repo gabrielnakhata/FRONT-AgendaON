@@ -88,7 +88,7 @@ const CadastroAgendamento = () => {
     const handleCheckboxServiceClick = (serviceId) => {
         setSelectedItemsService(prevSelected => {
             const alreadySelected = Array.isArray(prevSelected) ? prevSelected.includes(serviceId) : false;
-            setContainerHeight2(alreadySelected ? '200px' : '100px');
+            // setContainerHeight2(alreadySelected ? '200px' : '100px');
             if (alreadySelected) {
                 return prevSelected.filter(id => id !== serviceId);
                 
@@ -98,8 +98,15 @@ const CadastroAgendamento = () => {
         });
     };
 
+    // const handleShowSelectedServices = () => {
+    //     setShowSelectedServices(prevState => !prevState);
+    // };
+
     const handleShowSelectedServices = () => {
-        setShowSelectedServices(prevState => !prevState);
+        setShowSelectedServices(prevState => {
+            setContainerHeight2(prevState ? '200px' : '100px');
+            return !prevState;
+        });
     };
 
     const filteredData = selectedItem ? data.filter(item => item.calendarioId === selectedItem) : data;
