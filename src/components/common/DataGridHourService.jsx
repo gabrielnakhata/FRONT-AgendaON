@@ -35,7 +35,7 @@ const DataGridService = ({ data, onCheckboxClick, selectedItemService  }) => {
                                     <Checkbox
                                         size='lg'
                                         colorScheme='green'
-                                        isChecked={selectedItemService === item.servicoId}
+                                        isChecked={selectedItemService.includes(item.servicoId)}
                                         onChange={() => onCheckboxClick(item.servicoId)}
                                     >
                                     </Checkbox>
@@ -58,7 +58,7 @@ DataGridService.propTypes = {
         })
     ).isRequired,
     onCheckboxClick: PropTypes.func.isRequired,
-    selectedItemService: PropTypes.number,
+    selectedItemService: PropTypes.number.isRequired,
 };
 
 export default DataGridService;
