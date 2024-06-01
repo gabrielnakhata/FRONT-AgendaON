@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
+import { ScrollTop } from 'primereact/scrolltop';
 import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
-import { ChakraProvider, Flex, Box, VStack, useToast, Select } from '@chakra-ui/react';
+import { ChakraProvider, Flex, Box, VStack, useToast, Select, Switch, Text, HStack } from '@chakra-ui/react';
 import TitleSection from '../components/layout/TitleSection';
-import DataGridCalendario from '../components/common/DataGridCalendario';
+import DataGridHour from '../components/common/DataGridHour';
+import DataGridHourService from '../components/common/DataGridHourService';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
-import { getCalendarInDisponibility, deleteCalendar } from '../services/calendarService';
+import { getServices } from '../services/serviceService';
+import { getCalendarInDisponibility } from '../services/calendarService';
 import ActionButtons from '../components/layout/ActionButtons';
 import { useUserRedirect } from "../hooks/UseUserRedirect";
 
@@ -18,10 +21,15 @@ const CadastroAgendamento = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [data, setData] = useState([]);
+    const [dataService, setDataService] = useState([]);
     const { redirectToDashboard } = useUserRedirect();
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItemService, setSelectedItemService] = useState(null);
+    const [isServiceSwitchOn, setIsServiceSwitchOn] = useState(false);
+    const [isCalendarSelectOn, setIsCalendarSelectOn] = useState(false);
+    const [containerHeight, setContainerHeight] = useState('200px');
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 const collabData = await getCollaborators(token);
@@ -41,11 +49,14 @@ const CadastroAgendamento = () => {
 
     useEffect(() => {
         setData([]);
+        setIsCalendarSelectOn(false); // Resetar visibilidade ao mudar colaborador ou data
         if (selectedCollaboratorId && selectedDate) {
-            // Correção na formatação da data
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
             getCalendarInDisponibility(selectedCollaboratorId, formattedDate, token)
-                .then(setData)
+                .then(response => {
+                    setData(response);
+                    setIsCalendarSelectOn(true); // Ativar visibilidade se a requisição for bem-sucedida
+                })
                 .catch(error => {
                     console.error('Erro ao buscar disponibilidades:', error);
                     toast({
@@ -63,39 +74,44 @@ const CadastroAgendamento = () => {
         redirectToDashboard();
     };
 
-     const handleCheckboxClick = (calendarioId) => {
-        toast({
-            title: "Horário escolhido",
-            description: `A disponibilidade com ID ${calendarioId} foi selecionada.`,
-            status: "success",
-            duration: 2500,
-            isClosable: true,
-          });
+    const handleCheckboxHourClick = (calendarioId) => {
+        setSelectedItem(prevSelected => {
+            const newSelection = prevSelected === calendarioId ? null : calendarioId;
+            setContainerHeight(newSelection ? '100px' : '200px'); // Ajustar a altura com base na seleção
+            return newSelection;
+        });
     };
-    const handleDelete = async (id) => {
-        try {
-          await deleteCalendar(id, token);
-          toast({
-            title: "Disponibilidade deletada",
-            description: `A disponibilidade a data e hora do calendario foi removida.`,
-            status: "success",
-            duration: 2500,
-            isClosable: true,
-          });
-          setData(prevData => prevData.filter(item => item.calendarioId !== id));
-        } catch (error) {
-          toast({
-            title: "Erro ao deletar",
-            description: "Não foi possível remover o servico.",
-            status: "error",
-            duration: 2000,
-            isClosable: true,
-          });
-        }
-      };
-    
 
-      return (
+    const handleCheckboxServiceClick = (ServiceId) => {
+        setSelectedItemService(prevSelected => (prevSelected === ServiceId ? null : ServiceId));
+    };
+
+    const filteredData = selectedItem ? data.filter(item => item.calendarioId === selectedItem) : data;
+    const filteredDataService = selectedItemService ? dataService.filter(item => item.serviceId === selectedItemService) : dataService;
+
+    const handleServiceSwitchChange = async () => {
+        const newSwitchState = !isServiceSwitchOn;
+        setIsServiceSwitchOn(newSwitchState);
+        if (newSwitchState) {
+            try {
+                const servicesData = await getServices(token);
+                setDataService(servicesData);
+            } catch (error) {
+                console.error("Erro ao carregar dados:", error);
+                toast({
+                    title: "Erro ao carregar dados",
+                    description: "Não foi possível carregar os dados dos serviços. Por favor, tente novamente.",
+                    status: "error",
+                    duration: 4000,
+                    isClosable: true,
+                });
+            }
+        } else {
+            setDataService([]);
+        }
+    };
+
+    return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Agendamento" subtitle="Preencha os campos para realizar o agendamento" />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
@@ -116,10 +132,26 @@ const CadastroAgendamento = () => {
                                 icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />} />
                         </div>
                     </div>
+                    {isCalendarSelectOn && (
                     <ChakraProvider>
-                        <DataGridCalendario data={data} onDelete={handleDelete} onCheckboxClick={handleCheckboxClick} />
+                        <Box w={{ base: '100%', md: '70%' }}  height={containerHeight} overflow="auto" position="relative">
+                            <DataGridHour data={filteredData} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} />
+                            <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base"/>
+                        </Box>
                     </ChakraProvider>
-                   
+                    )}
+                    <HStack  py={4} align="left">
+                        <Switch colorScheme="green"  size='lg' isChecked={isServiceSwitchOn} onChange={handleServiceSwitchChange} />
+                        <Text fontSize="18px" color="#3D5A73" fontWeight="bold" alignItems="left">&nbsp;&nbsp;Selecionar Serviços</Text>
+                    </HStack>
+                    {isServiceSwitchOn && (
+                        <ChakraProvider>
+                            <Box w={{ base: '100%', md: '70%' }} height="200px" overflow="auto" position="relative">
+                                <DataGridHourService data={filteredDataService} onCheckboxClick={handleCheckboxServiceClick} selectedItem={selectedItemService} />
+                                <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base"/>
+                            </Box>
+                        </ChakraProvider>
+                    )}
                     <ActionButtons onBack={handleClose} onSave={null} isSaveDisabled={null} />
                 </VStack>
             </Box>

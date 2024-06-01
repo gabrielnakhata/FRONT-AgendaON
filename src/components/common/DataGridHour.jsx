@@ -1,12 +1,11 @@
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, IconButton } from '@chakra-ui/react';
-import { Icon, TimeIcon, DeleteIcon } from '@chakra-ui/icons';
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Checkbox } from '@chakra-ui/react';
+import { Icon, TimeIcon } from '@chakra-ui/icons';
 import PropTypes from 'prop-types';
 import { useUserRedirect } from '../../hooks/UseUserRedirect';
 
-const DataGridCalendario = ({ data, onDelete }) => {
-    const { canDelete } = useUserRedirect();
-    const isEditable = canDelete();
-
+const DataGridHour = ({ data, onCheckboxClick, selectedItem  }) => {
+    const { canCheckBox } = useUserRedirect();
+    const isEditableCommon = canCheckBox();
 
     const formatDate = (dateTimeStr) => {
         const date = new Date(dateTimeStr);
@@ -29,7 +28,7 @@ const DataGridCalendario = ({ data, onDelete }) => {
                     <Tr>
                         <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Data</Th>
                         <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Hora</Th>
-                        {isEditable && <Th></Th>}
+                        <Th></Th>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -41,17 +40,17 @@ const DataGridCalendario = ({ data, onDelete }) => {
                             </Td>
                             <Td fontSize="18px" color="#3D5A73" fontWeight="bold" alignItems="center">
                                 {formatTime(item.dataHoraConfigurada)}</Td>
-
-                            {isEditable && (
+                            {isEditableCommon && (
                                 <Td>
-                                    <IconButton
-                                        aria-label="Delete schedule"
-                                        icon={<DeleteIcon />}
-                                        size="sm"
-                                        colorScheme="red"
-                                        onClick={() => onDelete(item.calendarioId)}
-                                    />
-                                </Td>)}
+                                    <Checkbox
+                                        size='lg'
+                                        colorScheme='green'
+                                        isChecked={selectedItem === item.calendarioId}
+                                        onChange={() => onCheckboxClick(item.calendarioId)}
+                                    >
+                                    </Checkbox>
+                                </Td>
+                            )}
                         </Tr>
                     ))}
                 </Tbody>
@@ -60,14 +59,15 @@ const DataGridCalendario = ({ data, onDelete }) => {
     );
 };
 
-DataGridCalendario.propTypes = {
+DataGridHour.propTypes = {
     data: PropTypes.arrayOf(
         PropTypes.shape({
             calendarioId: PropTypes.number.isRequired,
             dataHoraConfigurada: PropTypes.string.isRequired,
         })
     ).isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onCheckboxClick: PropTypes.func.isRequired,
+    selectedItem: PropTypes.number,
 };
 
-export default DataGridCalendario;
+export default DataGridHour;
