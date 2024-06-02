@@ -2,21 +2,21 @@ import { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import { ScrollTop } from 'primereact/scrolltop';
 import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
-import { ChakraProvider, Flex, Box, VStack, useToast, Select, Switch, Text, HStack } from '@chakra-ui/react';
+import { ChakraProvider, Flex, Box, VStack, useToast, Select, Switch, Text, HStack, Input } from '@chakra-ui/react';
 import TitleSection from '../components/layout/TitleSection';
 import DataGridHour from '../components/common/DataGridHour';
 import DataGridHourService from '../components/common/DataGridHourService';
-import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
 import { getServices } from '../services/serviceService';
 import { registerScheduling } from '../services/schedulingService';
 import { getCalendarInDisponibility } from '../services/calendarService';
 import ActionButtons from '../components/layout/ActionButtons';
-import { useUserRedirect } from "../hooks/UseUserRedirect";
+import { useUserRedirect } from '../hooks/UseUserRedirect';
+import { useAuth } from '../contexts/AuthContext';
 
 const CadastroAgendamento = () => {
     usePrimeReactLocale();
-    const { token } = useAuth();
+    const { user, token } = useAuth();
     const toast = useToast();
     const [collaborators, setCollaborators] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -25,12 +25,18 @@ const CadastroAgendamento = () => {
     const [dataService, setDataService] = useState([]);
     const { redirectToDashboard } = useUserRedirect();
     const [selectedItem, setSelectedItem] = useState(null);
+    const agendado = 1;
     const [selectedItemService, setSelectedItemsService] = useState([]);
     const [isServiceSwitchOn, setIsServiceSwitchOn] = useState(false);
     const [isCalendarSelectOn, setIsCalendarSelectOn] = useState(false);
     const [containerHeight, setContainerHeight] = useState('200px');
     const [containerHeight2, setContainerHeight2] = useState('200px');
     const [showSelectedServices, setShowSelectedServices] = useState(false);
+    const [showInputObs, setShowInputObs] = useState(false);
+    const [isServiceSwitchOnObs, setIsServiceSwitchOnObs] = useState(false);
+    const [isServiceSwitchOnObsInput, setIsServiceSwitchOnObsInput] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,16 +58,15 @@ const CadastroAgendamento = () => {
 
     useEffect(() => {
         setData([]);
-        setIsCalendarSelectOn(false); // Resetar visibilidade ao mudar colaborador ou data
+        setIsCalendarSelectOn(false);
         if (selectedCollaboratorId && selectedDate) {
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
             getCalendarInDisponibility(selectedCollaboratorId, formattedDate, token)
                 .then(response => {
                     setData(response);
-                    setIsCalendarSelectOn(true); // Ativar visibilidade se a requisição for bem-sucedida
+                    setIsCalendarSelectOn(true);
                 })
                 .catch(error => {
-                    console.error('Erro ao buscar disponibilidades:', error);
                     toast({
                         title: "Erro ao buscar disponibilidades",
                         description: error.message || "Não foi possível buscar as disponibilidades.",
@@ -77,10 +82,10 @@ const CadastroAgendamento = () => {
         redirectToDashboard();
     };
 
-    const handleCheckboxHourClick = (calendarioId) => {
+    const handleCheckboxHourClick = (calendarioId, dataHoraConfigurada) => {
         setSelectedItem(prevSelected => {
-            const newSelection = prevSelected === calendarioId ? null : calendarioId;
-            setContainerHeight(newSelection ? '100px' : '200px'); // Ajustar a altura com base na seleção
+            const newSelection = prevSelected && prevSelected.calendarioId === calendarioId ? null : { calendarioId, dataHoraConfigurada };
+            setContainerHeight(newSelection ? '100px' : '200px');
             return newSelection;
         });
     };
@@ -88,28 +93,32 @@ const CadastroAgendamento = () => {
     const handleCheckboxServiceClick = (serviceId) => {
         setSelectedItemsService(prevSelected => {
             const alreadySelected = Array.isArray(prevSelected) ? prevSelected.includes(serviceId) : false;
-            // setContainerHeight2(alreadySelected ? '200px' : '100px');
             if (alreadySelected) {
                 return prevSelected.filter(id => id !== serviceId);
-                
+
             } else {
                 return [...(prevSelected || []), serviceId];
             }
         });
     };
 
-    // const handleShowSelectedServices = () => {
-    //     setShowSelectedServices(prevState => !prevState);
-    // };
-
     const handleShowSelectedServices = () => {
         setShowSelectedServices(prevState => {
             setContainerHeight2(prevState ? '200px' : '100px');
+            setIsServiceSwitchOnObs(!prevState);
+            setIsServiceSwitchOnObsInput(!prevState);
             return !prevState;
         });
     };
 
-    const filteredData = selectedItem ? data.filter(item => item.calendarioId === selectedItem) : data;
+    const handleShowObs = () => {
+        setShowInputObs(prevState => {
+            setIsServiceSwitchOnObsInput(!prevState);
+            return !prevState;
+        });
+    };
+
+    // const filteredData = selectedItem ? data.filter(item => item.calendarioId === selectedItem) : data;
     const filteredDataService = showSelectedServices ? dataService.filter(item => selectedItemService.includes(item.servicoId)) : dataService;
 
     const handleServiceSwitchChange = async () => {
@@ -131,34 +140,68 @@ const CadastroAgendamento = () => {
             }
         } else {
             setDataService([]);
+            setShowSelectedServices(false);
+            setShowInputObs(false);
+            setIsServiceSwitchOnObs(false);
+            setIsServiceSwitchOnObsInput(false);
         }
     };
 
-
     const handleSave = async () => {
+        if (isAdding || isSubmitting) return;
+
+        if (!selectedItem) {
+            setIsAdding(true);
+            toast({
+                title: "Erro",
+                description: "Selecione uma data e hora para o agendamento.",
+                status: "info",
+                duration: 3000,
+                isClosable: true,
+                onCloseComplete: () => setIsAdding(false)
+            });
+            return;
+        }
+
+        if (!showSelectedServices) {
+            setIsAdding(true);
+            toast({
+                title: "Erro",
+                description: "Selecione pelo menos um serviço para agendar",
+                status: "info",
+                duration: 3000,
+                isClosable: true,
+                onCloseComplete: () => setIsAdding(false)
+            });
+            return;
+        }
+
+
+        setIsAdding(true);
+    
         const payload = {
             colaboradorId: selectedCollaboratorId,
-            clienteId: 0, // Atualize conforme necessário
-            calendarioId: selectedItem,
-            statusId: 0, // Atualize conforme necessário
-            observacoes: "", // Atualize conforme necessário
-            dataHoraAgendamento: new Date().toISOString(),
+            clienteId: user.id,
+            calendarioId: selectedItem.calendarioId,
+            statusId: agendado,
+            observacoes: "", 
+            dataHoraAgendamento: selectedItem.dataHoraConfigurada,
             servicos: selectedItemService.map(serviceId => ({
                 servicoId: serviceId,
-                quantidade: 1 // Atualize conforme necessário
+                quantidade: 1 
             }))
         };
-
+    
         try {
             await registerScheduling(payload, token);
             toast({
-                title: "Agendamento registrado",
-                description: "O agendamento foi registrado com sucesso.",
+                title: "Agendamento de Horário",
+                description: "Agendamento realizado com sucesso.",
                 status: "success",
-                duration: 3000,
+                duration: 2500,
                 isClosable: true,
+                onCloseComplete: () => { redirectToDashboard(); setIsAdding(false) }
             });
-            redirectToDashboard();
         } catch (error) {
             toast({
                 title: "Erro ao registrar agendamento",
@@ -167,8 +210,11 @@ const CadastroAgendamento = () => {
                 duration: 3000,
                 isClosable: true,
             });
+        } finally {
+            setIsSubmitting(false);
         }
     };
+    
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
@@ -194,7 +240,7 @@ const CadastroAgendamento = () => {
                     {isCalendarSelectOn && (
                         <ChakraProvider>
                             <Box w={{ base: '100%', md: '70%' }} height={containerHeight} overflow="auto" position="relative">
-                                <DataGridHour data={filteredData} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} />
+                                <DataGridHour data={data} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} />
                                 <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
                             </Box>
                         </ChakraProvider>
@@ -212,10 +258,23 @@ const CadastroAgendamento = () => {
                             <HStack py={4} align="left">
                                 <Switch colorScheme="green" size="lg" isChecked={showSelectedServices} onChange={handleShowSelectedServices} />
                                 <Text fontSize="18px" color="#3D5A73" paddingLeft={4} alignItems="left" fontWeight="bold">Selecionar Serviços</Text>
+                                {isServiceSwitchOnObs && (
+                                    <HStack align="left">
+                                        <Switch paddingLeft={4} colorScheme="green" size="lg" isChecked={showInputObs} onChange={handleShowObs} />
+                                        <Text fontSize="18px" color="#3D5A73" paddingLeft={4} alignItems="left" fontWeight="bold">Adicionar Observações?</Text>
+                                    </HStack>
+                                )}
                             </HStack>
+                            {isServiceSwitchOnObsInput && showInputObs && (
+                                <Box w={{ base: '100%', md: '70%' }} overflow="auto" position="relative">
+                                    <Input placeholder='Observações' size='lg' fontSize="18px" color="#3D5A73" fontWeight="bold" />
+                                </Box>
+                            )}
                         </ChakraProvider>
+
                     )}
-                    <ActionButtons onBack={handleClose} onSave={handleSave} isSaveDisabled={null} />
+
+                    <ActionButtons onBack={handleClose} onSave={handleSave} isSaveDisabled={isAdding || isSubmitting} />
                 </VStack>
             </Box>
         </Flex>
@@ -223,3 +282,5 @@ const CadastroAgendamento = () => {
 };
 
 export default CadastroAgendamento;
+
+
