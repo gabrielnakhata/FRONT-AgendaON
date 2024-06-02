@@ -32,7 +32,7 @@ const CadastroAgendamento = () => {
     const [containerHeight, setContainerHeight] = useState('200px');
     const [containerHeight2, setContainerHeight2] = useState('200px');
     const [showSelectedServices, setShowSelectedServices] = useState(false);
-    const [showInputObs, setShowInputObs] = useState(false);
+    const [showInputObs, setShowInputObs] = useState(true);
     const [isServiceSwitchOnObs, setIsServiceSwitchOnObs] = useState(false);
     const [isServiceSwitchOnObsInput, setIsServiceSwitchOnObsInput] = useState(false);
     const [observacoes, setObservacoes] = useState('');

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
+import { ScrollTop } from 'primereact/scrolltop';
 import { ChakraProvider, Flex, Box, VStack, useToast, Select } from '@chakra-ui/react';
 import TitleSection from '../components/layout/TitleSection';
 import DataGridCalendario from '../components/common/DataGridCalendario';
@@ -19,6 +20,7 @@ const FiltrarDisponibilidadeColaborador = () => {
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [data, setData] = useState([]);
     const { redirectToDashboard } = useUserRedirect();
+    const [containerHeight ] = useState('300px');
 
     useEffect(() => {
 
@@ -43,7 +45,7 @@ const FiltrarDisponibilidadeColaborador = () => {
         setData([]);
         if (selectedCollaboratorId && selectedDate) {
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
-            getCalendarInDisponibility(selectedCollaboratorId, formattedDate, token)
+             getCalendarInDisponibility(selectedCollaboratorId, formattedDate, token)
                 .then(setData)
                 .catch(error => {
                     toast({
@@ -106,9 +108,11 @@ const FiltrarDisponibilidadeColaborador = () => {
                         </div>
                     </div>
                     <ChakraProvider>
-                        <DataGridCalendario data={data} onDelete={handleDelete} />
+                        <Box w={{ base: '100%', md: '70%' }} height={containerHeight} overflow="auto" position="relative">
+                            <DataGridCalendario data={data} onDelete={handleDelete} />
+                            <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
+                        </Box>    
                     </ChakraProvider>
-
                     <ActionButtons onBack={handleClose} onSave={null} isSaveDisabled={null} />
                 </VStack>
             </Box>
