@@ -160,7 +160,7 @@ const CadastroAgendamento = () => {
         if (!selectedItem) {
             setIsAdding(true);
             toast({
-                title: "Erro",
+                title: "Atenção!",
                 description: "Selecione uma data e hora para o agendamento.",
                 status: "info",
                 duration: 3000,
@@ -170,19 +170,31 @@ const CadastroAgendamento = () => {
             return;
         }
 
-        if (!showSelectedServices) {
+        if (!showSelectedServices && !isServiceSwitchOnObs) {
             setIsAdding(true);
             toast({
-                title: "Erro",
-                description: "Selecione pelo menos um serviço para agendar",
+                title: "Selecione pelo menos um serviço para agendar.",
+                description: "Ao selecionar os serviços, não se esqueça de adionar-los.",
                 status: "info",
-                duration: 3000,
+                duration: 5000,
                 isClosable: true,
                 onCloseComplete: () => setIsAdding(false)
             });
             return;
         }
-
+       
+        if (isServiceSwitchOnObsInput && !observacoes.trim()) {
+            setIsAdding(true);
+            toast({
+                title: "Adicione as observações!",
+                description: "Caso não queira adicionar favor desmarcar!",
+                status: "info",
+                duration: 5000,
+                isClosable: true,
+                onCloseComplete: () => setIsAdding(false)
+            });
+            return;
+        }
 
         setIsAdding(true);
 
@@ -266,7 +278,7 @@ const CadastroAgendamento = () => {
                             </Box>
                             <HStack py={4} align="left">
                                 <Switch colorScheme="green" size="lg" isChecked={showSelectedServices} onChange={handleShowSelectedServices} />
-                                <Text fontSize="18px" color="#3D5A73" paddingLeft={4} alignItems="left" fontWeight="bold">Selecionar Serviços</Text>
+                                <Text fontSize="18px" color="#3D5A73" paddingLeft={4} alignItems="left" fontWeight="bold">Adicionar Serviços</Text>
                                 {isServiceSwitchOnObs && (
                                     <HStack align="left">
                                         <Switch paddingLeft={4} colorScheme="green" size="lg" isChecked={showInputObs} onChange={handleShowObs} />
