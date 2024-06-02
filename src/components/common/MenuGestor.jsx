@@ -49,7 +49,7 @@ const MenuGestor = () => {
                 <HStack spacing={4}>
                     <Avatar name={user?.nome || 'No Name'} src={user?.image || 'https://fallback-url.com/default-avatar.png'} mr={2} />
                     <VStack align="flex-start" spacing={0}>
-                        <Text fontSize="md" color="white" fontWeight="bold">{"Olá:"}&nbsp;&nbsp;{user?.nome || 'No Name'}</Text>
+                        <Text fontSize="md" color="white" fontWeight="bold">{"Olá,"}&nbsp;&nbsp;{user?.nome || 'No Name'}</Text>
                         <Text fontSize="sm" color="white">{user?.email || 'noemail@example.com'}</Text>
                     </VStack>
                 </HStack>

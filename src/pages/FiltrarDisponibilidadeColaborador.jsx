@@ -6,7 +6,7 @@ import TitleSection from '../components/layout/TitleSection';
 import DataGridCalendario from '../components/common/DataGridCalendario';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
-import { getCalendarForCollaborator, deleteCalendar } from '../services/calendarService';
+import { getCalendarInDisponibility, deleteCalendar } from '../services/calendarService';
 import ActionButtons from '../components/layout/ActionButtons';
 import { useUserRedirect } from "../hooks/UseUserRedirect";
 
@@ -43,7 +43,7 @@ const FiltrarDisponibilidadeColaborador = () => {
         setData([]);
         if (selectedCollaboratorId && selectedDate) {
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
-            getCalendarForCollaborator(selectedCollaboratorId, formattedDate, token)
+            getCalendarInDisponibility(selectedCollaboratorId, formattedDate, token)
                 .then(setData)
                 .catch(error => {
                     toast({
