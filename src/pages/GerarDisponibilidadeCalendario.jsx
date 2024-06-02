@@ -97,10 +97,10 @@ const GerarDisponibilidadeCalendario = () => {
     
         setIsAdding(true);
         toast({
-            title: "Horários Gerados",
-            description: "Os horários foram gerados com sucesso, excluindo o período de almoço.",
+            title: "Horários Programados",
+            description: "Os horários foram gerados com sucesso!",
             status: "success",
-            duration: 2000,
+            duration: 3000,
             isClosable: true,
             onCloseComplete: () => setIsAdding(false)
         });
@@ -118,7 +118,7 @@ const GerarDisponibilidadeCalendario = () => {
         try {
             await registerCalendar(scheduleList, token);
             toast({
-                title: "Disponibilidade cadastrada",
+                title: "Horários cadastrados",
                 description: "Os horários foram cadastrados com sucesso.",
                 status: "success",
                 duration: 2500,
@@ -131,7 +131,7 @@ const GerarDisponibilidadeCalendario = () => {
                 description: error.message || "Não foi possível cadastrar a disponibilidade.",
                 status: "error",
                 duration: 3000,
-                isClosable: true
+                isClosable: true,
             });
         } finally {
             setIsSubmitting(false);

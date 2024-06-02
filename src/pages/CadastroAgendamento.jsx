@@ -35,6 +35,7 @@ const CadastroAgendamento = () => {
     const [showInputObs, setShowInputObs] = useState(false);
     const [isServiceSwitchOnObs, setIsServiceSwitchOnObs] = useState(false);
     const [isServiceSwitchOnObsInput, setIsServiceSwitchOnObsInput] = useState(false);
+    const [observacoes, setObservacoes] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
 
@@ -65,12 +66,19 @@ const CadastroAgendamento = () => {
                 .then(response => {
                     setData(response);
                     setIsCalendarSelectOn(true);
+                    toast({
+                        title: "Consulta",
+                        description: "Escolha um horário para atendimento...",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                    });
                 })
                 .catch(error => {
                     toast({
-                        title: "Erro ao buscar disponibilidades",
-                        description: error.message || "Não foi possível buscar as disponibilidades.",
-                        status: "error",
+                        title: "Consulta",
+                        description: error.message || "Não há horários disponíveis para esta data.",
+                        status: "info",
                         duration: 3000,
                         isClosable: true,
                     });
@@ -118,7 +126,6 @@ const CadastroAgendamento = () => {
         });
     };
 
-    // const filteredData = selectedItem ? data.filter(item => item.calendarioId === selectedItem) : data;
     const filteredDataService = showSelectedServices ? dataService.filter(item => selectedItemService.includes(item.servicoId)) : dataService;
 
     const handleServiceSwitchChange = async () => {
@@ -178,20 +185,20 @@ const CadastroAgendamento = () => {
 
 
         setIsAdding(true);
-    
+
         const payload = {
             colaboradorId: selectedCollaboratorId,
             clienteId: user.id,
             calendarioId: selectedItem.calendarioId,
             statusId: agendado,
-            observacoes: "", 
+            observacoes,
             dataHoraAgendamento: selectedItem.dataHoraConfigurada,
             servicos: selectedItemService.map(serviceId => ({
                 servicoId: serviceId,
-                quantidade: 1 
+                quantidade: 1
             }))
         };
-    
+
         try {
             await registerScheduling(payload, token);
             toast({
@@ -209,12 +216,12 @@ const CadastroAgendamento = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
+                onCloseComplete: () => setIsAdding(false)
             });
         } finally {
             setIsSubmitting(false);
         }
     };
-    
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
@@ -234,7 +241,9 @@ const CadastroAgendamento = () => {
                                 onChange={(e) => setSelectedDate(e.value)}
                                 showIcon style={{ fontSize: '20px' }}
                                 dateFormat="dd/mm/yy"
-                                icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />} />
+                                icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />}
+                                minDate={new Date()}
+                            />
                         </div>
                     </div>
                     {isCalendarSelectOn && (
@@ -267,7 +276,7 @@ const CadastroAgendamento = () => {
                             </HStack>
                             {isServiceSwitchOnObsInput && showInputObs && (
                                 <Box w={{ base: '100%', md: '70%' }} overflow="auto" position="relative">
-                                    <Input placeholder='Observações' size='lg' fontSize="18px" color="#3D5A73" fontWeight="bold" />
+                                    <Input placeholder='Observações' size='lg' fontSize="18px" color="#3D5A73" fontWeight="bold" value={observacoes} onChange={(e) => setObservacoes(e.target.value)} />
                                 </Box>
                             )}
                         </ChakraProvider>

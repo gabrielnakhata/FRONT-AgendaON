@@ -42,51 +42,48 @@ const FiltrarDisponibilidadeColaborador = () => {
     useEffect(() => {
         setData([]);
         if (selectedCollaboratorId && selectedDate) {
-            // Correção na formatação da data
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
             getCalendarForCollaborator(selectedCollaboratorId, formattedDate, token)
                 .then(setData)
                 .catch(error => {
-                    console.error('Erro ao buscar disponibilidades:', error);
                     toast({
-                        title: "Erro ao buscar disponibilidades",
-                        description: error.message || "Não foi possível buscar as disponibilidades.",
-                        status: "error",
+                        title: "Consulta",
+                        description: error.message || "Não há horários disponíveis para esta data.",
+                        status: "info",
                         duration: 3000,
                         isClosable: true,
                     });
                 });
         }
     }, [selectedCollaboratorId, selectedDate, token, toast]);
-    
+
     const handleClose = () => {
         redirectToDashboard();
     };
 
     const handleDelete = async (id) => {
         try {
-          await deleteCalendar(id, token);
-          toast({
-            title: "Disponibilidade deletada",
-            description: `A disponibilidade a data e hora do calendario foi removida.`,
-            status: "success",
-            duration: 2500,
-            isClosable: true,
-          });
-          setData(prevData => prevData.filter(item => item.calendarioId !== id));
+            await deleteCalendar(id, token);
+            toast({
+                title: "Disponibilidade deletada",
+                description: `A disponibilidade a data e hora do calendario foi removida.`,
+                status: "success",
+                duration: 2500,
+                isClosable: true,
+            });
+            setData(prevData => prevData.filter(item => item.calendarioId !== id));
         } catch (error) {
-          toast({
-            title: "Erro ao deletar",
-            description: "Não foi possível remover o servico.",
-            status: "error",
-            duration: 2000,
-            isClosable: true,
-          });
+            toast({
+                title: "Erro ao deletar",
+                description: "Não foi possível remover o servico.",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            });
         }
-      };
-    
+    };
 
-      return (
+    return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Filtrar Disponibilidade" subtitle="Veja a disponibilidade do colaborador." />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
@@ -104,13 +101,14 @@ const FiltrarDisponibilidadeColaborador = () => {
                                 onChange={(e) => setSelectedDate(e.value)}
                                 showIcon style={{ fontSize: '20px' }}
                                 dateFormat="dd/mm/yy"
-                                icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />} />
+                                icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />}
+                                minDate={new Date()} />
                         </div>
                     </div>
                     <ChakraProvider>
                         <DataGridCalendario data={data} onDelete={handleDelete} />
                     </ChakraProvider>
-                   
+
                     <ActionButtons onBack={handleClose} onSave={null} isSaveDisabled={null} />
                 </VStack>
             </Box>
