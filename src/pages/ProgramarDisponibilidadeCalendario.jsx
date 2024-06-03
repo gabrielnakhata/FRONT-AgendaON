@@ -20,7 +20,6 @@ const ProgramarDisponibilidadeCalendario = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [isAdding, setIsAdding] = useState(false);
-
     const [startWorkTime, setStartWorkTime] = useState(null);
     const [endWorkTime, setEndWorkTime] = useState(null);
     const [startLunchTime, setStartLunchTime] = useState(null);
@@ -29,7 +28,7 @@ const ProgramarDisponibilidadeCalendario = () => {
     const [scheduleList, setScheduleList] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { redirectToDashboard } = useUserRedirect();
-    const [containerHeight ] = useState('300px');
+    const [containerHeight] = useState('300px');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,7 +64,7 @@ const ProgramarDisponibilidadeCalendario = () => {
             });
             return;
         }
-    
+
         const intervalMinutes = timeInterval.getHours() * 60 + timeInterval.getMinutes();
         if (intervalMinutes <= 0) {
             toast({
@@ -77,7 +76,7 @@ const ProgramarDisponibilidadeCalendario = () => {
             });
             return;
         }
-    
+
         const schedules = [];
         let currentTime = new Date(selectedDate);
         currentTime.setHours(startWorkTime.getHours(), startWorkTime.getMinutes(), 0, 0);
@@ -87,7 +86,7 @@ const ProgramarDisponibilidadeCalendario = () => {
         lunchStartTime.setHours(startLunchTime.getHours(), startLunchTime.getMinutes(), 0, 0);
         const lunchEndTime = new Date(selectedDate);
         lunchEndTime.setHours(endLunchTime.getHours(), endLunchTime.getMinutes(), 0, 0);
-    
+
         while (currentTime < endTime) {
             if (!(currentTime >= lunchStartTime && currentTime < lunchEndTime)) {
                 const formattedDateTime = `${currentTime.toLocaleDateString('en-CA')}T${currentTime.toLocaleTimeString('en-GB', { hour12: false })}`;
@@ -99,11 +98,11 @@ const ProgramarDisponibilidadeCalendario = () => {
                     colaboradorId: parseInt(selectedCollaboratorId, 10)
                 });
             }
-            currentTime = new Date(currentTime.getTime() + intervalMinutes * 60000); // Incrementa o tempo baseado no intervalo
+            currentTime = new Date(currentTime.getTime() + intervalMinutes * 60000);
         }
-    
+
         setScheduleList(schedules);
-    
+
         setIsAdding(true);
         toast({
             title: "Horários Programados",
@@ -147,7 +146,7 @@ const ProgramarDisponibilidadeCalendario = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Programar Disponibilidade" subtitle="Formulário para gerar disponibilidades para colaborador." />
+            <TitleSection title="Disponibilidade" subtitle="Programar disponibilidade, horários dia" />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">
@@ -228,7 +227,7 @@ const ProgramarDisponibilidadeCalendario = () => {
                         <Box w={{ base: '100%', md: '70%' }} height={containerHeight} overflow="auto" position="relative">
                             <DataGridCalendario data={scheduleList} onDelete={handleRemoveSchedule} />
                             <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
-                        </Box>    
+                        </Box>
                     </ChakraProvider>
                     <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={scheduleList.length === 0 || isSubmitting} />
                 </VStack>

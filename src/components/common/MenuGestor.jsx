@@ -133,7 +133,7 @@ const MenuGestor = () => {
                                     </MenuButton>
                                     <MenuList bg="#3D5A90">
                                         <MenuItem bg="#3D5A90">
-                                            <RouterLink to="/disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                            <RouterLink to="/customizar-disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                                 <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={8} w="full" justifyContent="space-between">
                                                     <i className="pi pi-calendar-plus" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Customizar<br/>Disponibilidade
                                                 </Button>

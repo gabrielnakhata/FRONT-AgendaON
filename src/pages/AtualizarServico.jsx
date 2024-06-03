@@ -28,7 +28,7 @@ const AtualizarServico = () => {
             setFormData({
                 servicoId: service.servicoId,
                 nome: service.nome,
-                valor: service.valor,
+                valor: service.valor.toString(), // Converte valor para string aqui
             });
         }
     }, [service]);

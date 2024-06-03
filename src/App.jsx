@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/common/PrivateRoute';
 import HomePage from './pages/HomePage';
-import DisponibilidadeCalendario from './pages/DisponibilidadeCalendario';
+import CustomizarDisponibilidadeCalendario from './pages/CustomizarDisponibilidadeCalendario';
 import ProgramarDisponibilidadeCalendario from './pages/ProgramarDisponibilidadeCalendario';
 import FiltrarDisponibilidadeColaborador from './pages/FiltrarDisponibilidadeColaborador';
 import CadastroColaborador from './pages/CadastroColaborador';
@@ -45,9 +45,9 @@ function App() {
             <PrivateRoute allowedTypes={['Cliente']}>
               <DashboardCliente />
             </PrivateRoute>} />      
-          <Route path="/disponibilidade-calendario" element={
+          <Route path="/customizar-disponibilidade-calendario" element={
             <PrivateRoute allowedTypes={['Gestor', 'Colaborador']}>
-              <DisponibilidadeCalendario />
+              <CustomizarDisponibilidadeCalendario />
             </PrivateRoute>} />
             <Route path="/programar-disponibilidade-calendario" element={
             <PrivateRoute allowedTypes={['Gestor', 'Colaborador']}>
