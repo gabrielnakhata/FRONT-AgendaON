@@ -69,7 +69,7 @@ const ListaComissoes = () => {
       <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
       <VStack spacing={4}>
         <ChakraProvider>
-          <Box w={{ base: '100%', md: '100%' }} height={containerHeight} overflow="auto" position="relative">
+          <Box w={{ base: '100%', md: '80%' }} height={containerHeight} overflow="auto" position="relative">
             <DataGridCommission data={data} onUpdate={handleUpdate} onDelete={handleDelete} />
             <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
           </Box>

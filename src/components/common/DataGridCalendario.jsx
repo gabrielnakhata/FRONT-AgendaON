@@ -27,9 +27,14 @@ const DataGridCalendario = ({ data, onDelete }) => {
             <Table size='md'>
                 <Thead>
                     <Tr>
-                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Data</Th>
-                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Hora</Th>
-                        {isEditable && <Th></Th>}
+                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
+                        <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
+                            &nbsp;Data</Th>
+                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
+                        <i className="pi pi-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
+                            &nbsp;Hora</Th>
+                        {isEditable && <Th>
+                            <i className="pi pi-trash" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'red' }} /></Th>}
                     </Tr>
                 </Thead>
                 <Tbody>

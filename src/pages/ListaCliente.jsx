@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { HStack, ChakraProvider, Flex, Box, Button, useToast } from '@chakra-ui/react';
+import { VStack, ChakraProvider, Flex, Box, useToast } from '@chakra-ui/react';
 import DataGridClient from '../components/common/DataGridClient';
 import TitleSection from '../components/layout/TitleSection';
 import { getClient } from '../services/clientService';
 import { useAuth } from '../contexts/AuthContext';
 import { useUserRedirect } from "../hooks/UseUserRedirect";
+import { ScrollTop } from 'primereact/scrolltop';
+import ActionButtons from '../components/layout/ActionButtons';
 
 const ListaCliente = () => {
   const { token } = useAuth();
@@ -14,6 +16,7 @@ const ListaCliente = () => {
   const [totalPages, setTotalPages] = useState(1);
   const toast = useToast();
   const { redirectToDashboard } = useUserRedirect();
+  const [containerHeight] = useState('300px');
 
   const loadClients = (page) => {
     getClient(token, page, pageSize)
@@ -56,36 +59,30 @@ const ListaCliente = () => {
 
   return (
     <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-      <TitleSection title="Lista de Clientes" subtitle="Qualquer negócio depende de um bom relacionamento com o cliente. Só assim a marca será forte e duradoura de verdade." />
-      <Box bg="#fff" p={1} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '70%']} maxWidth="1350px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
-        <ChakraProvider>
-          <DataGridClient data={data} />
-        </ChakraProvider>
+      <TitleSection title="Clientes" subtitle={null} />
+      <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
+        <VStack spacing={4}>
+          <ChakraProvider>
+            <Box w={{ base: '100%', md: '100%' }} height={containerHeight} overflow="auto" position="relative">
+            <DataGridClient data={data} />
+            <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
+            </Box>
+          </ChakraProvider>
+          <ActionButtons 
+            onBack={handleClose} 
+            onSave={null} 
+            isSaveDisabled={null} 
+            showPagination={true}
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
+          </VStack> 
       </Box>
-      <HStack spacing={4} width="full" justify="center">
-        <Button onClick={handlePrevious} isDisabled={currentPage === 1}>
-          Anterior
-        </Button>
-        <Button onClick={handleNext} isDisabled={currentPage === totalPages}>
-          Próximo
-        </Button>
-        <Box
-          as='button'
-          onClick={handleClose}
-          p={3}
-          color='white'
-          fontWeight='bold'
-          borderRadius='md'
-          bgGradient='linear(to-l, #3D5A73, #3D5A73)'
-          _hover={{
-            bg: "#182625",
-          }}
-        >
-          VOLTAR
-        </Box>
-      </HStack>
     </Flex>
   );
 };
 
 export default ListaCliente;
+

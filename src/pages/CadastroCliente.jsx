@@ -10,10 +10,10 @@ import ActionButtons from '../components/layout/ActionButtons';
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;
 const dateOfBirthRegex = /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
-
+const nameRegex = /^[a-zA-Z\u00C0-\u017F´]+\s+[a-zA-Z\u00C0-\u017F´]{0,}$/;
+const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
 const CadastroCliente = () => {
-
     const toast = useToast();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,10 +44,10 @@ const CadastroCliente = () => {
         if (isSubmitting) return;
         setIsSubmitting(true);
 
-        if (!dateOfBirthRegex.test(formData.dataNascimento)) {
+        if (!nameRegex.test(formData.nome)) {
             toast({
                 title: "Erro de validação",
-                description: "Por favor, insira uma data de nascimento válida.",
+                description: "Por favor, insira um nome válido.",
                 status: "error",
                 duration: 1000,
                 isClosable: true,
@@ -56,7 +56,9 @@ const CadastroCliente = () => {
                 }
             });
             return;
-        } if (!emailRegex.test(formData.email)) {
+        }
+
+        if (!emailRegex.test(formData.email)) {
             toast({
                 title: "Erro de validação",
                 description: "Por favor, insira um e-mail válido.",
@@ -68,7 +70,23 @@ const CadastroCliente = () => {
                 }
             });
             return;
-        } if (!phoneRegex.test(formData.celular)) {
+        }
+
+        if (!passwordRegex.test(formData.senha)) {
+            toast({
+                title: "Erro de validação",
+                description: "Por favor, insira uma senha válida. A senha deve ter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
+            });
+            return;
+        }
+
+        if (!phoneRegex.test(formData.celular)) {
             toast({
                 title: "Erro de validação",
                 description: "Por favor, insira um número de celular válido. (10 a 11 dígitos)",
@@ -81,6 +99,21 @@ const CadastroCliente = () => {
             });
             return;
         }
+
+        if (!dateOfBirthRegex.test(formData.dataNascimento)) {
+            toast({
+                title: "Erro de validação",
+                description: "Por favor, insira uma data de nascimento válida.",
+                status: "error",
+                duration: 1000,
+                isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false)
+                }
+            });
+            return;
+        }
+
         try {
             const dataCadastro = moment().tz("America/Sao_Paulo").format();
             const data = await registerClient({ ...formData, dataCadastro });
@@ -108,7 +141,7 @@ const CadastroCliente = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Cadastro de Clientes" subtitle="Olá amigo(a) cliente para obter um login de acesso, gentileza efetuar cadastro." />
+            <TitleSection title="Cadastro de Clientes" subtitle="Olá amigo(a) cliente para obter um login de acesso, gentileza efetuar o cadastro." />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>

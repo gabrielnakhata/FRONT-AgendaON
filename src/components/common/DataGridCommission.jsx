@@ -14,13 +14,17 @@ const DataGridCommission = ({ data, onUpdate, onDelete }) => {
                     <Tr>
                         <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
                             <i className="pi pi-user" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
-                            &nbsp;&nbsp;&nbsp;Colaborador</Th>
+                            &nbsp;&nbsp;Colaborador</Th>
                         <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
                             <i className="pi pi-clipboard" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
                             &nbsp;Serviço</Th>
-                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Percentual</Th>
-                        {isEditable && <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Atualizar</Th>}
-                        {isEditable && <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Excluir</Th>}
+                        <Th>
+                            <i className="pi pi-percentage" style={{ fontSize: '16px', verticalAlign: 'middle', color: 'green' }} />
+                        </Th>
+                        {isEditable && <Th>
+                            <i className="pi pi-file-edit" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} /></Th>}
+                        {isEditable && <Th>
+                            <i className="pi pi-trash" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'red' }} /></Th>}
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -30,13 +34,16 @@ const DataGridCommission = ({ data, onUpdate, onDelete }) => {
                                 {item.nomeColaborador}
                             </Td>
                             <Td fontSize="16px" color="#3D5A73" fontWeight="bold" alignItems="center">{item.nomeServico}</Td>
-                            <Td fontSize="20px" color="green" fontWeight="bold" alignItems="center">
-                                {`${item.percentual}`} &nbsp;
-                                <i className="pi pi-percentage" style={{ fontSize: '12px', verticalAlign: 'middle', color: 'green' }} />
+                            <Td fontSize="18px" color="green" fontWeight="bold" alignItems="center">
+                                {`${item.percentual}`}
+                                <i className="pi pi-percentage" style={{ fontSize: '10px', verticalAlign: 'middle', color: 'green' }} />
                             </Td>
                             {isEditable && (
                                 <Td>
                                     <IconButton
+                                        display='flex'
+                                        alignItems='center'
+                                        justifyContent='center'
                                         aria-label="Delete schedule"
                                         icon={<RepeatIcon />}
                                         size="sm"
@@ -48,6 +55,9 @@ const DataGridCommission = ({ data, onUpdate, onDelete }) => {
                             {isEditable && (
                                 <Td>
                                     <IconButton
+                                        display='flex'
+                                        alignItems='center'
+                                        justifyContent='center'
                                         aria-label="Delete schedule"
                                         icon={<DeleteIcon />}
                                         size="sm"

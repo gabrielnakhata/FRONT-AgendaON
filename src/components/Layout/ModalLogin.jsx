@@ -29,7 +29,7 @@ function ModalLogin() {
     const navigate = useNavigate();
     const location = useLocation();
     const toast = useToast();
-    const [email, setEmail] = useState('fernandosoares@gmail.com');
+    const [email, setEmail] = useState('gabrielnakata@gmail.com');
     const [password, setPassword] = useState('acesso');
     const [isLoading, setIsLoading] = useState(false);
 

@@ -1,5 +1,6 @@
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Button } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, IconButton } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import { DeleteIcon, RepeatIcon } from '@chakra-ui/icons';
 import { useUserRedirect } from '../../hooks/UseUserRedirect'
 
 const DataGridService = ({ data, onUpdate, onDelete }) => {
@@ -15,10 +16,16 @@ const DataGridService = ({ data, onUpdate, onDelete }) => {
             <Table size='md'>
                 <Thead>
                     <Tr>
-                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Descrição</Th>
-                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Valor</Th>
-                        {isEditable && <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Atualizar</Th>}
-                        {isEditable && <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">Excluir</Th>}
+                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
+                        <i className="pi pi-tag" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
+                        &nbsp;&nbsp;Descrição do Serviço</Th>
+                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
+                        <i className="pi pi-money-bill" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
+                        </Th>
+                        {isEditable && <Th>
+                            <i className="pi pi-file-edit" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} /></Th>}
+                        {isEditable && <Th>
+                            <i className="pi pi-trash" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'red' }} /></Th>}
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -31,12 +38,24 @@ const DataGridService = ({ data, onUpdate, onDelete }) => {
                                 {formatCurrency(parseFloat(item.valor))}</Td>
                             {isEditable && (
                                 <Td>
-                                    <Button onClick={() => onUpdate(item)} colorScheme="blue">Atualizar</Button>
+                                    <IconButton
+                                        aria-label="Delete schedule"
+                                        icon={<RepeatIcon />}
+                                        size="sm"
+                                        colorScheme="blue"
+                                        onClick={() => onUpdate(item)}
+                                    />
                                 </Td>
                             )}
                             {isEditable && (
                                 <Td>
-                                    <Button onClick={() => onDelete(item.servicoId)} colorScheme="red">Excluir</Button>
+                                    <IconButton
+                                        aria-label="Delete schedule"
+                                        icon={<DeleteIcon />}
+                                        size="sm"
+                                        colorScheme="red"
+                                        onClick={() => onDelete(item.comissaoId)}
+                                    />
                                 </Td>
                             )}
                         </Tr>

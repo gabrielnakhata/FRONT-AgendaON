@@ -87,7 +87,7 @@ const FiltrarDisponibilidadeColaborador = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Filtrar Disponibilidade" subtitle="Veja a disponibilidade do colaborador." />
+            <TitleSection title="Filtrar Disponibilidade" subtitle="Veja a disponibilidade do colaborador, os horários já agendados não irão aparecer" />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">

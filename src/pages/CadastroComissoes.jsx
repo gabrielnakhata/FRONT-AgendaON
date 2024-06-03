@@ -7,7 +7,7 @@ import { registerCommission } from '../services/commissionService';
 import { getCollaborators } from '../services/collaboratorService';
 import { getServices } from '../services/serviceService';
 import { useAuth } from '../contexts/AuthContext';
-import ActionButtons from '../components/layout/ActionButtons'; 
+import ActionButtons from '../components/layout/ActionButtons';
 import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const CadastroComissoes = () => {
@@ -87,7 +87,7 @@ const CadastroComissoes = () => {
             });
             return;
         }
-    
+
         if (!formData.servicoId) {
             toast({
                 title: "Erro de validação",
@@ -101,7 +101,7 @@ const CadastroComissoes = () => {
             });
             return;
         }
-    
+
         if (!formData.percentual) {
             toast({
                 title: "Erro de validação",
@@ -126,7 +126,7 @@ const CadastroComissoes = () => {
                 isClosable: true,
                 onCloseComplete: () => navigate('/lista-comissao')
             });
-            
+
         } catch (error) {
             if (error.response) {
                 toast({
@@ -156,22 +156,23 @@ const CadastroComissoes = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Cadastro de Comissões" subtitle="Formulário para cadastro de comissões de serviços aos colaboradores." />
+            <TitleSection title="Comissão" subtitle="Cadastro de Comissões" />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
-                        <Select placeholder="Selecione o Colaborador" name="colaboradorId" onChange={handleChange} value={formData.colaboradorId}>
+                        <Select placeholder="Selecione o Colaborador" fontSize="18px" color="#3D5A73" fontWeight="bold" name="colaboradorId" onChange={handleChange} value={formData.colaboradorId}>
                             {collaborators.map(col => (
                                 <option key={col.colaboradorId} value={col.colaboradorId}>{col.nome}</option>
                             ))}
                         </Select>
-                        <Select placeholder="Selecione o Serviço" name="servicoId" onChange={handleChange} value={formData.servicoId}>
+                        <Select placeholder="Selecione o Serviço" name="servicoId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={handleChange} value={formData.servicoId}>
                             {services.map(serv => (
                                 <option key={serv.servicoId} value={serv.servicoId}>{serv.nome}</option>
                             ))}
                         </Select>
                         <CustomInput
                             label="Percentual"
+                            fontSize="18px" color="#3D5A73" fontWeight="bold"
                             name="percentual"
                             type="number"
                             step="0.1"
@@ -182,7 +183,7 @@ const CadastroComissoes = () => {
                             value={formData.percentual}
                             onChange={handleChange}
                         />
-                     <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
+                        <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
                     </VStack>
                 </form>
             </Box>

@@ -240,13 +240,13 @@ const CadastroAgendamento = () => {
             <TitleSection title="Agendamento" subtitle="Preencha os campos para realizar o agendamento" />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
-                    <div className="card flex flex-wrap gap-3 p-fluid">
+                    <Box className="card flex flex-wrap gap-3 p-fluid">
                         <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
                             {collaborators.map(col => (
                                 <option key={col.colaboradorId} value={col.colaboradorId}>{col.nome}</option>
                             ))}
                         </Select>
-                        <div className="flex-auto">
+                        <Box className="flex-auto">
                             <Calendar
                                 id="buttondisplay"
                                 value={selectedDate}
@@ -256,8 +256,8 @@ const CadastroAgendamento = () => {
                                 icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />}
                                 minDate={new Date()}
                             />
-                        </div>
-                    </div>
+                        </Box>
+                    </Box>
                     {isCalendarSelectOn && (
                         <ChakraProvider>
                             <Box w={{ base: '100%', md: '70%' }} height={containerHeight} overflow="auto" position="relative">

@@ -3,7 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/common/PrivateRoute';
 import HomePage from './pages/HomePage';
 import DisponibilidadeCalendario from './pages/DisponibilidadeCalendario';
-import GerarDisponibilidadeCalendario from './pages/GerarDisponibilidadeCalendario';
+import ProgramarDisponibilidadeCalendario from './pages/ProgramarDisponibilidadeCalendario';
 import FiltrarDisponibilidadeColaborador from './pages/FiltrarDisponibilidadeColaborador';
 import CadastroColaborador from './pages/CadastroColaborador';
 import AtualizarColaborador from './pages/AtualizarColaborador';
@@ -49,9 +49,9 @@ function App() {
             <PrivateRoute allowedTypes={['Gestor', 'Colaborador']}>
               <DisponibilidadeCalendario />
             </PrivateRoute>} />
-            <Route path="/gerar-disponibilidade-calendario" element={
+            <Route path="/programar-disponibilidade-calendario" element={
             <PrivateRoute allowedTypes={['Gestor', 'Colaborador']}>
-              <GerarDisponibilidadeCalendario />
+              <ProgramarDisponibilidadeCalendario />
             </PrivateRoute>} />
           <Route path="/disponibilidade-filtro-calendario" element={
             <PrivateRoute allowedTypes={['Gestor', 'Colaborador', 'Cliente']}>
