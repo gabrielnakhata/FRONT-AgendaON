@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChakraProvider, Flex, Box, useToast, VStack, Toast} from '@chakra-ui/react';
+import { ChakraProvider, Flex, Box, useToast, VStack} from '@chakra-ui/react';
 import { ScrollTop } from 'primereact/scrolltop';
 import { useNavigate } from 'react-router-dom';
 import DataGridService from '../components/common/DataGridService';

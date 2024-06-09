@@ -7,6 +7,7 @@ import { getSchedulingForClient } from '../services/schedulingService';
 import { useAuth } from '../contexts/AuthContext';
 import { useUserRedirect } from "../hooks/UseUserRedirect";
 import ActionButtons from '../components/layout/ActionButtons';
+import AgendamentoModal from '../components/layout/AgendamentoModal';
 
 const ListaAgendamentos = () => {
   const [data, setData] = useState([]);
@@ -14,12 +15,13 @@ const ListaAgendamentos = () => {
   const { redirectToDashboard } = useUserRedirect();
   const [containerHeight] = useState('400px');
   const { user, token } = useAuth();
+  const [selectedAgendamento, setSelectedAgendamento] = useState(null);
 
   const handleClose = () => {
     redirectToDashboard();
   };
 
-  useEffect(() => {
+  const reloadData = () => {
     if (token && user.id) {
       getSchedulingForClient(user.id, token)
         .then(setData)
@@ -34,7 +36,20 @@ const ListaAgendamentos = () => {
           });
         });
     }
+  };
+
+  useEffect(() => {
+    reloadData();
   }, [token, user.id, toast]);
+
+  const handleRowClick = (item) => {
+    setSelectedAgendamento(item);
+  };
+
+  const handleModalClose = () => {
+    setSelectedAgendamento(null);
+    reloadData();
+  };
 
   return (
     <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
@@ -43,15 +58,24 @@ const ListaAgendamentos = () => {
         <VStack spacing={4}>
           <ChakraProvider>
             <Box w={{ base: '100%', md: '80%' }} height={containerHeight} overflow="auto" position="relative">
-              <DataGridScheduling data={data} onUpdate={null} onDelete={null} />
+              <DataGridScheduling data={data} onRowClick={handleRowClick} onUpdate={null} onDelete={null} />
               <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
             </Box>
           </ChakraProvider>
           <ActionButtons onBack={handleClose} onSave={null} isSaveDisabled={null} />
         </VStack>
       </Box>
+      {selectedAgendamento && (
+        <AgendamentoModal
+          isOpen={Boolean(selectedAgendamento)}
+          onClose={handleModalClose}
+          data={selectedAgendamento}
+          onCancel={handleModalClose}
+        />
+      )}
     </Flex>
   );
 };
 
 export default ListaAgendamentos;
+

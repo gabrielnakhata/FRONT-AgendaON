@@ -34,6 +34,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const agendamentoId = data?.agendamentoId;
     const statusCancelado = 2;
+    const statusReativado = 1;
 
     useEffect(() => {
         if (!token || !agendamentoId || !user.id) return;
@@ -52,12 +53,16 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
             });
     }, [token, agendamentoId, user.id, toast]);
 
-    const handleSubmitCancel = async () => {
+    const handleStatusChange = async (status) => {
         if (isSubmitting) return;
         setIsSubmitting(true);
 
+    // const handleSubmitCancel = async () => {
+    //     if (isSubmitting) return;
+    //     setIsSubmitting(true);
+
         try {
-            await cancelSchedulingForClient(agendamentoId, statusCancelado, token);
+            await cancelSchedulingForClient(agendamentoId, status, token);
             toast({
                 title: "Cancelado!",
                 description: "O Agendamento foi cancelado!",
@@ -66,10 +71,10 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                 isClosable: true,
                 onCloseComplete: () => {
                     setIsSubmitting(false)
-                     onClose(); 
+                    onClose();
                 }
             });
-           
+
         } catch (error) {
             toast({
                 title: "Erro ao cancelar",
@@ -141,7 +146,14 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 <Text fontSize="16px" color="#504E42" fontWeight="bold" alignItems="left">
                                     Status:&nbsp;&nbsp;&nbsp;
                                 </Text>
-                                <Badge colorScheme="green" mb={0} borderRadius="full" px={2} py={1} fontSize="0.8em">
+                                <Badge 
+                                    colorScheme={data.statusDescricao === "CANCELADO" ? "red" : "green"} 
+                                    mb={0} 
+                                    borderRadius="full" 
+                                    px={2} 
+                                    py={1} 
+                                    fontSize="0.8em"
+                                >
                                     {data.statusDescricao}
                                 </Badge>
                             </HStack>
@@ -158,9 +170,15 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     </VStack>
                 </ModalBody>
                 <ModalFooter>
-                    <HStack spacing={4} paddingTop={5}>
-                        <Button color="white" onClick={handleSubmitCancel} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Cancelar</Button>
-                    </HStack>
+                    {data.statusDescricao === "CANCELADO" ? (
+                        <HStack spacing={4} paddingTop={5}>
+                            <Button color="white" onClick={() => handleStatusChange(statusReativado)} bg="green" _hover={{ bg: "#2A542B" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Agendar</Button>
+                        </HStack>
+                    ) : (
+                        <HStack spacing={4} paddingTop={5}>
+                            <Button color="white" onClick={() => handleStatusChange(statusCancelado)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between" isDisabled={data.statusDescricao === "CANCELADO"}>Cancelar</Button>
+                        </HStack>
+                    )}
                 </ModalFooter>
             </ModalContent>
         </Modal>
@@ -184,3 +202,4 @@ AgendamentoModal.propTypes = {
 };
 
 export default AgendamentoModal;
+
