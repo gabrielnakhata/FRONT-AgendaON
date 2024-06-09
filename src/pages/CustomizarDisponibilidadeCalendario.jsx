@@ -12,7 +12,7 @@ import ActionButtons from '../components/layout/ActionButtons';
 import { useUserRedirect } from "../hooks/UseUserRedirect";
 import { ScrollTop } from 'primereact/scrolltop';
 
-const DisponibilidadeCalendario = () => {
+const CustomizarDisponibilidadeCalendario = () => {
     usePrimeReactLocale();
     const { token, user } = useAuth();
     const toast = useToast();
@@ -200,4 +200,4 @@ const DisponibilidadeCalendario = () => {
     );
 };
 
-export default DisponibilidadeCalendario;
+export default CustomizarDisponibilidadeCalendario;

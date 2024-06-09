@@ -84,6 +84,11 @@ const MenuCliente = () => {
                                         <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Agendar
                                     </Button>
                                 </RouterLink>
+                                <RouterLink to="/lista-agendamento" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                    <Button color="white" bg="#FFCA1B" _hover={{ bg: "#C59C16" }} mb={4} py={8} w="full" justifyContent="space-between">
+                                        <i className="pi pi-calendar-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Meus Agendamentos
+                                    </Button>
+                                </RouterLink>
                                 <Menu>
                                     <MenuButton color="white" boxSize="20" bg="#313DFA" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" as={Button} rightIcon={<ChevronDownIcon />} justifyContent="space-between">
                                         <i className="pi pi-list" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Listar
@@ -107,7 +112,7 @@ const MenuCliente = () => {
                                 </Menu>
 
                                 <RouterLink to="/" onClick={handleLogout} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                                    <Button color="white" boxSize="20" bg="#0B111B" _hover={{ bg: "#A70D00" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">
+                                    <Button color="white" boxSize="20" bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">
                                         Logout
                                     </Button>
                                 </RouterLink>

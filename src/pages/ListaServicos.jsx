@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChakraProvider, Flex, Box, useToast, VStack} from '@chakra-ui/react';
+import { ChakraProvider, Flex, Box, useToast, VStack, Toast} from '@chakra-ui/react';
 import { ScrollTop } from 'primereact/scrolltop';
 import { useNavigate } from 'react-router-dom';
 import DataGridService from '../components/common/DataGridService';
@@ -38,7 +38,7 @@ const ListaServicos = () => {
           isClosable: true,
         });
       });
-  }, [0]);
+  }, [token, toast]);
 
   const handleDelete = async (id) => {
     try {

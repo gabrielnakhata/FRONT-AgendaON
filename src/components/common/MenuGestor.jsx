@@ -171,7 +171,7 @@ const MenuGestor = () => {
                                 </Menu>
 
                                 <RouterLink to="/" onClick={handleLogout} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                                    <Button color="white" boxSize="20" bg="#0B111B" _hover={{ bg: "#A70D00" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">
+                                    <Button color="white" boxSize="20" bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">
                                         Logout
                                     </Button>
                                 </RouterLink>

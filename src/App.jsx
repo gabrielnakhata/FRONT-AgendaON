@@ -22,6 +22,7 @@ import Dashboard from './pages/Dashboard';
 import DashboardColaborador from './pages/DashboardColaborador';
 import DashboardCliente from './pages/DashboardCliente';
 import CadastroAgendamento from './pages/CadastroAgendamento';
+import ListaAgendamentos from './pages/ListaAgendamentos';
 
 function App() {
   return (
@@ -33,6 +34,10 @@ function App() {
             <PrivateRoute allowedTypes={['Cliente']}>
               <CadastroAgendamento />
             </PrivateRoute>} />
+          <Route path="/lista-agendamento" element={
+            <PrivateRoute allowedTypes={['Cliente']}>
+              <ListaAgendamentos />
+            </PrivateRoute>} /> 
           <Route path="/dashboard" element={
             <PrivateRoute allowedTypes={['Gestor']}>
               <Dashboard />
