@@ -21,6 +21,12 @@ const DataGridScheduling = ({ data, onRowClick }) => {
         return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
+    const sortedData = [...data].sort((a, b) => {
+        const dateA = new Date(a.dataHoraAgendamento);
+        const dateB = new Date(b.dataHoraAgendamento);
+        return dateA - dateB;
+    });
+
     return (
         <TableContainer>
             <Table size='md'>
@@ -46,7 +52,7 @@ const DataGridScheduling = ({ data, onRowClick }) => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {data.map(item => (
+                    {sortedData.map(item => (
                         <Tr key={item.agendamentoId} onClick={() => onRowClick(item)} cursor="pointer">
                             <Td fontSize="18px" color="#3D5A73" fontWeight="bold" alignItems="center">
                                 <Flex align="center">
@@ -61,7 +67,7 @@ const DataGridScheduling = ({ data, onRowClick }) => {
                                 &nbsp; &nbsp;&nbsp;{item.colaboradorNome}
                             </Td>
                             <Td fontSize="16px" color="#3D5A73" fontWeight="bold" alignItems="center">
-                            <Badge 
+                                <Badge 
                                     colorScheme={item.statusDescricao === "CANCELADO" ? "red" : "green"} 
                                     mb={0} 
                                     borderRadius="full" 

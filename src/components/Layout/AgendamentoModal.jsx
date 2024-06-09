@@ -57,20 +57,16 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
         if (isSubmitting) return;
         setIsSubmitting(true);
 
-    // const handleSubmitCancel = async () => {
-    //     if (isSubmitting) return;
-    //     setIsSubmitting(true);
-
         try {
             await cancelSchedulingForClient(agendamentoId, status, token);
             toast({
-                title: "Cancelado!",
-                description: "O Agendamento foi cancelado!",
+                title: status === statusCancelado ? "Cancelado!" : "Reagendado!",
+                description: status === statusCancelado ? "O Agendamento foi cancelado!" : "O Agendamento foi reagendado!",
                 status: "success",
                 duration: 2000,
                 isClosable: true,
                 onCloseComplete: () => {
-                    setIsSubmitting(false)
+                    setIsSubmitting(false);
                     onClose();
                 }
             });
