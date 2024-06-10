@@ -24,7 +24,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import { ScrollTop } from 'primereact/scrolltop';
 import DataGridService from '../../components/common/DataGridService';
 import { getServicesFromAgendamentoClient } from '../../services/serviceService';
-import { cancelSchedulingForClient } from '../../services/schedulingService';
+import { statusSchedulingForClient } from '../../services/schedulingService';
 
 const AgendamentoModal = ({ isOpen, onClose, data }) => {
     const { user, token } = useAuth();
@@ -35,6 +35,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
     const agendamentoId = data?.agendamentoId;
     const statusCancelado = 2;
     const statusReativado = 1;
+    const statusConcluido = 4;
 
     useEffect(() => {
         if (!token || !agendamentoId || !user.id) return;
@@ -58,10 +59,10 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
         setIsSubmitting(true);
 
         try {
-            await cancelSchedulingForClient(agendamentoId, status, token);
+            await statusSchedulingForClient(agendamentoId, status, token);
             toast({
-                title: status === statusCancelado ? "Cancelado!" : "Reagendado!",
-                description: status === statusCancelado ? "O Agendamento foi cancelado!" : "O Agendamento foi reagendado!",
+                title: status === statusCancelado ? "Cancelado!" : status === statusReativado ? "Reagendado!" : "Concluído!",
+                description: status === statusCancelado ? "O Agendamento foi cancelado!" : status === statusReativado ? "O Agendamento foi reagendado!" : "O Agendamento foi concluído!",
                 status: "success",
                 duration: 2000,
                 isClosable: true,
@@ -73,8 +74,8 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
 
         } catch (error) {
             toast({
-                title: "Erro ao cancelar",
-                description: error.message || "Não foi possível cancelar o agendamento.",
+                title: "Erro ao alterar status",
+                description: error.message || "Não foi possível alterar o status do agendamento.",
                 status: "error",
                 duration: 4000,
                 isClosable: true,
@@ -143,7 +144,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                     Status:&nbsp;&nbsp;&nbsp;
                                 </Text>
                                 <Badge 
-                                    colorScheme={data.statusDescricao === "CANCELADO" ? "red" : "green"} 
+                                    colorScheme={data.statusDescricao === "CANCELADO" ? "red" : data.statusDescricao === "CONCLUÍDO" ? "purple" : "green"} 
                                     mb={0} 
                                     borderRadius="full" 
                                     px={2} 
@@ -171,8 +172,15 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                             <Button color="white" onClick={() => handleStatusChange(statusReativado)} bg="green" _hover={{ bg: "#2A542B" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Agendar</Button>
                         </HStack>
                     ) : (
-                        <HStack spacing={4} paddingTop={5}>
-                            <Button color="white" onClick={() => handleStatusChange(statusCancelado)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between" isDisabled={data.statusDescricao === "CANCELADO"}>Cancelar</Button>
+                        user.tipoUsuario !== 'Cliente' || data.statusDescricao !== "CONCLUÍDO" ? (
+                            <HStack spacing={4} paddingTop={5}>
+                                <Button color="white" onClick={() => handleStatusChange(statusCancelado)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Cancelar</Button>
+                            </HStack>
+                        ) : null
+                    )}
+                    {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador') && (
+                        <HStack spacing={4} paddingLeft={5} paddingTop={5}>
+                            <Button color="white" onClick={() => handleStatusChange(statusConcluido)} bg="#8965E2" _hover={{ bg: "#493678" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Concluído</Button>
                         </HStack>
                     )}
                 </ModalFooter>
@@ -198,4 +206,3 @@ AgendamentoModal.propTypes = {
 };
 
 export default AgendamentoModal;
-

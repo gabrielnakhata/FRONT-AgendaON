@@ -56,7 +56,7 @@ export const getSchedulingForClient = async (clienteId, token) => {
     }
 };
 
-export const cancelSchedulingForClient = async (agendamentoId, statusId, token) => {
+export const statusSchedulingForClient = async (agendamentoId, statusId, token) => {
     try {
         const config = {
             headers: {
@@ -64,7 +64,7 @@ export const cancelSchedulingForClient = async (agendamentoId, statusId, token) 
             }
         };
 
-        const response = await calendarApi.put(`/Agendamentos/Cancelar/${agendamentoId}`, {statusId}, config);
+        const response = await calendarApi.put(`/Agendamentos/Status/${agendamentoId}`, {statusId}, config);
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : new Error("An unexpected error occurred");
