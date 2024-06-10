@@ -84,6 +84,11 @@ const MenuGestor = () => {
                                         <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Agendar
                                     </Button>
                                 </RouterLink>
+                                <RouterLink to="/lista-agendamento-colaborador" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                    <Button color="white" bg="#FFCA1B" _hover={{ bg: "#C59C16" }} mb={4} py={8} w="full" justifyContent="space-between">
+                                        <i className="pi pi-calendar-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Minha Agenda
+                                    </Button>
+                                </RouterLink>
                                 <Menu>
                                     <MenuButton color="white" boxSize="20" bg="#313DFA" _hover={{ bg: "#3D5A90" }} mb={4} py={6} w="full" as={Button} rightIcon={<ChevronDownIcon />} justifyContent="space-between">
                                         <i className="pi pi-list" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Listar
@@ -141,7 +146,7 @@ const MenuGestor = () => {
                                         </MenuItem>
                                         <MenuItem bg="#3D5A90">
                                             <RouterLink to="/programar-disponibilidade-calendario" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                                <Button color="white" bg="#172237" _hover={{ bg: "#3D5A90" }} mb={0} py={8} w="full" justifyContent="space-between">
+                                                <Button color="white" bg="#8965E2" _hover={{ bg: "#493678" }} mb={0} py={8} w="full" justifyContent="space-between">
                                                     <i className="pi pi-calendar-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Programar<br/>Disponibilidade
                                                 </Button>
                                             </RouterLink>

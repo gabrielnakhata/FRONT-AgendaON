@@ -2,10 +2,12 @@ import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Badge, Flex } from '@c
 import PropTypes from 'prop-types';
 import { Icon, TimeIcon } from '@chakra-ui/icons';
 import { useUserRedirect } from '../../hooks/UseUserRedirect';
+import { useAuth } from '../../contexts/AuthContext';
 
 const DataGridScheduling = ({ data, onRowClick }) => {
     const { canEditOrDelete } = useUserRedirect();
     const isEditable = canEditOrDelete();
+    const { user } = useAuth();
 
     const formatDate = (dateTimeStr) => {
         const date = new Date(dateTimeStr);
@@ -28,9 +30,9 @@ const DataGridScheduling = ({ data, onRowClick }) => {
     });
 
     return (
-        <TableContainer>
+        <TableContainer maxHeight="auto" overflowY="auto">
             <Table size='md'>
-                <Thead>
+                <Thead position="sticky" top={0} bg="white" zIndex={1}>
                     <Tr align="center">
                         <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
                             <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
@@ -38,10 +40,11 @@ const DataGridScheduling = ({ data, onRowClick }) => {
                         </Th>
                         <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
                             <i className="pi pi-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
-                            &nbsp;Hora</Th>
+                            &nbsp;Hora
+                        </Th>
                         <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
                             <i className="pi pi-user" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
-                            &nbsp;Colaborador
+                            &nbsp;{user.tipoUsuario === 'Cliente' ? 'Colaborador' : 'Cliente'}
                         </Th>
                         <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
                             <i className="pi pi-tag" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
@@ -64,7 +67,7 @@ const DataGridScheduling = ({ data, onRowClick }) => {
                                 {formatTime(item.dataHoraAgendamento)}
                             </Td>
                             <Td fontSize="18px" color="#3D5A73" fontWeight="bold" alignItems="center">
-                                &nbsp; &nbsp;&nbsp;{item.colaboradorNome}
+                                &nbsp; &nbsp;&nbsp;{user.tipoUsuario === 'Cliente' ? item.colaboradorNome : item.clienteNome}
                             </Td>
                             <Td fontSize="16px" color="#3D5A73" fontWeight="bold" alignItems="center">
                                 <Badge 

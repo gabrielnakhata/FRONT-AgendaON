@@ -85,7 +85,7 @@ const MenuCliente = () => {
                                     </Button>
                                 </RouterLink>
                                 <RouterLink to="/lista-agendamento" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
-                                    <Button color="white" bg="#FFCA1B" _hover={{ bg: "#C59C16" }} mb={4} py={8} w="full" justifyContent="space-between">
+                                    <Button color="white" bg="#8965E2" _hover={{ bg: "#493678" }} mb={4} py={8} w="full" justifyContent="space-between">
                                         <i className="pi pi-calendar-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Meus Agendamentos
                                     </Button>
                                 </RouterLink>
