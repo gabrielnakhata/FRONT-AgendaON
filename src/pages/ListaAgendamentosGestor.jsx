@@ -8,11 +8,11 @@ import DataGridScheduling from '../components/common/DataGridScheduling';
 import { useAuth } from '../contexts/AuthContext';
 import { getCollaborators } from '../services/collaboratorService';
 import AgendamentoModal from '../components/layout/AgendamentoModal';
-import MenuColaborador from '../components/common/MenuColaborador';
+import MenuGestor from '../components/common/MenuGestor';
 import Footer from '../components/common/Footer';
 import { getAgendaInDay } from "../services/schedulingService";
 
-const ListaAgendamentosColaborador = () => {
+const ListaAgendamentosGestor = () => {
   usePrimeReactLocale();
   const [collaborators, setCollaborators] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -74,7 +74,7 @@ const ListaAgendamentosColaborador = () => {
 
   return (
     <Flex direction="column" minH="100vh" bg="#fff" w="100vw" m="0" p="0" overflow="hidden">
-      <MenuColaborador />
+      <MenuGestor />
       <Flex direction="column" align="center" justify="center" bgGradient="linear(180deg, #3C3885, #3CCB95)" w="100vw" m="0" p="0" flex="1" overflow="hidden">
         <TitleSection title="Minha Agenda" subtitle="Para ver os detalhes clique no agendamento" />
         <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" mx="auto" my="2rem">
@@ -118,4 +118,4 @@ const ListaAgendamentosColaborador = () => {
   );
 };
 
-export default ListaAgendamentosColaborador;
+export default ListaAgendamentosGestor;

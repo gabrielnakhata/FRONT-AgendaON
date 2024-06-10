@@ -70,3 +70,25 @@ export const statusSchedulingForClient = async (agendamentoId, statusId, token) 
         throw error.response ? error.response.data : new Error("An unexpected error occurred");
     }
 };
+
+import moment from 'moment';
+
+export const getAgendaInDay = async (colaboradorId, data, token) => {
+    try {
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        const formattedDate = moment(data, 'YYYY-DD-MM').format('YYYY-MM-DD');
+
+        const url = `/Agendamentos/FiltroDia/${colaboradorId}/${formattedDate}`;
+
+        const response = await calendarApi.get(url, config);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error("An unexpected error occurred");
+    }
+};
+

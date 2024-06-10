@@ -56,7 +56,7 @@ function ModalLogin() {
 
             switch (data.tipoUsuario) {
                 case 'Gestor':
-                    navigate('/dashboard');
+                    navigate('/lista-agendamento-gestor');
                     break;
                 case 'Colaborador':
                     navigate('/lista-agendamento-colaborador');
