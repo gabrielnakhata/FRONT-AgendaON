@@ -100,8 +100,13 @@ function ModalLogin() {
                     <ModalCloseButton />
                     <ModalBody>
                         <Stack align="center" paddingTop={10}>
-                            <Image
+                            {/* <Image
                                  src={`${import.meta.env.VITE_BASE_URL}src/assets/logo-kezuka.svg`}
+                                boxSize="180px"
+                                alt="Logo AgendaOn Kezuka Style's"
+                            /> */}
+                               <Image
+                                 src="https://raw.githubusercontent.com/gabrielnakhata/FRONT-AgendaON/1f0cb7617036d0e6bd98876a315bbe3c74b179eb/src/assets/logo-kezuka.svg"
                                 boxSize="180px"
                                 alt="Logo AgendaOn Kezuka Style's"
                             />
