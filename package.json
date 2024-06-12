@@ -1,5 +1,5 @@
 {
-  "homepage": "https://github.com/gabrielnakhata/FRONT-AgendaON",
+  "homepage": "https://gabrielnakhata.github.io/FRONT-AgendaON/",
   "name": "agendaon-kezuka-styles",
   "private": true,
   "version": "0.0.0",
@@ -10,7 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist -f"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -19,7 +19,6 @@
     "@emotion/styled": "^11.11.5",
     "axios": "^1.6.8",
     "framer-motion": "^11.1.7",
-    "gh-pages": "^6.1.1",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
     "primeflex": "^3.3.1",
@@ -38,6 +37,7 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "gh-pages": "^6.1.1",
     "vite": "^5.2.0",
     "vite-plugin-inspect": "^0.8.4"
   }

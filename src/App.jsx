@@ -29,7 +29,7 @@ import ListaAgendamentosGestor from './pages/ListaAgendamentosGestor';
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <Router basename={import.meta.env.VITE_BASE_URL}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/agendamento" element={
