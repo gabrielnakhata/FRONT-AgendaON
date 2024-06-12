@@ -23,7 +23,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { ScrollTop } from 'primereact/scrolltop';
 import DataGridService from '../../components/common/DataGridService';
-import { getServicesFromAgendamentoClient } from '../../services/serviceService';
+import { getServicesFromAgendamento } from '../../services/serviceService';
 import { statusSchedulingForClient } from '../../services/schedulingService';
 
 const AgendamentoModal = ({ isOpen, onClose, data }) => {
@@ -38,9 +38,9 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
     const statusConcluido = 4;
 
     useEffect(() => {
-        if (!token || !agendamentoId || !user.id) return;
+        if (!token || !agendamentoId) return;
 
-        getServicesFromAgendamentoClient(token, agendamentoId, user.id)
+        getServicesFromAgendamento(token, agendamentoId)
             .then(setData)
             .catch(error => {
                 console.error("Erro ao carregar dados:", error);
@@ -103,7 +103,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl" motionPreset="scale">
             <ModalOverlay />
-            <ModalContent maxW="33vw" w="100%">
+            <ModalContent w={{ base: '90%', md: '70%', lg: '50%' }}>
                 <ModalHeader fontWeight="bold" color="#172237" mb={2}>
                     <HStack>
                         <Avatar name={user?.nome || 'No Name'} src={user?.image || 'https://fallback-url.com/default-avatar.png'} mr={2} />
@@ -118,8 +118,8 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <VStack align="start" spacing={4}>
-                        <Card maxW="33vw" bg='#FFF8D0' p={5} w="100%">
+                    <VStack align="start" spacing={4} w="100%">
+                        <Card w="100%" bg='#FFF8D0' p={5}>
                             <HStack align="center" paddingBottom={2}>
                                 <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#504E42' }} />
                                 <Text fontSize="15px" color="#504E42" fontWeight="bold">{formatDate(data.dataHoraAgendamento)}</Text>
@@ -143,12 +143,12 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 <Text fontSize="16px" color="#504E42" fontWeight="bold" alignItems="left">
                                     Status:&nbsp;&nbsp;&nbsp;
                                 </Text>
-                                <Badge 
-                                    colorScheme={data.statusDescricao === "CANCELADO" ? "red" : data.statusDescricao === "CONCLUÍDO" ? "purple" : "green"} 
-                                    mb={0} 
-                                    borderRadius="full" 
-                                    px={2} 
-                                    py={1} 
+                                <Badge
+                                    colorScheme={data.statusDescricao === "CANCELADO" ? "red" : data.statusDescricao === "CONCLUÍDO" ? "purple" : "green"}
+                                    mb={0}
+                                    borderRadius="full"
+                                    px={2}
+                                    py={1}
                                     fontSize="0.8em"
                                 >
                                     {data.statusDescricao}
@@ -156,9 +156,9 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                             </HStack>
                         </Card>
 
-                        <VStack spacing={4}>
+                        <VStack spacing={4} w="100%">
                             <ChakraProvider>
-                                <Box w={{ base: '100%', md: '100%' }} height={containerHeight} overflow="auto" position="relative">
+                                <Box w="100%" height={containerHeight} overflow="auto" position="relative">
                                     <DataGridService data={dataService} onUpdate={null} onDelete={null} />
                                     <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
                                 </Box>
@@ -174,13 +174,13 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     ) : (
                         user.tipoUsuario !== 'Cliente' || data.statusDescricao !== "CONCLUÍDO" ? (
                             <HStack spacing={4} paddingTop={5}>
-                                <Button color="white" onClick={() => handleStatusChange(statusCancelado)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Cancelar</Button>
+                                <Button color="white" onClick={() => handleStatusChange(statusCancelado)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} justifyContent="space-between">Cancelar</Button>
                             </HStack>
                         ) : null
                     )}
                     {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador') && (
                         <HStack spacing={4} paddingLeft={5} paddingTop={5}>
-                            <Button color="white" onClick={() => handleStatusChange(statusConcluido)} bg="#8965E2" _hover={{ bg: "#493678" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Concluído</Button>
+                            <Button color="white" onClick={() => handleStatusChange(statusConcluido)} bg="#8965E2" _hover={{ bg: "#493678" }} w="full" py={6} justifyContent="space-between">Concluído</Button>
                         </HStack>
                     )}
                 </ModalFooter>

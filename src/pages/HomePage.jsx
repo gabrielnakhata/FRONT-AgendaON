@@ -16,7 +16,7 @@ const HomePage = () => {
       <Header />
       <Box flex="1" w="100%" overflow="hidden" p="0">
         <Image
-          src="../src/assets/banner-agenda-online.jpg"
+          src={`${import.meta.env.VITE_BASE_URL}src/assets/banner-agenda-online.jpg`}
           w="100%"
           h="500px"
           objectFit="cover"
