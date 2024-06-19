@@ -5,5 +5,6 @@ import inspect from 'vite-plugin-inspect';
 
 export default defineConfig({
   plugins: [react(), inspect()],
-  base: "/FRONT-AgendaON/"
+  // base: "/FRONT-AgendaON/"
+   base: "/"
 });

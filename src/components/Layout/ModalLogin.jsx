@@ -16,7 +16,7 @@ import {
     HStack,
     Link,
     Text,
-    useToast
+    useToast,
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -72,7 +72,7 @@ function ModalLogin() {
             toast({
                 title: "Ops, o login falhou...",
                 description: error.response?.data?.message || "Verifique o login e senha, os dados podem estar errados...",
-                status: "error",
+                status: "info",
                 duration: 3000,
                 isClosable: true
             });
@@ -118,9 +118,17 @@ function ModalLogin() {
                             <FormControl isRequired>
                                 <FormLabel>Senha</FormLabel>
                                 <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Insira sua senha" />
+                                <HStack justifyContent="center">
                                 <Text mt={2} textAlign="center" fontSize="sm">
-                                    <Link color="black" onClick={() => navigate('/forgot-password')}>Esqueci minha senha</Link>
+                                    <Link color="black" onClick={() => navigate('/esqueci-minha-senha')}>Esqueci minha senha</Link>
                                 </Text>
+                                <Text mt={2} textAlign="center" fontSize="sm">
+                                    |
+                                </Text>
+                                <Text mt={2} textAlign="center" fontSize="sm">
+                                    <Link color="black" onClick={() => navigate('/cadastro-cliente')}>Não possuo cadastro</Link>
+                                </Text>
+                                </HStack>
                             </FormControl>
                         </Stack>
                     </ModalBody>
