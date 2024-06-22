@@ -39,7 +39,7 @@ const EsqueciMinhaSenha = () => {
             toast({
                 title: "Erro de validação",
                 description: "Por favor, insira um e-mail válido.",
-                status: "error",
+                status: "info",
                 duration: 2000,
                 isClosable: true,
                 onCloseComplete: () => {
@@ -62,9 +62,9 @@ const EsqueciMinhaSenha = () => {
         } catch (error) {
             toast({
                 title: "Erro ao enviar o e-mail com a solicitação",
-                description: "Não foi possível solicitar a redefinição de senha. Tente mais tarde!",
+                description: "Não foi possível solicitar, E-mail não cadastrado!",
                 status: "error",
-                duration: 4000,
+                duration: 3000,
                 isClosable: true,
                 onCloseComplete: () => {
                     setIsSubmitting(false);
@@ -75,7 +75,7 @@ const EsqueciMinhaSenha = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Alterar senha" subtitle="Olá, gentileza adicionar o e-mail assim você receberá instruções para redefinição da senha." />
+            <TitleSection title="Redefinir Senha" subtitle="Olá, gentileza adicionar o e-mail assim você irá receber uma senha provisória." />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
