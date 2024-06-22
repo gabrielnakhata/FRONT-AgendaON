@@ -3,7 +3,7 @@ import { Flex, Box, VStack, useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import CustomInput from '../components/layout/CustomInput';
 import TitleSection from '../components/layout/TitleSection';
-import { registerClient } from '../services/clientService';
+import { RedefinitionAcess } from '../services/redefinitionPassword';
 import ActionButtons from '../components/layout/ActionButtons';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,17 +43,17 @@ const EsqueciMinhaSenha = () => {
                 duration: 2000,
                 isClosable: true,
                 onCloseComplete: () => {
-                    setIsSubmitting(false)
+                    setIsSubmitting(false);
                 }
             });
             return;
         }
 
         try {
-            await registerClient({ ...formData });
+            await RedefinitionAcess({ email: formData.email });
             toast({
                 title: "E-mail enviado!",
-                description: `Atenção um e-mail foi enviado para realizar a redefinição de senha`,
+                description: "Atenção um e-mail foi enviado para realizar a redefinição de senha",
                 status: "success",
                 duration: 3000,
                 isClosable: true,
@@ -62,12 +62,12 @@ const EsqueciMinhaSenha = () => {
         } catch (error) {
             toast({
                 title: "Erro ao enviar o e-mail com a solicitação",
-                description: "Não foi possível solicitar a redefinição de senha tente mais tarde!",
+                description: "Não foi possível solicitar a redefinição de senha. Tente mais tarde!",
                 status: "error",
                 duration: 4000,
                 isClosable: true,
                 onCloseComplete: () => {
-                    setIsSubmitting(false)
+                    setIsSubmitting(false);
                 }
             });
         }
@@ -75,7 +75,7 @@ const EsqueciMinhaSenha = () => {
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Alterar senha" subtitle="Olá, gentileza adicionar o e-mail assim você recebá instruções para redefinição da senha." />
+            <TitleSection title="Alterar senha" subtitle="Olá, gentileza adicionar o e-mail assim você receberá instruções para redefinição da senha." />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
