@@ -178,7 +178,7 @@ const ListaAgendamentosColaborador = () => {
     <Flex direction="column" minH="100vh" bg="#fff" w="100vw" m="0" p="0" overflow="hidden">
       <MenuColaborador />
       <Flex direction="column" align="center" justify="center" bgGradient="linear(180deg, #3C3885, #3CCB95)" w="100vw" m="0" p="0" flex="1" overflow="hidden">
-        <TitleSection title="Minha Agenda" subtitle="Para ver os detalhes clique no agendamento" />
+        <TitleSection title="Minha Agenda" subtitle="Filtre a agenda e veja os detalhes clicando no agendamento desejado" />
         <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" mx="auto" my="2rem">
           <VStack spacing={7}>
             <div className="card flex flex-wrap gap-3 p-fluid">

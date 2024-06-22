@@ -29,8 +29,8 @@ function ModalLogin() {
     const navigate = useNavigate();
     const location = useLocation();
     const toast = useToast();
-    const [email, setEmail] = useState('lucasbarber@gmail.com');
-    const [password, setPassword] = useState('acesso');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
