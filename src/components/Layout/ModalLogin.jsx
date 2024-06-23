@@ -100,13 +100,8 @@ function ModalLogin() {
                     <ModalCloseButton />
                     <ModalBody>
                         <Stack align="center" paddingTop={10}>
-                            {/* <Image
-                                 src={`${import.meta.env.VITE_BASE_URL}src/assets/logo-kezuka.svg`}
-                                boxSize="180px"
-                                alt="Logo AgendaOn Kezuka Style's"
-                            /> */}
-                               <Image
-                                 src="https://raw.githubusercontent.com/gabrielnakhata/FRONT-AgendaON/1f0cb7617036d0e6bd98876a315bbe3c74b179eb/src/assets/logo-kezuka.svg"
+                            <Image
+                                src={`${import.meta.env.VITE_BASE_URL}src/assets/logo-kezuka.svg`}
                                 boxSize="180px"
                                 alt="Logo AgendaOn Kezuka Style's"
                             />
@@ -119,15 +114,15 @@ function ModalLogin() {
                                 <FormLabel>Senha</FormLabel>
                                 <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Insira sua senha" />
                                 <HStack justifyContent="center">
-                                <Text mt={2} textAlign="center" fontSize="sm">
-                                    <Link color="black" onClick={() => navigate('/esqueci-minha-senha')}>Esqueci minha senha</Link>
-                                </Text>
-                                <Text mt={2} textAlign="center" fontSize="sm">
-                                    |
-                                </Text>
-                                <Text mt={2} textAlign="center" fontSize="sm">
-                                    <Link color="black" onClick={() => navigate('/cadastro-cliente')}>Não possuo cadastro</Link>
-                                </Text>
+                                    <Text mt={2} textAlign="center" fontSize="sm">
+                                        <Link color="black" onClick={() => navigate('/esqueci-minha-senha')}>Esqueci minha senha</Link>
+                                    </Text>
+                                    <Text mt={2} textAlign="center" fontSize="sm">
+                                        |
+                                    </Text>
+                                    <Text mt={2} textAlign="center" fontSize="sm">
+                                        <Link color="black" onClick={() => navigate('/cadastro-cliente')}>Não possuo cadastro</Link>
+                                    </Text>
                                 </HStack>
                             </FormControl>
                         </Stack>
