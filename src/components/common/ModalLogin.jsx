@@ -22,6 +22,7 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/loginService';
 import { useAuth } from '../../contexts/AuthContext';
+import logo from '../../assets/logo-kezuka.svg';
 
 function ModalLogin() {
     const { login } = useAuth();
@@ -101,7 +102,7 @@ function ModalLogin() {
                     <ModalBody>
                         <Stack align="center" paddingTop={10}>
                             <Image
-                                src={`src/assets/logo-kezuka.svg`}
+                                src={logo} 
                                 boxSize="180px"
                                 alt="Logo AgendaOn Kezuka Style's"
                             />
