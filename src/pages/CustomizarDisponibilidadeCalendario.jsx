@@ -166,7 +166,7 @@ const CustomizarDisponibilidadeCalendario = () => {
                             <Calendar
                                 value={selectedHour}
                                 onChange={(e) => setSelectedHour(e.value)}
-                                showIcon style={{ fontSize: '20px' }} timeOnly
+                                showIcon style={{ fontSize: '20px', touchAction: 'manipulation' }} timeOnly
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
                         </div>
                         <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
