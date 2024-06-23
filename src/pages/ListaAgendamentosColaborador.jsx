@@ -10,6 +10,7 @@ import AgendamentoModal from '../components/layout/AgendamentoModal';
 import MenuColaborador from '../components/common/MenuColaborador';
 import Footer from '../components/common/Footer';
 import { getAgendaInDay } from "../services/schedulingService";
+// teste
 
 const ListaAgendamentosColaborador = () => {
   usePrimeReactLocale();
@@ -32,7 +33,7 @@ const ListaAgendamentosColaborador = () => {
         } catch (error) {
           toast({
             title: "Consulta",
-            description: error.message || "Não há horários disponíveis para esta data.",
+            description: error.message || "Não há horários disponíveis para esta data..",
             status: "info",
             duration: 3000,
             isClosable: true,
