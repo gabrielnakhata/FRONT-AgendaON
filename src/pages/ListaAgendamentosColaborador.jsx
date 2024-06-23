@@ -33,7 +33,7 @@ const ListaAgendamentosColaborador = () => {
         } catch (error) {
           toast({
             title: "Consulta",
-            description: error.message || "Não há horários disponíveis para esta data..",
+            description: error.message || "Não há horários disponíveis para esta data.",
             status: "info",
             duration: 3000,
             isClosable: true,
