@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { VStack, ChakraProvider, Flex, Box, useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import DataGridCommission from '../components/common/DataGridCommission';
-import TitleSection from '../components/layout/TitleSection';
+import TitleSection from '../components/common/TitleSection';
 import { getCommission, deleteCommission } from '../services/commissionService';
 import { useAuth } from '../contexts/AuthContext';
-import ActionButtons from '../components/layout/ActionButtons';
+import ActionButtons from '../components/common/ActionButtons';
 import { useUserRedirect } from "../hooks/UseUserRedirect";
 import { ScrollTop } from 'primereact/scrolltop';
 

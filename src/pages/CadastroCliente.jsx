@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Flex, Box, VStack, useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import CustomInput from '../components/layout/CustomInput';
-import TitleSection from '../components/layout/TitleSection';
+import CustomInput from '../components/common/CustomInput';
+import TitleSection from '../components/common/TitleSection';
 import { registerClient } from '../services/clientService';
 import moment from 'moment-timezone';
-import ActionButtons from '../components/layout/ActionButtons';
+import ActionButtons from '../components/common/ActionButtons';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;

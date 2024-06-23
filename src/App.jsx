@@ -17,7 +17,7 @@ import ListaComissoes from './pages/ListaComissoes';
 import AtualizarComissoes from './pages/AtualizarComissoes';
 import CadastroCliente from './pages/CadastroCliente';
 import ListaCliente from './pages/ListaCliente';
-import ModalLogin from './components/layout/ModalLogin';
+import ModalLogin from './components/common/ModalLogin';
 import ProfilePage from './pages/ProfilePage';
 import Dashboard from './pages/Dashboard';
 import DashboardColaborador from './pages/DashboardColaborador';

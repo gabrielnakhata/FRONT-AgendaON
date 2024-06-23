@@ -3,11 +3,11 @@ import { Calendar } from 'primereact/calendar';
 import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
 import { ScrollTop } from 'primereact/scrolltop';
 import { ChakraProvider, Flex, Box, VStack, useToast } from '@chakra-ui/react';
-import TitleSection from '../components/layout/TitleSection';
+import TitleSection from '../components/common/TitleSection';
 import DataGridCalendario from '../components/common/DataGridCalendario';
 import { useAuth } from '../contexts/AuthContext';
 import { getCalendarInDisponibility, deleteCalendar } from '../services/calendarService';
-import ActionButtons from '../components/layout/ActionButtons';
+import ActionButtons from '../components/common/ActionButtons';
 import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const FiltrarDisponibilidade = () => {

@@ -22,7 +22,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { ScrollTop } from 'primereact/scrolltop';
-import DataGridService from '../../components/common/DataGridService';
+import DataGridService from './DataGridService';
 import { getServicesFromAgendamento } from '../../services/serviceService';
 import { statusSchedulingForClient } from '../../services/schedulingService';
 
