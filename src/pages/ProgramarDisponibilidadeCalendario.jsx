@@ -170,6 +170,7 @@ const ProgramarDisponibilidadeCalendario = () => {
                                 value={timeInterval}
                                 placeholder="Intervalo entre horários"
                                 onChange={(e) => setTimeInterval(e.value)}
+                                  inputMode="numeric"
                                 showIcon style={{ fontSize: '20px', touchAction: 'manipulation' }} timeOnly
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
                         </div>
