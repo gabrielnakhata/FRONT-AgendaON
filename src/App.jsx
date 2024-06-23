@@ -29,6 +29,7 @@ import ListaAgendamentosGestor from './pages/ListaAgendamentosGestor';
 import EsqueciMinhaSenha from './pages/EsqueciMinhaSenha';
 
 function App() {
+
   return (
     <AuthProvider>
       <Router basename={import.meta.env.VITE_BASE_URL}>
