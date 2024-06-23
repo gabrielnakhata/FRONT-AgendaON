@@ -101,7 +101,7 @@ function ModalLogin() {
                     <ModalBody>
                         <Stack align="center" paddingTop={10}>
                             <Image
-                                src={`${import.meta.env.VITE_BASE_URL}src/assets/logo-kezuka.svg`}
+                                src={`../src/assets/logo-kezuka.svg`}
                                 boxSize="180px"
                                 alt="Logo AgendaOn Kezuka Style's"
                             />
