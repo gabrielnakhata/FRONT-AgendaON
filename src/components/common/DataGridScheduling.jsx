@@ -61,8 +61,8 @@ const DataGridScheduling = ({ data, onRowClick }) => {
                             <i className="pi pi-tag" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
                             &nbsp;&nbsp;Status
                         </Th>
-                        {isEditable && <Th><i className="pi pi-file-edit" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} /></Th>}
-                        {isEditable && <Th><i className="pi pi-trash" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'red' }} /></Th>}
+                        {/* {isEditable && <Th><i className="pi pi-file-edit" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} /></Th>}
+                        {isEditable && <Th><i className="pi pi-trash" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'red' }} /></Th>} */}
                     </Tr>
                 </Thead>
                 <Tbody>

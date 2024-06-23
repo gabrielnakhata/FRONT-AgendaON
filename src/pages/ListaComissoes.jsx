@@ -16,6 +16,7 @@ const ListaComissoes = () => {
   const navigate = useNavigate();
   const { redirectToDashboard } = useUserRedirect();
   const [containerHeight] = useState('300px');
+  const { user } = useAuth();
 
   const handleUpdate = (commission) => {
     navigate(`/atualizar-comissao/${commission.comissaoId}`, { state: { commission } });
@@ -26,7 +27,7 @@ const ListaComissoes = () => {
   };
 
   useEffect(() => {
-    getCommission(token)
+    getCommission(user?.email, token)
       .then(setData)
       .catch(error => {
         console.error("Erro ao carregar dados:", error);
