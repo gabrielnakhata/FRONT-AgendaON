@@ -32,7 +32,7 @@ const ListaServicos = () => {
         console.error("Erro ao carregar dados:", error);
         toast({
           title: "Erro ao carregar dados",
-          description: "Não foi possível carregar os dados dos serviços. Por favor, tente novamente.",
+          description: "Não foi possível carregar os dados dos serviços. Por favor, tente novamente...",
           status: "error",
           duration: 4000,
           isClosable: true,
