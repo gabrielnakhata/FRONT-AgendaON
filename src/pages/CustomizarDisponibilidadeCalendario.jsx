@@ -52,7 +52,7 @@ const CustomizarDisponibilidadeCalendario = () => {
                 toast({
                     title: "Atenção!",
                     description: "Por favor, selecione um colaborador, data e horário.",
-                    status: "error",
+                    status: "warning",
                     duration: 3000,
                     isClosable: true,
                     onCloseComplete: () => setIsToastShowing(false)
