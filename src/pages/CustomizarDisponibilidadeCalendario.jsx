@@ -27,6 +27,8 @@ const CustomizarDisponibilidadeCalendario = () => {
     const { redirectToDashboard } = useUserRedirect();
     const [containerHeight] = useState('300px');
 
+    // Na sessão do colaborador retirar seletor de colaborador...
+
     useEffect(() => {
         const fetchData = async () => {
             try {
