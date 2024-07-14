@@ -30,23 +30,43 @@ const ProgramarDisponibilidadeCalendario = () => {
     const { redirectToDashboard } = useUserRedirect();
     const [containerHeight] = useState('300px');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const collabData = await getCollaborators(token);
-                setCollaborators(collabData);
-            } catch (error) {
-                toast({
-                    title: "Erro ao carregar dados",
-                    description: "Não foi possível carregar dados necessários.",
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true,
-                });
-            }
-        };
-        fetchData();
-    }, [token, toast]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const collabData = await getCollaborators(token);
+    //             setCollaborators(collabData);
+    //         } catch (error) {
+    //             toast({
+    //                 title: "Erro ao carregar dados",
+    //                 description: "Não foi possível carregar dados necessários.",
+    //                 status: "error",
+    //                 duration: 3000,
+    //                 isClosable: true,
+    //             });
+    //         }
+    //     };
+    //     fetchData();
+    // }, [token, toast]);
+
+       useEffect(() => {
+        if (user.tipoUsuario !== 'Colaborador') {
+            const fetchData = async () => {
+                try {
+                    const collabData = await getCollaborators(token);
+                    setCollaborators(collabData);
+                } catch (error) {
+                    toast({
+                        title: "Erro ao carregar dados",
+                        description: "Não foi possível carregar dados necessários.",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                    });
+                }
+            };
+            fetchData();
+        }
+    }, [token, toast, user.id]);
 
     const handleRemoveSchedule = calendarioId => {
         const newScheduleList = scheduleList.filter(item => item.calendarioId !== calendarioId);
@@ -54,11 +74,11 @@ const ProgramarDisponibilidadeCalendario = () => {
     };
 
     const handleGenerateSchedules = () => {
-        if (!selectedCollaboratorId || !selectedDate || !startWorkTime || !endWorkTime || !startLunchTime || !endLunchTime || !timeInterval) {
+        if ((user.tipoUsuario !== 'Colaborador' && !selectedCollaboratorId) || !selectedDate || !startWorkTime || !endWorkTime || !startLunchTime || !endLunchTime || !timeInterval) {
             toast({
                 title: "Informações Incompletas",
                 description: "Por favor, preencha todos os campos necessários.",
-                status: "warning",
+                status: "info",
                 duration: 3000,
                 isClosable: true,
             });
@@ -95,7 +115,7 @@ const ProgramarDisponibilidadeCalendario = () => {
                     calendarioId: calendarioId,
                     dataHoraConfigurada: formattedDateTime,
                     gestorId: user.id,
-                    colaboradorId: parseInt(selectedCollaboratorId, 10)
+                    colaboradorId: user.tipoUsuario === 'Colaborador' ? user.id : parseInt(selectedCollaboratorId, 10)
                 });
             }
             currentTime = new Date(currentTime.getTime() + intervalMinutes * 60000);
@@ -150,11 +170,13 @@ const ProgramarDisponibilidadeCalendario = () => {
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">
-                        <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
-                            {collaborators.map(col => (
-                                <option key={col.colaboradorId} value={col.colaboradorId}>{col.nome}</option>
-                            ))}
-                        </Select>
+                        {user.tipoUsuario !== 'Colaborador' && (
+                            <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
+                                {collaborators.map(col => (
+                                    <option key={col.colaboradorId} value={col.colaboradorId}>{col.nome}</option>
+                                ))}
+                            </Select>
+                         )}
                         <div className="flex-auto">
                             <Calendar
                                 id="buttondisplay"

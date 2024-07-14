@@ -29,32 +29,52 @@ const CustomizarDisponibilidadeCalendario = () => {
 
     // Na sessão do colaborador retirar seletor de colaborador...
 
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const collabData = await getCollaborators(token);
+    //             setCollaborators(collabData);
+    //         } catch (error) {
+    //             toast({
+    //                 title: "Erro ao carregar dados",
+    //                 description: "Não foi possível carregar dados necessários.",
+    //                 status: "error",
+    //                 duration: 3000,
+    //                 isClosable: true,
+    //             });
+    //         }
+    //     };
+    //     fetchData();
+    // }, [token, toast]);
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const collabData = await getCollaborators(token);
-                setCollaborators(collabData);
-            } catch (error) {
-                toast({
-                    title: "Erro ao carregar dados",
-                    description: "Não foi possível carregar dados necessários.",
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true,
-                });
-            }
-        };
-        fetchData();
-    }, [token, toast]);
+        if (user.tipoUsuario !== 'Colaborador') {
+            const fetchData = async () => {
+                try {
+                    const collabData = await getCollaborators(token);
+                    setCollaborators(collabData);
+                } catch (error) {
+                    toast({
+                        title: "Erro ao carregar dados",
+                        description: "Não foi possível carregar dados necessários.",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                    });
+                }
+            };
+            fetchData();
+        }
+    }, [token, toast, user.id]);
 
     const handleAddSchedule = () => {
-        if (!selectedCollaboratorId || !selectedDate || !selectedHour) {
+        if ((user.tipoUsuario !== 'Colaborador' && !selectedCollaboratorId) || !selectedDate || !selectedHour) {
             if (!isToastShowing) {
                 setIsToastShowing(true);
                 toast({
                     title: "Atenção!",
                     description: "Por favor, selecione um colaborador, data e horário.",
-                    status: "warning",
+                    status: "info",
                     duration: 3000,
                     isClosable: true,
                     onCloseComplete: () => setIsToastShowing(false)
@@ -84,7 +104,7 @@ const CustomizarDisponibilidadeCalendario = () => {
             calendarioId: calendarioId,
             dataHoraConfigurada: localISOTime,
             gestorId: user.id,
-            colaboradorId: selectedCollaboratorId
+            colaboradorId:  user.tipoUsuario === 'Colaborador' ? user.id : selectedCollaboratorId
         };
     
         setScheduleList((prev) => [...prev, newSchedule]);
@@ -150,11 +170,18 @@ const CustomizarDisponibilidadeCalendario = () => {
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">
-                        <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
+                        {/* <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
                             {collaborators.map(col => (
                                 <option key={col.colaboradorId} value={col.colaboradorId}>{col.nome}</option>
                             ))}
-                        </Select>
+                        </Select> */}
+                          {user.tipoUsuario !== 'Colaborador' && (
+                            <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
+                                {collaborators.map(col => (
+                                    <option key={col.colaboradorId} value={col.colaboradorId}>{col.nome}</option>
+                                ))}
+                            </Select>
+                         )}
                         <div className="flex-auto">
                             <Calendar
                                 id="buttondisplay"
