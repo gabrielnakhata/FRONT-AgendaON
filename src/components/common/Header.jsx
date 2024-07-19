@@ -1,6 +1,7 @@
-import { Box, Button, Flex, useDisclosure, IconButton, Drawer, DrawerBody, DrawerOverlay, DrawerContent, DrawerCloseButton } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, useDisclosure, IconButton, Drawer, DrawerBody, DrawerOverlay, DrawerContent, DrawerCloseButton } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Link as RouterLink } from 'react-router-dom';
+import logoAgendaIcon from '../../assets/kezuka_styles_icon_white.png';
 
 const Header = () => {
     const { isOpen, onToggle, onClose } = useDisclosure();
@@ -37,8 +38,16 @@ const Header = () => {
                                     <Button color="white" bg="#244196" _hover={{ bg: "#244196" }} w="full">Cadastre-se</Button>
                                 </RouterLink>
                             </Flex>
+                            <Flex direction="column" paddingTop={530} align="center" mt={4}>
+                            <Image
+                            src={logoAgendaIcon}
+                            w="10%"
+                            objectFit="cover"
+                            />
+                            </Flex>
                         </DrawerBody>
                     </DrawerContent>
+                  
                 </Drawer>
             </Flex>
         </Box>
