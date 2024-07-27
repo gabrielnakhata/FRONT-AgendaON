@@ -27,26 +27,6 @@ const CustomizarDisponibilidadeCalendario = () => {
     const { redirectToDashboard } = useUserRedirect();
     const [containerHeight] = useState('300px');
 
-    // Na sessão do colaborador retirar seletor de colaborador...
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const collabData = await getCollaborators(token);
-    //             setCollaborators(collabData);
-    //         } catch (error) {
-    //             toast({
-    //                 title: "Erro ao carregar dados",
-    //                 description: "Não foi possível carregar dados necessários.",
-    //                 status: "error",
-    //                 duration: 3000,
-    //                 isClosable: true,
-    //             });
-    //         }
-    //     };
-    //     fetchData();
-    // }, [token, toast]);
-
     useEffect(() => {
         if (user.tipoUsuario !== 'Colaborador') {
             const fetchData = async () => {
@@ -170,11 +150,6 @@ const CustomizarDisponibilidadeCalendario = () => {
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
                     <div className="card flex flex-wrap gap-3 p-fluid">
-                        {/* <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
-                            {collaborators.map(col => (
-                                <option key={col.colaboradorId} value={col.colaboradorId}>{col.nome}</option>
-                            ))}
-                        </Select> */}
                           {user.tipoUsuario !== 'Colaborador' && (
                             <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => setSelectedCollaboratorId(parseInt(e.target.value, 10))}>
                                 {collaborators.map(col => (

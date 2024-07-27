@@ -30,24 +30,6 @@ const ProgramarDisponibilidadeCalendario = () => {
     const { redirectToDashboard } = useUserRedirect();
     const [containerHeight] = useState('300px');
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const collabData = await getCollaborators(token);
-    //             setCollaborators(collabData);
-    //         } catch (error) {
-    //             toast({
-    //                 title: "Erro ao carregar dados",
-    //                 description: "Não foi possível carregar dados necessários.",
-    //                 status: "error",
-    //                 duration: 3000,
-    //                 isClosable: true,
-    //             });
-    //         }
-    //     };
-    //     fetchData();
-    // }, [token, toast]);
-
        useEffect(() => {
         if (user.tipoUsuario !== 'Colaborador') {
             const fetchData = async () => {

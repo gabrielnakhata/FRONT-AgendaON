@@ -12,7 +12,7 @@ import { useUserRedirect } from "../hooks/UseUserRedirect";
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;
 const dateOfBirthRegex = /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
-const nameRegex = /^[a-zA-Z\u00C0-\u017F´]+\s+[a-zA-Z\u00C0-\u017F´]{0,}$/;
+// const nameRegex = /^[a-zA-Z\u00C0-\u017F´]+\s+[a-zA-Z\u00C0-\u017F´]{0,}$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
 const CadastroColaborador = () => {
@@ -48,7 +48,7 @@ const CadastroColaborador = () => {
         if (isSubmitting) return;
         setIsSubmitting(true);
 
-        if (!nameRegex.test(formData.nome)) {
+        if (!formData.nome.trim()) {
             toast({
                 title: "Erro de validação",
                 description: "Por favor, insira um nome válido.",
