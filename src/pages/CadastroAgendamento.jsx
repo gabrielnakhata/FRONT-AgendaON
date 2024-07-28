@@ -7,7 +7,7 @@ import TitleSection from '../components/common/TitleSection';
 import DataGridHour from '../components/common/DataGridHour';
 import DataGridHourService from '../components/common/DataGridHourService';
 import { getCollaborators } from '../services/collaboratorService';
-import { getServices } from '../services/serviceService';
+import { getServicesForCollaborator } from "../services/serviceService";
 import { registerScheduling } from '../services/schedulingService';
 import { getCalendarInDisponibility } from '../services/calendarService';
 import ActionButtons from '../components/common/ActionButtons';
@@ -60,6 +60,9 @@ const CadastroAgendamento = () => {
     useEffect(() => {
         setData([]);
         setIsCalendarSelectOn(false);
+        setIsServiceSwitchOn(false); // Desabilita o switch de serviços
+        setDataService([]); // Limpa os serviços
+
         if (selectedCollaboratorId && selectedDate) {
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
             getCalendarInDisponibility(selectedCollaboratorId, formattedDate, token)
@@ -133,7 +136,7 @@ const CadastroAgendamento = () => {
         setIsServiceSwitchOn(newSwitchState);
         if (newSwitchState) {
             try {
-                const servicesData = await getServices(token);
+                const servicesData = await getServicesForCollaborator(selectedCollaboratorId, token);
                 setDataService(servicesData);
             } catch (error) {
                 console.error("Erro ao carregar dados:", error);
@@ -170,11 +173,11 @@ const CadastroAgendamento = () => {
             return;
         }
 
-        if (!showSelectedServices && !isServiceSwitchOnObs) {
+        if (selectedItemService.length === 0) {  // Verifica se algum serviço foi selecionado
             setIsAdding(true);
             toast({
                 title: "Selecione pelo menos um serviço para agendar.",
-                description: "Ao selecionar os serviços, não se esqueça de adionar-los.",
+                description: "Ao selecionar os serviços, não se esqueça de adicioná-los.",
                 status: "info",
                 duration: 5000,
                 isClosable: true,
@@ -182,7 +185,7 @@ const CadastroAgendamento = () => {
             });
             return;
         }
-       
+
         if (isServiceSwitchOnObsInput && !observacoes.trim()) {
             setIsAdding(true);
             toast({
@@ -267,7 +270,7 @@ const CadastroAgendamento = () => {
                         </ChakraProvider>
                     )}
                     <HStack py={4} align="left">
-                        <Switch colorScheme="green" size='lg' isChecked={isServiceSwitchOn} onChange={handleServiceSwitchChange} />
+                        <Switch colorScheme="green" size='lg' isChecked={isServiceSwitchOn} onChange={handleServiceSwitchChange} isDisabled={!selectedCollaboratorId} />
                         <Text fontSize="18px" color="#3D5A73" fontWeight="bold" paddingLeft={4} alignItems="left">Selecione os Serviços</Text>
                     </HStack>
                     {isServiceSwitchOn && (
@@ -303,5 +306,3 @@ const CadastroAgendamento = () => {
 };
 
 export default CadastroAgendamento;
-
-
