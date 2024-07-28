@@ -115,6 +115,9 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     <Text paddingTop={5} fontSize="20px" textTransform="uppercase" color="#172237" fontWeight="bold">
                         Veja os detalhes de seu agendamento:
                     </Text>
+                    <Text paddingTop={3} fontSize="14px" color="#172237" fontWeight="bold">
+                    Os agendamentos poderão ser cancelados apenas uma vez. Caso o cliente precise reagendar para o mesmo horário, será necessário entrar em contato pelo WhatsApp: (31) 99487-5143. Esta medida visa garantir a disponibilidade e organização dos nossos serviços. Agradecemos a sua compreensão.
+                    </Text>
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
@@ -137,7 +140,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 <Text fontSize="15px" color="#504E42" fontWeight="bold">{data.clienteNome}</Text>
                             </HStack>
                             <Text paddingTop={5} fontSize="16px" color="#504E42" fontWeight="bold" alignItems="left">
-                                Observações: &nbsp;<Text fontSize="15px"> {data.observacoes}</Text>
+                            O atendimento é p/ meu FILHO(a) &nbsp;<Text fontSize="15px"> {data.observacoes}</Text>
                             </Text>
                             <HStack paddingTop={5} paddingBottom={1} align="center">
                                 <Text fontSize="16px" color="#504E42" fontWeight="bold" alignItems="left">
@@ -167,12 +170,12 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     </VStack>
                 </ModalBody>
                 <ModalFooter>
-                    {data.statusDescricao === "CANCELADO" ? (
+                    { (user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador' && data.statusDescricao === "CANCELADO") ? (
                         <HStack spacing={4} paddingTop={5}>
                             <Button color="white" onClick={() => handleStatusChange(statusReativado)} bg="green" _hover={{ bg: "#2A542B" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Agendar</Button>
                         </HStack>
                     ) : (
-                        user.tipoUsuario !== 'Cliente' || data.statusDescricao !== "CONCLUÍDO" ? (
+                        user.tipoUsuario !== 'Cliente' || data.statusDescricao === "AGENDADO" ? (
                             <HStack spacing={4} paddingTop={5}>
                                 <Button color="white" onClick={() => handleStatusChange(statusCancelado)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} justifyContent="space-between">Cancelar</Button>
                             </HStack>
