@@ -186,8 +186,8 @@ const CadastroAgendamento = () => {
         if (isServiceSwitchOnObsInput && !observacoes.trim()) {
             setIsAdding(true);
             toast({
-                title: "Adicione as observações!",
-                description: "Caso não queira adicionar favor desmarcar!",
+                title: "O Atendimento é infantil?",
+                description: "Desmarque caso o atendimento seja para você!",
                 status: "info",
                 duration: 5000,
                 isClosable: true,
