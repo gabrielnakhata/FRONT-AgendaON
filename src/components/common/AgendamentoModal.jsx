@@ -118,6 +118,10 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     <Text paddingTop={3} fontSize="14px" color="#172237" fontWeight="bold">
                     Os agendamentos poderão ser cancelados apenas uma vez. Caso o cliente precise reagendar para o mesmo horário, será necessário entrar em contato pelo WhatsApp: (31) 99487-5143. Esta medida visa garantir a disponibilidade e organização dos nossos serviços. Agradecemos a sua compreensão.
                     </Text>
+                    <Text paddingTop={3} fontSize="14px" color="RED" fontWeight="bold">
+                    Atenção!
+                    Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
+                    </Text>
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
