@@ -37,11 +37,18 @@ const CadastroCliente = () => {
         navigate('/');
     };
 
+    const formatPhoneNumber = (phone) => {
+        return phone.replace(/\D/g, ''); // Remove qualquer caractere que não seja dígito
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (isSubmitting) return;
         setIsSubmitting(true);
+
+        // Formatar número de celular
+        const formattedPhone = formatPhoneNumber(formData.celular);
 
         if (!formData.nome.trim()) {
             toast({
@@ -85,7 +92,7 @@ const CadastroCliente = () => {
             return;
         }
 
-        if (!phoneRegex.test(formData.celular)) {
+        if (!phoneRegex.test(formattedPhone)) {
             toast({
                 title: "Erro de validação",
                 description: "Por favor, insira um número de celular válido. (10 a 11 dígitos)",
@@ -115,7 +122,7 @@ const CadastroCliente = () => {
 
         try {
             const dataCadastro = moment().tz("America/Sao_Paulo").format();
-            const data = await registerClient({ ...formData, dataCadastro });
+            const data = await registerClient({ ...formData, celular: formattedPhone, dataCadastro });
             toast({
                 title: "Cliente cadastrado",
                 description: `Os dados foram cadastrados com sucesso! Bem-vindo(a), ${data.nome || 'cliente'}.`,
