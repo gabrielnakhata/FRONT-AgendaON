@@ -10,8 +10,7 @@ import ActionButtons from '../components/common/ActionButtons';
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;
 const dateOfBirthRegex = /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
-// const nameRegex = /^[a-zA-Z\u00C0-\u017F´]+\s+[a-zA-Z\u00C0-\u017F´]{0,}$/;
-const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+const passwordRegex = /^.{6,}$/;
 
 const CadastroCliente = () => {
     const toast = useToast();
@@ -75,7 +74,7 @@ const CadastroCliente = () => {
         if (!passwordRegex.test(formData.senha)) {
             toast({
                 title: "Erro de validação",
-                description: "Por favor, insira uma senha válida. A senha deve ter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
+                description: "Por favor, insira uma senha válida. A senha deve ter pelo menos 6 caracteres.",
                 status: "info",
                 duration: 2000,
                 isClosable: true,
