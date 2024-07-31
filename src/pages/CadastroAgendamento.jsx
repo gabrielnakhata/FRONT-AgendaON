@@ -60,8 +60,8 @@ const CadastroAgendamento = () => {
     useEffect(() => {
         setData([]);
         setIsCalendarSelectOn(false);
-        setIsServiceSwitchOn(false); // Desabilita o switch de serviços
-        setDataService([]); // Limpa os serviços
+        // setIsServiceSwitchOn(false); 
+        setDataService([]);
 
         if (selectedCollaboratorId && selectedDate) {
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
@@ -160,6 +160,19 @@ const CadastroAgendamento = () => {
     const handleSave = async () => {
         if (isAdding || isSubmitting) return;
 
+        if (!isCalendarSelectOn || data.length === 0) {
+            setIsAdding(true);
+            toast({
+                title: "Atenção!",
+                description: "Nenhum horário disponível para este profissional!",
+                status: "info",
+                duration: 3000,
+                isClosable: true,
+                onCloseComplete: () => setIsAdding(false)
+            });
+            return;
+        }
+
         if (!selectedItem) {
             setIsAdding(true);
             toast({
@@ -173,7 +186,7 @@ const CadastroAgendamento = () => {
             return;
         }
 
-        if (selectedItemService.length === 0) {  // Verifica se algum serviço foi selecionado
+        if (!showSelectedServices && !isServiceSwitchOnObs) {  
             setIsAdding(true);
             toast({
                 title: "Selecione pelo menos um serviço para agendar.",
@@ -226,8 +239,8 @@ const CadastroAgendamento = () => {
             });
         } catch (error) {
             toast({
-                title: "Erro ao registrar agendamento",
-                description: error.message || "Não foi possível registrar o agendamento.",
+                title: "Atenção!",
+                description: error.message || "Não foi possível registrar o agendamento, verifique o tempo por serviço pode haver conflito de horários ou falta disponibilidade!",
                 status: "error",
                 duration: 3000,
                 isClosable: true,
@@ -270,7 +283,7 @@ const CadastroAgendamento = () => {
                         </ChakraProvider>
                     )}
                     <HStack py={4} align="left">
-                        <Switch colorScheme="green" size='lg' isChecked={isServiceSwitchOn} onChange={handleServiceSwitchChange} isDisabled={!selectedCollaboratorId} />
+                        <Switch colorScheme="green" size='lg' isChecked={isServiceSwitchOn} onChange={handleServiceSwitchChange} />
                         <Text fontSize="18px" color="#3D5A73" fontWeight="bold" paddingLeft={4} alignItems="left">Selecione os Serviços</Text>
                     </HStack>
                     {isServiceSwitchOn && (
