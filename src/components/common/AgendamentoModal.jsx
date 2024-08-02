@@ -112,56 +112,67 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                             <Text fontSize="sm" color="#172237">{user?.email || 'noemail@example.com'}</Text>
                         </VStack>
                     </HStack>
-                    <Text paddingTop={5} fontSize="20px" textTransform="uppercase" color="#172237" fontWeight="bold">
+                    <HStack paddingTop={5} paddingBottom={1} align="center">
+                        <Text fontSize="16px" color="#504E42" fontWeight="bold" alignItems="left">
+                            Status:&nbsp;&nbsp;&nbsp;
+                        </Text>
+                        <Badge
+                            colorScheme={data.statusDescricao === "CANCELADO" ? "red" : data.statusDescricao === "CONCLUÍDO" ? "purple" : "green"}
+                            mb={0}
+                            borderRadius="full"
+                            px={2}
+                            py={1}
+                            fontSize="0.8em"
+                        >
+                            {data.statusDescricao}
+                        </Badge>
+                    </HStack>
+                    <Text paddingTop={5} fontSize="18px" textTransform="uppercase" color="#172237" fontWeight="bold">
                         Veja os detalhes de seu agendamento:
-                    </Text>
-                    <Text paddingTop={3} fontSize="14px" color="#172237" fontWeight="bold">
-                    Os agendamentos poderão ser cancelados apenas uma vez. Caso o cliente precise reagendar para o mesmo horário, será necessário entrar em contato pelo WhatsApp: (31) 99487-5143. Esta medida visa garantir a disponibilidade e organização dos nossos serviços. Agradecemos a sua compreensão.
-                    </Text>
-                    <Text paddingTop={3} fontSize="14px" color="RED" fontWeight="bold">
-                    Atenção!
-                    Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
                     </Text>
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <VStack align="start" spacing={4} w="100%">
-                        <Card w="100%" bg='#FFF8D0' p={5}>
-                            <HStack align="center" paddingBottom={2}>
-                                <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#504E42' }} />
-                                <Text fontSize="15px" color="#504E42" fontWeight="bold">{formatDate(data.dataHoraAgendamento)}</Text>
-                            </HStack>
-                            <HStack align="center" paddingBottom={2}>
-                                <i className="pi pi-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#504E42' }} />
-                                <Text fontSize="15px" color="#504E42" fontWeight="bold">{formatTime(data.dataHoraAgendamento)}</Text>
-                            </HStack>
-                            <HStack align="center" paddingBottom={2}>
-                                <i className="pi pi-user" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#504E42' }} />
-                                <Text fontSize="15px" color="#504E42" fontWeight="bold">{data.colaboradorNome}</Text>
-                            </HStack>
-                            <HStack align="center">
-                                <i className="pi pi-tag" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#504E42' }} />
-                                <Text fontSize="15px" color="#504E42" fontWeight="bold">{data.clienteNome}</Text>
-                            </HStack>
-                            <Text paddingTop={5} fontSize="16px" color="#504E42" fontWeight="bold" alignItems="left">
-                            O atendimento é p/ meu FILHO(a) &nbsp;<Text fontSize="15px"> {data.observacoes}</Text>
-                            </Text>
-                            <HStack paddingTop={5} paddingBottom={1} align="center">
-                                <Text fontSize="16px" color="#504E42" fontWeight="bold" alignItems="left">
-                                    Status:&nbsp;&nbsp;&nbsp;
-                                </Text>
-                                <Badge
-                                    colorScheme={data.statusDescricao === "CANCELADO" ? "red" : data.statusDescricao === "CONCLUÍDO" ? "purple" : "green"}
-                                    mb={0}
-                                    borderRadius="full"
-                                    px={2}
-                                    py={1}
-                                    fontSize="0.8em"
-                                >
-                                    {data.statusDescricao}
-                                </Badge>
-                            </HStack>
-                        </Card>
+                            <Card w="99%" bg='#DEDDB9' p={5}>
+                                <Card w="100%" bg='#6E7980' p={5}>
+                                    <Text fontSize="14px" color="#DEDDB9" fontWeight="bold" >
+                                        Os agendamentos poderão ser cancelados apenas uma vez. Esta medida visa garantir a disponibilidade e organização dos nossos serviços.
+                                    </Text>
+                                </Card>
+                                <Card w="100%" bg='#960402' p={5}>
+                                    <Text fontSize="14px" color="#DEDDB9">
+                                        Atenção!
+                                        Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
+                                    </Text>
+                                </Card>
+                                <Card w="100%" bg='#3D4073' p={5}>
+                                    <HStack align="center" paddingBottom={2}>
+                                        <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
+                                        <Text fontSize="15px" color="#DEDDB9" fontWeight="bold">{formatDate(data.dataHoraAgendamento)}</Text>
+                                    </HStack>
+                                    <HStack align="center" paddingBottom={2}>
+                                        <i className="pi pi-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
+                                        <Text fontSize="15px" color="#DEDDB9" fontWeight="bold">{formatTime(data.dataHoraAgendamento)}</Text>
+                                    </HStack>
+                                    <HStack align="center" paddingBottom={2}>
+                                        <i className="pi pi-user" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
+                                        <Text fontSize="15px" color="#DEDDB9" fontWeight="bold">{data.colaboradorNome}</Text>
+                                    </HStack>
+                                    <HStack align="center">
+                                        <i className="pi pi-tag" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
+                                        <Text fontSize="15px" color="#DEDDB9" fontWeight="bold">{data.clienteNome}</Text>
+                                    </HStack>
+                                </Card>
+                                <Card w="100%" bg='#4B5257'>
+                                    <HStack align="center">
+                                        <Text paddingTop={5} paddingLeft={5} paddingBottom={4} fontSize="14px" color="#DEDDB9" fontWeight="bold" alignItems="left">
+                                            O atendimento é p/ meu FILHO(a): &nbsp;
+                                        </Text>
+                                        <Text color="#DEDDB9" fontWeight="bold" fontSize="18px"> {data.observacoes}</Text>
+                                    </HStack>
+                                </Card>
+                            </Card>
 
                         <VStack spacing={4} w="100%">
                             <ChakraProvider>
@@ -174,7 +185,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     </VStack>
                 </ModalBody>
                 <ModalFooter>
-                    { (user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador' && data.statusDescricao === "CANCELADO") ? (
+                    {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador' && data.statusDescricao === "CANCELADO") ? (
                         <HStack spacing={4} paddingTop={5}>
                             <Button color="white" onClick={() => handleStatusChange(statusReativado)} bg="green" _hover={{ bg: "#2A542B" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Agendar</Button>
                         </HStack>
