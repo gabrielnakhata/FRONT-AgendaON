@@ -192,7 +192,7 @@ const CadastroAgendamento = () => {
                 title: "Selecione pelo menos um serviço para agendar.",
                 description: "Ao selecionar os serviços, não se esqueça de adicioná-los.",
                 status: "info",
-                duration: 5000,
+                duration: 3000,
                 isClosable: true,
                 onCloseComplete: () => setIsAdding(false)
             });
@@ -205,7 +205,7 @@ const CadastroAgendamento = () => {
                 title: "O Atendimento é infantil?",
                 description: "Desmarque caso o atendimento seja para você!",
                 status: "info",
-                duration: 5000,
+                duration: 2000,
                 isClosable: true,
                 onCloseComplete: () => setIsAdding(false)
             });
@@ -233,7 +233,7 @@ const CadastroAgendamento = () => {
                 title: "Agendamento de Horário",
                 description: "Agendamento realizado com sucesso.",
                 status: "success",
-                duration: 2500,
+                duration: 3000,
                 isClosable: true,
                 onCloseComplete: () => { redirectToDashboard(); setIsAdding(false) }
             });
