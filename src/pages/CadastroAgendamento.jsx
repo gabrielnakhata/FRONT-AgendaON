@@ -439,7 +439,7 @@ const CadastroAgendamento = () => {
         } else if (collaboratorId === 25) {
             name = 'Lucas Vinícius';
             photo = lucasIMGperfil;
-            description = 'Henrique Lucas é visagista e especialista em cortes infantis. Ele oferece uma variedade de serviços de estética masculina, além de atender a serviços de barbearia tradicional.';
+            description = 'Lucas Vinícius é visagista e especialista em cortes infantis. Ele oferece uma variedade de serviços de estética masculina, além de atender a serviços de barbearia tradicional.';
         }
 
         setCollaboratorName(name);
