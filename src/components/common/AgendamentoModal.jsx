@@ -233,24 +233,24 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack align="start" spacing={4} w="100%">
-                            <Card w="99%" bg='#172237' p={5}>
-                                <Card w="100%" bg='yellow' p={5}>
+                            <Card w="100%" bg='#FEFF92' p={5}>
                                 <HStack align="center" paddingBottom={2}>
                                     <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
-                                    <Text paddingLeft={4} fontSize="14px" color="#172237" fontWeight="bold" >
+                                    <Text paddingLeft={4} fontSize="16px" color="#172237">
                                         Os agendamentos poderão ser cancelados apenas uma vez. Esta medida visa garantir a disponibilidade e organização dos nossos serviços.
                                     </Text>
-                                    </HStack>
-                                </Card>
-                                <Card w="100%" bg='red' p={5}>
-                                    <HStack align="center" paddingBottom={2}>
+                                </HStack>
+                            </Card>
+                            <Card w="100%" bg='#F25E5E' p={5}>
+                                <HStack align="center" paddingBottom={2}>
                                     <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
-                                    <Text paddingLeft={4} fontSize="14px" color="white">
+                                    <Text paddingLeft={4} fontSize="16px" color="white">
                                         <strong>Atenção!</strong><br></br>
                                         Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
                                     </Text>
-                                    </HStack>
-                                </Card>
+                                </HStack>
+                            </Card>
+                            <Card w="99%" bg='#172237' p={5}>
                                 <Card w="100%" bg='#172237' p={5}>
                                     <HStack align="center" paddingBottom={2}>
                                         <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
@@ -315,10 +315,9 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                 </ModalContent>
             </Modal>
 
-            {/* Modal para informações sobre o status Pausado */}
-            <Modal isOpen={isPauseInfoOpen} onClose={closePauseInfoModal} isCentered>
+            <Modal isOpen={isPauseInfoOpen} onClose={closePauseInfoModal} isCentered size="xl" motionPreset="scale">
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent  w={{ base: '90%', md: '70%', lg: '50%' }}>
                     <ModalHeader>
                         <HStack>
                             <Avatar name={user?.nome || 'No Name'} src={user?.image || 'https://fallback-url.com/default-avatar.png'} mr={2} />
@@ -329,7 +328,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         </HStack>
                         <HStack paddingTop={5} paddingBottom={1} align="center">
                             <Text fontSize="16px" color="#504E42" fontWeight="bold" alignItems="left">
-                                Agora o Status do Agendamento é:&nbsp;&nbsp;&nbsp;
+                                Status:&nbsp;&nbsp;
                             </Text>
                             <Badge
                                 colorScheme={getStatusColor(statusAtual)}  // Usa o status atualizado
@@ -345,16 +344,17 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Card w="100%" bg='yellow' p={5}>
+                    <VStack align="start" spacing={4} w="100%">
+                        <Card w="100%" bg='#FEFF92' p={5}>
                             <HStack align="center">
-                            <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
-                            <Text paddingLeft={4} mb={4} fontSize={16}>
-                                O status <strong>Pausado</strong> é utilizado para entrar em contato com o cliente.
-                                Após comunicar-se com ele pelo WhatsApp, você poderá efetuar o cancelamento, clicando no botão <strong>Cancelar</strong>.
-                            </Text>
+                                <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
+                                <Text paddingLeft={4} mb={4} fontSize={16}>
+                                    O status <strong>Pausado</strong> é utilizado para entrar em contato com o cliente.
+                                    Após comunicar-se com ele pelo WhatsApp, você poderá efetuar o cancelamento, clicando no botão <strong>Cancelar</strong>.
+                                </Text>
                             </HStack>
                         </Card>
-                        <Card w="100%" bg='red' p={5}>
+                        <Card w="100%" bg='#F25E5E' p={5}>
                             <HStack align="center">
                                 <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
                                 <Text paddingLeft={4} mb={2} fontSize={14} color='white'>
@@ -368,7 +368,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         </Text>
                         <Button
                             as="a"
-                            href={whatsappLink} 
+                            href={whatsappLink}
                             target="_blank"
                             colorScheme="green"
                             leftIcon={<FaWhatsapp />}
@@ -376,6 +376,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         >
                             Comunicar via WhatsApp
                         </Button>
+                        </VStack>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={closePauseInfoModal}>
