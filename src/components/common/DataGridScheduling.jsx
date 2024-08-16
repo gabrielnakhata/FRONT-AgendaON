@@ -35,6 +35,8 @@ const DataGridScheduling = ({ data, onRowClick }) => {
                 return 'red';
             case 'CONCLUÍDO':
                 return 'purple';
+            case 'PAUSADO':
+                return 'yellow';
             case 'AGENDADO':
                 return 'green';
         }
