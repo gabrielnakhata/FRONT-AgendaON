@@ -292,7 +292,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     <ModalFooter>
                         {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador' && statusAtual === "CANCELADO") ? (
                             <HStack spacing={4} paddingTop={5}>
-                                <Button color="white" onClick={() => handleStatusChange(statusReativado)} bg="green" _hover={{ bg: "#2A542B" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">Agendar</Button>
+                                <Button color="white" onClick={() => handleStatusChange(statusReativado)} bg="green" _hover={{ bg: "#2A542B" }} w="full" py={6} justifyContent="space-between">Reagendar</Button>
                             </HStack>
                         ) : (
                             user.tipoUsuario !== 'Cliente' || statusAtual === "AGENDADO" || statusAtual === "PAUSADO" ? (
@@ -301,23 +301,24 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 </HStack>
                             ) : null
                         )}
-                        {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador') && (
-                            <HStack spacing={4} paddingLeft={5} paddingTop={5}>
-                                <Button color="white" onClick={() => handleStatusChange(statusConcluido)} bg="#8965E2" _hover={{ bg: "#493678" }} w="full" py={6} justifyContent="space-between">Concluído</Button>
-                            </HStack>
-                        )}
-                        {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador') && (
-                            <HStack spacing={4} paddingLeft={5} paddingTop={5}>
-                                <Button color="white" onClick={openPauseInfoModal} bg="#EBC01B" _hover={{ bg: "#EA9F1B" }} w="full" py={6} justifyContent="space-between">Pausado</Button>
-                            </HStack>
+                        {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador') && statusAtual !== "CANCELADO" && (
+                            <>
+                                <HStack spacing={4} paddingLeft={5} paddingTop={5}>
+                                    <Button color="white" onClick={() => handleStatusChange(statusConcluido)} bg="#8965E2" _hover={{ bg: "#493678" }} w="full" py={6} justifyContent="space-between">Concluído</Button>
+                                </HStack>
+                                <HStack spacing={4} paddingLeft={5} paddingTop={5}>
+                                    <Button color="white" onClick={openPauseInfoModal} bg="#EBC01B" _hover={{ bg: "#EA9F1B" }} w="full" py={6} justifyContent="space-between">Pausado</Button>
+                                </HStack>
+                            </>
                         )}
                     </ModalFooter>
+
                 </ModalContent>
             </Modal>
 
             <Modal isOpen={isPauseInfoOpen} onClose={closePauseInfoModal} isCentered size="xl" motionPreset="scale">
                 <ModalOverlay />
-                <ModalContent  w={{ base: '90%', md: '70%', lg: '50%' }}>
+                <ModalContent w={{ base: '90%', md: '70%', lg: '50%' }}>
                     <ModalHeader>
                         <HStack>
                             <Avatar name={user?.nome || 'No Name'} src={user?.image || 'https://fallback-url.com/default-avatar.png'} mr={2} />
@@ -344,38 +345,38 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                    <VStack align="start" spacing={4} w="100%">
-                        <Card w="100%" bg='#FEFF92' p={5}>
-                            <HStack align="center">
-                                <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
-                                <Text paddingLeft={4} mb={4} fontSize={16}>
-                                    O status <strong>Pausado</strong> é utilizado para entrar em contato com o cliente.
-                                    Após comunicar-se com ele pelo WhatsApp, você poderá efetuar o cancelamento, clicando no botão <strong>Cancelar</strong>.
-                                </Text>
-                            </HStack>
-                        </Card>
-                        <Card w="100%" bg='#F25E5E' p={5}>
-                            <HStack align="center">
-                                <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
-                                <Text paddingLeft={4} mb={2} fontSize={14} color='white'>
-                                    Obs.: Ao Cancelar o cliente receberá um e-mail formalizando o cancelamento do agendamento.
-                                </Text>
-                            </HStack>
-                        </Card>
-                        <Text mb={4}>
-                            <br></br>
-                            Chamar cliente pelo WhatsApp abaixo:
-                        </Text>
-                        <Button
-                            as="a"
-                            href={whatsappLink}
-                            target="_blank"
-                            colorScheme="green"
-                            leftIcon={<FaWhatsapp />}
-                            mt={4}
-                        >
-                            Comunicar via WhatsApp
-                        </Button>
+                        <VStack align="start" spacing={4} w="100%">
+                            <Card w="100%" bg='#FEFF92' p={5}>
+                                <HStack align="center">
+                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
+                                    <Text paddingLeft={4} mb={4} fontSize={16}>
+                                        O status <strong>Pausado</strong> é utilizado para entrar em contato com o cliente.
+                                        Após comunicar-se com ele pelo WhatsApp, você poderá efetuar o cancelamento, clicando no botão <strong>Cancelar</strong>.
+                                    </Text>
+                                </HStack>
+                            </Card>
+                            <Card w="100%" bg='#F25E5E' p={5}>
+                                <HStack align="center">
+                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
+                                    <Text paddingLeft={4} mb={2} fontSize={14} color='white'>
+                                        Obs.: Ao Cancelar o cliente receberá um e-mail formalizando o cancelamento do agendamento.
+                                    </Text>
+                                </HStack>
+                            </Card>
+                            <Text mb={4}>
+                                <br></br>
+                                Chamar cliente pelo WhatsApp abaixo:
+                            </Text>
+                            <Button
+                                as="a"
+                                href={whatsappLink}
+                                target="_blank"
+                                colorScheme="green"
+                                leftIcon={<FaWhatsapp />}
+                                mt={4}
+                            >
+                                Comunicar via WhatsApp
+                            </Button>
                         </VStack>
                     </ModalBody>
                     <ModalFooter>
