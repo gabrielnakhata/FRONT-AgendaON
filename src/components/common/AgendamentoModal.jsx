@@ -36,7 +36,8 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isPauseInfoOpen, setIsPauseInfoOpen] = useState(false);
     const [statusAtual, setStatusAtual] = useState(data.statusDescricao);
-    const [clienteCelular, setClienteCelular] = useState('');
+    const [clienteTelefone, setClienteTelefone] = useState('');
+    const [whatsappLink, setWhatsappLink] = useState('');
 
     const agendamentoId = data?.agendamentoId;
     const statusCancelado = 2;
@@ -65,15 +66,18 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
 
     }, [token, agendamentoId, user.id, toast]);
 
+    // Novo useEffect para buscar o telefone quando o modal de "Pausado" for aberto
     useEffect(() => {
         if (isPauseInfoOpen && token) {
             const changeStatusToPausado = async () => {
                 try {
+                    // Altera o status para Pausado
                     await statusSchedulingForClient(agendamentoId, statusPausado, token);
                     setStatusAtual("PAUSADO");
 
+                    // Busca o telefone do cliente
                     const phone = await getClientPhoneByScheduling(agendamentoId, token);
-                    setClienteCelular(phone);
+                    setClienteTelefone(phone);
 
                 } catch (error) {
                     console.error("Erro ao buscar telefone do cliente:", error);
@@ -93,6 +97,17 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
             changeStatusToPausado();
         }
     }, [isPauseInfoOpen, token, agendamentoId, toast]);
+
+    // UseEffect para determinar o link do WhatsApp baseado no dispositivo
+    useEffect(() => {
+        if (clienteTelefone) {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const link = isMobile
+                ? `whatsapp://send?phone=55${clienteTelefone}`
+                : `https://web.whatsapp.com/send?phone=55${clienteTelefone}`;
+            setWhatsappLink(link);
+        }
+    }, [clienteTelefone]);
 
     const getStatusColor = (statusDescricao) => {
         switch (statusDescricao) {
@@ -114,7 +129,16 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
         setIsSubmitting(true);
 
         try {
-            await statusSchedulingForClient(agendamentoId, status, token);
+            if (status === statusPausado) {
+                // Altera o status para Pausado
+                await statusSchedulingForClient(agendamentoId, statusPausado, token);
+                setStatusAtual("PAUSADO");
+                // Abre o modal com as informações sobre o status pausado
+                openPauseInfoModal();
+            } else {
+                // Alterações para outros status
+                await statusSchedulingForClient(agendamentoId, status, token);
+            }
 
             let title, description;
 
@@ -192,7 +216,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 Status:&nbsp;&nbsp;&nbsp;
                             </Text>
                             <Badge
-                                colorScheme={getStatusColor(statusAtual)}  
+                                colorScheme={getStatusColor(statusAtual)}  // Usa o status atualizado
                                 mb={0}
                                 borderRadius="full"
                                 px={2}
@@ -211,20 +235,20 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         <VStack align="start" spacing={4} w="100%">
                             <Card w="99%" bg='#172237' p={5}>
                                 <Card w="100%" bg='yellow' p={5}>
-                                    <HStack align="center" paddingBottom={2}>
-                                        <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
-                                        <Text paddingLeft={4} fontSize="14px" color="#172237" fontWeight="bold" >
-                                            Os agendamentos poderão ser cancelados apenas uma vez. Esta medida visa garantir a disponibilidade e organização dos nossos serviços.
-                                        </Text>
+                                <HStack align="center" paddingBottom={2}>
+                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
+                                    <Text paddingLeft={4} fontSize="14px" color="#172237" fontWeight="bold" >
+                                        Os agendamentos poderão ser cancelados apenas uma vez. Esta medida visa garantir a disponibilidade e organização dos nossos serviços.
+                                    </Text>
                                     </HStack>
                                 </Card>
                                 <Card w="100%" bg='red' p={5}>
                                     <HStack align="center" paddingBottom={2}>
-                                        <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
-                                        <Text paddingLeft={4} fontSize="14px" color="white">
-                                            <strong>Atenção!</strong><br></br>
-                                            Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
-                                        </Text>
+                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
+                                    <Text paddingLeft={4} fontSize="14px" color="white">
+                                        <strong>Atenção!</strong><br></br>
+                                        Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
+                                    </Text>
                                     </HStack>
                                 </Card>
                                 <Card w="100%" bg='#172237' p={5}>
@@ -308,7 +332,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 Agora o Status do Agendamento é:&nbsp;&nbsp;&nbsp;
                             </Text>
                             <Badge
-                                colorScheme={getStatusColor(statusAtual)}
+                                colorScheme={getStatusColor(statusAtual)}  // Usa o status atualizado
                                 mb={0}
                                 borderRadius="full"
                                 px={2}
@@ -323,11 +347,11 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     <ModalBody>
                         <Card w="100%" bg='yellow' p={5}>
                             <HStack align="center">
-                                <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
-                                <Text paddingLeft={4} mb={4} fontSize={16}>
-                                    O status <strong>Pausado</strong> é utilizado para entrar em contato com o cliente.
-                                    Após comunicar-se com ele pelo WhatsApp, você poderá efetuar o cancelamento, clicando no botão <strong>Cancelar</strong>.
-                                </Text>
+                            <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
+                            <Text paddingLeft={4} mb={4} fontSize={16}>
+                                O status <strong>Pausado</strong> é utilizado para entrar em contato com o cliente.
+                                Após comunicar-se com ele pelo WhatsApp, você poderá efetuar o cancelamento, clicando no botão <strong>Cancelar</strong>.
+                            </Text>
                             </HStack>
                         </Card>
                         <Card w="100%" bg='red' p={5}>
@@ -344,7 +368,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         </Text>
                         <Button
                             as="a"
-                            href={`https://web.whatsapp.com/send?phone=55${clienteCelular}`}
+                            href={whatsappLink} 
                             target="_blank"
                             colorScheme="green"
                             leftIcon={<FaWhatsapp />}
