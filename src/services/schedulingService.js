@@ -22,6 +22,22 @@ export const registerScheduling = async (schedulingData, token) => {
     }
 };
 
+export const getClientPhoneByScheduling = async (agendamentoId, token) => {
+    try {
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        const url = `/Agendamentos/${agendamentoId}/ClienteCelular`;
+        const response = await calendarApi.get(url, config);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error("An unexpected error occurred");
+    }
+};
+
 
 export const getSchedulingForCollaborator = async (colaboradorId, token) => {
     try {
