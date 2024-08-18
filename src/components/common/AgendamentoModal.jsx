@@ -20,7 +20,6 @@ import {
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { ArrowBackIcon } from '@chakra-ui/icons';
 import { ScrollTop } from 'primereact/scrolltop';
 import DataGridService from './DataGridService';
 import { getServicesFromAgendamento } from '../../services/serviceService';
@@ -216,7 +215,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 Status:&nbsp;&nbsp;&nbsp;
                             </Text>
                             <Badge
-                                colorScheme={getStatusColor(statusAtual)}  // Usa o status atualizado
+                                colorScheme={getStatusColor(statusAtual)}
                                 mb={0}
                                 borderRadius="full"
                                 px={2}
@@ -332,7 +331,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 Status:&nbsp;&nbsp;
                             </Text>
                             <Badge
-                                colorScheme={getStatusColor(statusAtual)}  // Usa o status atualizado
+                                colorScheme={getStatusColor(statusAtual)}
                                 mb={0}
                                 borderRadius="full"
                                 px={2}
@@ -374,6 +373,10 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 colorScheme="green"
                                 leftIcon={<FaWhatsapp />}
                                 mt={4}
+                                _hover={{ 
+                                    bg: "green.300",
+                                    color: "white"
+                                }}
                             >
                                 Comunicar via WhatsApp
                             </Button>

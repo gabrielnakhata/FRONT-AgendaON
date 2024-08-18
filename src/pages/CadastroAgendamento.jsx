@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import { ScrollTop } from 'primereact/scrolltop';
 import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
-import { ChakraProvider, Flex, Box, VStack, useToast, Select, Switch, Text, HStack, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Image } from '@chakra-ui/react';
+import { ChakraProvider, Button, Flex, Box, VStack, useToast, Select, Switch, Text, HStack, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Image, Card } from '@chakra-ui/react';
 import TitleSection from '../components/common/TitleSection';
 import DataGridHour from '../components/common/DataGridHour';
 import DataGridHourService from '../components/common/DataGridHourService';
@@ -17,7 +17,7 @@ import kezukaIMGperfil from '../assets/kezuka.png';
 import lucasIMGperfil from '../assets/lucas.png';
 import henriqueIMGperfil from '../assets/henrique.png';
 import { Spinner } from '@chakra-ui/react';
-
+import { FaWhatsapp } from 'react-icons/fa';
 
 const CadastroAgendamento = () => {
     usePrimeReactLocale();
@@ -45,9 +45,22 @@ const CadastroAgendamento = () => {
     const [isAdding, setIsAdding] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isInfoAgendamentoOn, setInfoAgendamento] = useState(false);
     const [collaboratorName, setCollaboratorName] = useState('');
     const [collaboratorPhoto, setCollaboratorPhoto] = useState('');
     const [collaboratorDescription, setCollaboratorDescription] = useState('');
+    const [whatsappLink, setWhatsappLink] = useState('');
+    const clienteTelefone = 31994875143;
+
+    useEffect(() => {
+        if (clienteTelefone) {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const link = isMobile
+                ? `whatsapp://send?phone=55${clienteTelefone}`
+                : `https://web.whatsapp.com/send?phone=55${clienteTelefone}`;
+            setWhatsappLink(link);
+        }
+    }, [clienteTelefone]);
 
 
     useEffect(() => {
@@ -71,6 +84,7 @@ const CadastroAgendamento = () => {
     useEffect(() => {
         setData([]);
         setIsCalendarSelectOn(false);
+        setInfoAgendamento(false)
         setDataService([]);
 
         if (selectedCollaboratorId && selectedDate) {
@@ -79,6 +93,7 @@ const CadastroAgendamento = () => {
                 .then(response => {
                     setData(response);
                     setIsCalendarSelectOn(true);
+                    setInfoAgendamento(true);
                     toast({
                         title: "Consulta",
                         description: "Escolha um horário para atendimento...",
@@ -88,6 +103,7 @@ const CadastroAgendamento = () => {
                     });
                 })
                 .catch(error => {
+                    setInfoAgendamento(true);
                     toast({
                         title: "Consulta",
                         description: error.message || "Não há horários disponíveis para esta data.",
@@ -293,8 +309,45 @@ const CadastroAgendamento = () => {
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Agendamento" subtitle="Preencha os campos para realizar o agendamento" />
+            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem"  mt="1rem">
+                <VStack spacing={4}>
+
+                    <Card w="67%"  bg='#59FFA7' p={5}>
+                        <HStack align="center" paddingBottom={2}>
+                            <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle',  color: '#38a169' }} />
+                            <Text paddingLeft={4} fontSize="17px"  color="#38a169">
+                            Se precisar de um horário que não esteja disponível, entre em contato com nosso suporte pelo WhatsApp.
+                            </Text>
+                        </HStack>
+                        <Button
+                            as="a"
+                            href={whatsappLink}
+                            target="_blank"
+                            colorScheme="green"
+                            leftIcon={<FaWhatsapp />}
+                            mt={4}
+                            _hover={{ 
+                                bg: "green.300",
+                                color: "white"
+                            }}
+                        >
+                            Verificar
+                        </Button>
+                    </Card>
+                    <Card  w="67%" bg='#38a169' p={5}>
+                        <HStack align="center" paddingBottom={2}>
+                            <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
+                            <Text paddingLeft={4} fontSize="16px" color="white">
+                            Após realizar o agendamento, você receberá o comprovante por e-mail.
+                            </Text>
+                        </HStack>
+                    </Card>
+                </VStack>
+            </Box>
+           
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
+
                     <Box className="card flex flex-wrap gap-3 p-fluid">
                         <Select placeholder="Selecione o Colaborador" name="colaboradorId" fontSize="18px" color="#3D5A73" fontWeight="bold" onChange={(e) => handleCollaboratorSelect(parseInt(e.target.value, 10))}>
                             {collaborators.map(col => (
@@ -321,7 +374,17 @@ const CadastroAgendamento = () => {
                             </Box>
                         </ChakraProvider>
                     )}
-
+                    { isInfoAgendamentoOn && (
+                        <Card w="67%" bg='#FEFF92' p={5}>
+                            <HStack align="center" paddingBottom={2}>
+                                <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#172237' }} />
+                                <Text paddingLeft={4} fontSize="16px" color="#172237">
+                                    <strong>Atenção!</strong><br></br>
+                                    Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
+                                </Text>
+                            </HStack>
+                        </Card>
+                    )}
                     {/* Modal de perfil do colaborador */}
                     <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isCentered>
                         <ModalOverlay />
@@ -373,7 +436,7 @@ const CadastroAgendamento = () => {
 
                     )}
 
-                    <ActionButtons onBack={handleClose} onSave={handleSave} isSaveDisabled={isAdding || isSubmitting} />
+                    <ActionButtons onBack={handleClose} onSave={handleSave} isSaveDisabled={isAdding || isSubmitting}  saveLabel="Agendar"  />
                     {isSubmitting && (
                         <Spinner
                             thickness="4px"

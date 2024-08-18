@@ -2,7 +2,7 @@ import { Box, HStack, Icon } from '@chakra-ui/react';
 import { CheckCircleIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import PropTypes from 'prop-types';
 
-const ActionButtons = ({ onBack, onSave, isSaveDisabled, showPagination, onPrevious, onNext, currentPage, totalPages }) => {
+const ActionButtons = ({ onBack, onSave, isSaveDisabled, showPagination, onPrevious, onNext, currentPage, totalPages, saveLabel = "Salvar" }) => {
     return (
         <Box bg="#172237" p={3} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '100%']}>
             <HStack spacing={4} width="full" justify="center">
@@ -34,7 +34,7 @@ const ActionButtons = ({ onBack, onSave, isSaveDisabled, showPagination, onPrevi
                         _hover={{ bg: "#2A542B" }}
                         isDisabled={isSaveDisabled}
                     >
-                        <Icon boxSize="4" as={CheckCircleIcon} />&nbsp;&nbsp;Salvar
+                        <Icon boxSize="4" as={CheckCircleIcon} />&nbsp;&nbsp;{saveLabel}
                     </Box>
                 )}
                 {showPagination && (
@@ -81,7 +81,8 @@ ActionButtons.propTypes = {
     onPrevious: PropTypes.func,
     onNext: PropTypes.func,
     currentPage: PropTypes.number,
-    totalPages: PropTypes.number
+    totalPages: PropTypes.number,
+    saveLabel: PropTypes.string  // Adicionando a nova prop
 };
 
 export default ActionButtons;
