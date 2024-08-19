@@ -377,10 +377,10 @@ const CadastroAgendamento = () => {
                         </ChakraProvider>
                     )}
                     { isInfoAgendamentoOn && (
-                        <Card w="67%" bg='#FEFF92' p={5}>
+                        <Card bg='#FEFF92' p={5}>
                             <HStack align="center" paddingBottom={2}>
                                 <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#172237' }} />
-                                <Text paddingLeft={4} fontSize="16px" color="#172237">
+                                <Text paddingLeft={4} fontSize="14px" color="#172237">
                                     <strong>Atenção!</strong><br></br>
                                     Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
                                 </Text>
