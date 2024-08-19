@@ -311,11 +311,11 @@ const CadastroAgendamento = () => {
             <TitleSection title="Agendamento" subtitle="Preencha os campos para realizar o agendamento" />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem"  mt="1rem">
                 <VStack spacing={4}>
-
-                    <Card w="67%"  bg='#59FFA7' p={5}>
+                 <Box p={3} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '100%']}>
+                    <Card bg='#59FFA7' p={5}>
                         <HStack align="center" paddingBottom={2}>
                             <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle',  color: '#38a169' }} />
-                            <Text paddingLeft={4} fontSize="17px"  color="#38a169">
+                            <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
                             Se precisar de um horário que não esteja disponível, entre em contato com nosso suporte pelo WhatsApp.
                             </Text>
                         </HStack>
@@ -334,14 +334,16 @@ const CadastroAgendamento = () => {
                             Verificar
                         </Button>
                     </Card>
-                    <Card  w="67%" bg='#38a169' p={5}>
+                    <br></br>
+                    <Card bg='#3D5A73' p={5}>
                         <HStack align="center" paddingBottom={2}>
                             <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
-                            <Text paddingLeft={4} fontSize="16px" color="white">
+                            <Text paddingLeft={4} fontSize="14px" color="white">
                             Após realizar o agendamento, você receberá o comprovante por e-mail.
                             </Text>
                         </HStack>
                     </Card>
+                    </Box>
                 </VStack>
             </Box>
            
