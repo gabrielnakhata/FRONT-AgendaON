@@ -403,16 +403,15 @@ const CadastroAgendamento = () => {
                             <ModalHeader>Perfil do Profissional</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody>
-                                <VStack spacing={4} paddingBottom={8} align="start">
+                                <VStack spacing={4} paddingBottom={8} align="center">
                                     <Text fontSize="30px" fontWeight="bold">{collaboratorName}</Text>
-                                    <HStack spacing={4}>
                                         <Image
                                             src={collaboratorPhoto}
                                             alt={collaboratorName}
-                                            boxSize="250px"
+                                            w="40%"
                                         />
-                                        <Text fontSize="16px">{collaboratorDescription}</Text>
-                                    </HStack>
+                                        
+                                    <Text w="80%" fontSize="16px">{collaboratorDescription}</Text>
                                 </VStack>
                             </ModalBody>
                         </ModalContent>
