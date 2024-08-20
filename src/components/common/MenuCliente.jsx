@@ -89,7 +89,7 @@ const MenuCliente = () => {
                                         <i className="pi pi-calendar-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Meus Agendamentos
                                     </Button>
                                 </RouterLink>
-                                 <RouterLink to="/lista-agendamento" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                 <RouterLink to="/profile" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                     <Button color="white" bg="#F7026D" _hover={{ bg: "#66012D" }} mb={4} py={8} w="full" justifyContent="space-between">
                                         <i className="pi pi-user" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Meu Perfil
                                     </Button>
