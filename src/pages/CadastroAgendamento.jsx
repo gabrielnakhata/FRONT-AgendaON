@@ -45,6 +45,7 @@ const CadastroAgendamento = () => {
     const [isAdding, setIsAdding] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalInfoOpen, setIsModalInfoOpen] = useState(false);
     const [isInfoAgendamentoOn, setInfoAgendamento] = useState(false);
     const [collaboratorName, setCollaboratorName] = useState('');
     const [collaboratorPhoto, setCollaboratorPhoto] = useState('');
@@ -150,6 +151,7 @@ const CadastroAgendamento = () => {
         setSelectedItem(prevSelected => {
             const newSelection = prevSelected && prevSelected.calendarioId === calendarioId ? null : { calendarioId, dataHoraConfigurada };
             setContainerHeight(newSelection ? '100px' : '200px');
+            setIsModalInfoOpen(true);
             return newSelection;
         });
     };
@@ -309,44 +311,35 @@ const CadastroAgendamento = () => {
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Agendamento" subtitle="Preencha os campos para realizar o agendamento" />
-            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem"  mt="1rem">
+            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" mt="1rem">
                 <VStack spacing={4}>
-                 <Box p={3} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '100%']}>
-                    <Card bg='#59FFA7' p={5}>
-                        <HStack align="center" paddingBottom={2}>
-                            <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle',  color: '#38a169' }} />
-                            <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
-                            Se precisar de um horário que não esteja disponível, entre em contato com nosso suporte pelo WhatsApp.
-                            </Text>
-                        </HStack>
-                        <Button
-                            as="a"
-                            href={whatsappLink}
-                            target="_blank"
-                            colorScheme="green"
-                            leftIcon={<FaWhatsapp />}
-                            mt={4}
-                            _hover={{ 
-                                bg: "green.300",
-                                color: "white"
-                            }}
-                        >
-                            Verificar
-                        </Button>
-                    </Card>
-                    <br></br>
-                    <Card bg='#3D5A73' p={5}>
-                        <HStack align="center" paddingBottom={2}>
-                            <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
-                            <Text paddingLeft={4} fontSize="14px" color="white">
-                            Após realizar o agendamento, você receberá o comprovante por e-mail.
-                            </Text>
-                        </HStack>
-                    </Card>
+                    <Box p={3} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '100%']}>
+                        <Card bg='#59FFA7' p={5}>
+                            <HStack align="center" paddingBottom={2}>
+                                <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#38a169' }} />
+                                <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
+                                    Se precisar de um horário que não esteja disponível, entre em contato com nosso suporte pelo WhatsApp.
+                                </Text>
+                            </HStack>
+                            <Button
+                                as="a"
+                                href={whatsappLink}
+                                target="_blank"
+                                colorScheme="green"
+                                leftIcon={<FaWhatsapp />}
+                                mt={4}
+                                _hover={{
+                                    bg: "green.300",
+                                    color: "white"
+                                }}
+                            >
+                                Verificar
+                            </Button>
+                        </Card>                      
                     </Box>
                 </VStack>
             </Box>
-           
+
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <VStack spacing={4}>
 
@@ -376,18 +369,34 @@ const CadastroAgendamento = () => {
                             </Box>
                         </ChakraProvider>
                     )}
-                    { isInfoAgendamentoOn && (
-                        <Card bg='#FEFF92' p={5}>
-                            <HStack align="center" paddingBottom={2}>
-                                <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#172237' }} />
-                                <Text paddingLeft={4} fontSize="14px" color="#172237">
-                                    <strong>Atenção!</strong><br></br>
-                                    Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
-                                </Text>
-                            </HStack>
-                        </Card>
-                    )}
-                    {/* Modal de perfil do colaborador */}
+                    <Modal isOpen={isModalInfoOpen} onClose={() => setIsModalInfoOpen(false)} isCentered>
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalHeader>Atenção!</ModalHeader>
+                            <ModalCloseButton />
+                            <ModalBody>
+                                    <VStack spacing={4}>
+                                            <Card bg='#FEFF92' p={5}>
+                                                <HStack align="center" paddingBottom={2}>
+                                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#172237' }} />
+                                                    <Text paddingLeft={4} fontSize="14px" color="#172237">
+                                                        Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
+                                                    </Text>
+                                                </HStack>
+                                            </Card>
+                                            <Card bg='#59FFA7' p={5}>
+                                                <HStack align="center" paddingBottom={2}>
+                                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#38a169' }} />
+                                                    <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
+                                                        Após realizar o agendamento, você receberá o comprovante por e-mail.
+                                                    </Text>
+                                                </HStack>
+                                            </Card>
+                                    </VStack>
+                                    <br></br>
+                            </ModalBody>
+                        </ModalContent>
+                    </Modal>
                     <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isCentered>
                         <ModalOverlay />
                         <ModalContent>
@@ -438,7 +447,7 @@ const CadastroAgendamento = () => {
 
                     )}
 
-                    <ActionButtons onBack={handleClose} onSave={handleSave} isSaveDisabled={isAdding || isSubmitting}  saveLabel="Agendar"  />
+                    <ActionButtons onBack={handleClose} onSave={handleSave} isSaveDisabled={isAdding || isSubmitting} saveLabel="Agendar" />
                     {isSubmitting && (
                         <Spinner
                             thickness="4px"
