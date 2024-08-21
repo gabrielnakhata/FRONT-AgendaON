@@ -144,6 +144,15 @@ const CustomizarDisponibilidadeCalendario = () => {
         redirectToDashboard();
     };
 
+    // Função para adicionar ":" automaticamente
+    const formatTime = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+        if (value.length >= 3) {
+            value = value.slice(0, 2) + ':' + value.slice(2, 4);
+        }
+        e.target.value = value;
+    };
+
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Disponibilidade" subtitle="Customizar disponibilidade, hora em hora" />
@@ -170,7 +179,8 @@ const CustomizarDisponibilidadeCalendario = () => {
                             <Calendar
                                 value={selectedHour}
                                 onChange={(e) => setSelectedHour(e.value)}
-                                inputMode="text"
+                                inputMode="numeric"
+                                onInput={formatTime}
                                 showIcon style={{ fontSize: '20px', touchAction: 'manipulation' }} timeOnly
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
                         </div>
