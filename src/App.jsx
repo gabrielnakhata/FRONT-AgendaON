@@ -8,6 +8,7 @@ import FiltrarDisponibilidadeColaborador from './pages/FiltrarDisponibilidadeCol
 import FiltrarDisponibilidade from './pages/FiltrarDisponibilidade';
 import CadastroColaborador from './pages/CadastroColaborador';
 import AtualizarColaborador from './pages/AtualizarColaborador';
+import AtualizarDadosCliente from './pages/AtualizarDadosCliente';
 import ListaColaboradores from './pages/ListaColaboradores';
 import CadastroServico from './pages/CadastroServico';
 import AtualizarServico from './pages/AtualizarServico';
@@ -27,6 +28,7 @@ import ListaAgendamentos from './pages/ListaAgendamentos';
 import ListaAgendamentosColaborador from './pages/ListaAgendamentosColaborador';
 import ListaAgendamentosGestor from './pages/ListaAgendamentosGestor';
 import EsqueciMinhaSenha from './pages/EsqueciMinhaSenha';
+
 
 function App() {
 
@@ -86,6 +88,10 @@ function App() {
           <Route path="/atualizar-colaborador/:id" element={
             <PrivateRoute allowedTypes={['Gestor', 'Colaborador']}>
               <AtualizarColaborador />
+            </PrivateRoute>} />
+          <Route path="/atualizar-cliente/:id" element={
+            <PrivateRoute allowedTypes={['Cliente']}>
+              <AtualizarDadosCliente />
             </PrivateRoute>} />
           <Route path="/lista-colaborador" element={
             <PrivateRoute allowedTypes={['Gestor', 'Colaborador']}>

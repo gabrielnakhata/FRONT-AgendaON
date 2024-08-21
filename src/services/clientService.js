@@ -16,6 +16,21 @@ export const registerClient = async (clientData) => {
     }
 };
 
+export const getClientId = async (token, id) => {
+    try {
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        const response = await clientApi.get(`/Clientes/${id}`, config);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error("An unexpected error occurred");
+    }
+};
+
 export const getClient = async (token, page = 1, pageSize = 8) => {
     try {
         const config = {
@@ -29,9 +44,23 @@ export const getClient = async (token, page = 1, pageSize = 8) => {
         };
 
         const response = await clientApi.get('/Clientes', config);
-        return response.data; // Retorna o objeto de resposta completo, que inclui currentPage, pageSize, etc.
+        return response.data;
     } catch (error) {
         throw error.response ? error.response.data : new Error("An unexpected error occurred");
     }
 };
 
+export const updateClient = async (id, clientData, token) => {
+    try {
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        const response = await clientApi.put(`/Clientes/${id}`, clientData, config);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error("An unexpected error occurred");
+    }
+};

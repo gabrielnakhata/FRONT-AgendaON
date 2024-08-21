@@ -1,23 +1,26 @@
-import { useEffect, useState } from 'react';
-import { Card, HStack, Text, Flex, Box, VStack, useToast, InputGroup, InputRightElement, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Flex, Box, VStack, useToast, InputGroup, InputRightElement, IconButton } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import CustomInput from '../components/common/CustomInput';
 import TitleSection from '../components/common/TitleSection';
-import { registerClient } from '../services/clientService';
-import moment from 'moment-timezone';
+import { updateClient } from '../services/clientService';
+import { useAuth } from '../contexts/AuthContext';
 import ActionButtons from '../components/common/ActionButtons';
+import { useUserRedirect } from "../hooks/UseUserRedirect";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;
 const dateOfBirthRegex = /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
-const passwordRegex = /^.{6,}$/;
 
-const CadastroCliente = () => {
+const AtualizarDadosCliente = () => {
+    const { token } = useAuth();
     const toast = useToast();
+    const location = useLocation();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const client = location.state.client;
+    const { redirectToDashboard } = useUserRedirect();
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -27,12 +30,21 @@ const CadastroCliente = () => {
         dataNascimento: '',
     });
 
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
 
     useEffect(() => {
-        // Abrir o modal automaticamente ao carregar a página
-        setIsModalOpen(true);
-    }, []);
+        if (client) {
+            setFormData({
+                clienteId: client.clienteId,
+                nome: client.nome,
+                email: client.email,
+                senha: client.senha,
+                celular: client.celular,
+                dataNascimento: client.dataNascimento ? new Date(client.dataNascimento).toISOString().split('T')[0] : '',
+                dataCadastro: client.dataCadastro ? new Date(client.dataCadastro).toISOString() : ''
+            });
+        }
+    }, [client]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -43,130 +55,98 @@ const CadastroCliente = () => {
     };
 
     const handleClose = () => {
-        navigate('/');
-    };
-
-    const formatPhoneNumber = (phone) => {
-        return phone.replace(/\D/g, '');
+        redirectToDashboard();
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (isSubmitting) return;
         setIsSubmitting(true);
-
-        // Formatar número de celular
-        const formattedPhone = formatPhoneNumber(formData.celular);
-
-        if (!formData.nome.trim()) {
-            toast({
-                title: "Erro de validação",
-                description: "Por favor, insira um nome válido.",
-                status: "info",
-                duration: 2000,
-                isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false)
-                }
-            });
-            return;
-        }
-
-        if (!emailRegex.test(formData.email)) {
-            toast({
-                title: "Erro de validação",
-                description: "Por favor, insira um e-mail válido.",
-                status: "info",
-                duration: 2000,
-                isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false)
-                }
-            });
-            return;
-        }
-
-        if (!passwordRegex.test(formData.senha)) {
-            toast({
-                title: "Erro de validação",
-                description: "Por favor, insira uma senha válida. A senha deve ter pelo menos 6 caracteres.",
-                status: "info",
-                duration: 2000,
-                isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false)
-                }
-            });
-            return;
-        }
-
-        if (!phoneRegex.test(formattedPhone)) {
-            toast({
-                title: "Erro de validação",
-                description: "Por favor, insira um número de celular válido. (10 a 11 dígitos)",
-                status: "info",
-                duration: 2000,
-                isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false)
-                }
-            });
-            return;
-        }
 
         if (!dateOfBirthRegex.test(formData.dataNascimento)) {
             toast({
                 title: "Erro de validação",
                 description: "Por favor, insira uma data de nascimento válida.",
-                status: "info",
+                status: "error",
+                duration: 1000,
+                isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false);
+                }
+            });
+            return;
+        }
+        if (!emailRegex.test(formData.email)) {
+            toast({
+                title: "Erro de validação",
+                description: "Por favor, insira um e-mail válido.",
+                status: "error",
                 duration: 2000,
                 isClosable: true,
                 onCloseComplete: () => {
-                    setIsSubmitting(false)
+                    setIsSubmitting(false);
+                }
+            });
+            return;
+        }
+        if (!phoneRegex.test(formData.celular)) {
+            toast({
+                title: "Erro de validação",
+                description: "Por favor, insira um número de celular válido. (10 a 11 dígitos)",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+                onCloseComplete: () => {
+                    setIsSubmitting(false);
                 }
             });
             return;
         }
 
+        const dataToUpdate = {
+            clienteId: formData.clienteId,
+            nome: formData.nome,
+            email: formData.email,
+            senha: formData.senha,
+            celular: formData.celular,
+            dataNascimento: new Date(formData.dataNascimento).toISOString(),
+            dataCadastro: formData.dataCadastro ? new Date(client.dataCadastro).toISOString() : ''
+        };
+
         try {
-            const dataCadastro = moment().tz("America/Sao_Paulo").format();
-            const data = await registerClient({ ...formData, celular: formattedPhone, dataCadastro });
+            const data = await updateClient(formData.clienteId, dataToUpdate, token);
             toast({
-                title: "Cliente cadastrado",
-                description: `Os dados foram cadastrados com sucesso! Bem-vindo(a), ${data.nome || 'cliente'}.`,
+                title: "Dados atualizados",
+                description: `Os dados foram atualizados com sucesso! ${data.nome || 'cliente'}.`,
                 status: "success",
                 duration: 2500,
                 isClosable: true,
-                onCloseComplete: () => navigate('/login-modal')
+                onCloseComplete: () => navigate('/Profile')
             });
         } catch (error) {
             toast({
                 title: "Erro ao cadastrar",
-                description: error.message || "Não foi possível cadastrar o cliente.",
+                description: error.message || "Não foi possível atualizar os dados.",
                 status: "error",
                 duration: 4000,
                 isClosable: true,
                 onCloseComplete: () => {
-                    setIsSubmitting(false)
+                    setIsSubmitting(false);
                 }
             });
         }
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
-
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Cadastro de Clientes" subtitle="Olá amigo(a) cliente para obter um login de acesso, gentileza efetuar o cadastro." />
+            <TitleSection title="Perfil" subtitle="Você pode atualizar dados" />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
                         <CustomInput label="Nome" name="nome" placeholder="Digite o nome completo" value={formData.nome} onChange={handleChange} />
                         <CustomInput label="Email" name="email" type="email" placeholder="Este e-mail será utilizado para o login" value={formData.email} onChange={handleChange} />
-                        
+
+                        {/* Campo de Senha com o ícone de visibilidade */}
                         <InputGroup>
                             <CustomInput
                                 label="Senha"
@@ -187,35 +167,15 @@ const CadastroCliente = () => {
                             </InputRightElement>
                         </InputGroup>
 
+
                         <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
                         <CustomInput label="Data de Nascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
                         <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
                     </VStack>
                 </form>
             </Box>
-            
-            <Modal isOpen={isModalOpen} onClose={closeModal} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Atenção!</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <VStack spacing={4}>
-                            <Card bg='#FEFF92' p={5}>
-                                <HStack align="center" paddingBottom={2}>
-                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#172237' }} />
-                                    <Text paddingLeft={4} fontSize="14px" color="#172237">
-                                    Nosso sistema está em conformidade com a Lei Geral de Proteção de Dados (LGPD), assegurando a proteção e privacidade dos seus dados pessoais. Todas as informações coletadas são tratadas com segurança e utilizadas somente para os fins autorizados. Você tem o direito de acessar, corrigir ou solicitar a exclusão dos seus dados a qualquer momento. Estamos comprometidos em proteger sua privacidade e manter a sua confiança.
-                                    </Text>
-                                </HStack>
-                            </Card>
-                        </VStack>
-                        <br />
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
         </Flex>
     );
 };
 
-export default CadastroCliente;
+export default AtualizarDadosCliente;
