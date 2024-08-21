@@ -174,7 +174,7 @@ const ProgramarDisponibilidadeCalendario = () => {
                                 value={timeInterval}
                                 placeholder="Intervalo entre horários"
                                 onChange={(e) => setTimeInterval(e.value)}
-                                inputMode="numeric"
+                                inputMode="decimal"
                                 showIcon style={{ fontSize: '20px', touchAction: 'manipulation' }} timeOnly
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
                         </div>
@@ -183,7 +183,7 @@ const ProgramarDisponibilidadeCalendario = () => {
                                 value={startWorkTime}
                                 placeholder="Início Expediente"
                                 onChange={(e) => setStartWorkTime(e.value)}
-                                inputMode="numeric"
+                                inputMode="decimal"
                                 showIcon style={{ fontSize: '20px', touchAction: 'manipulation' }} timeOnly
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
                         </div>
@@ -191,7 +191,7 @@ const ProgramarDisponibilidadeCalendario = () => {
                             <Calendar
                                 value={endWorkTime}
                                 placeholder="Fim Expediente"
-                                inputMode="numeric"
+                                inputMode="decimal"
                                 onChange={(e) => setEndWorkTime(e.value)}
                                 showIcon style={{ fontSize: '20px', touchAction: 'manipulation' }} timeOnly
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
@@ -200,7 +200,7 @@ const ProgramarDisponibilidadeCalendario = () => {
                             <Calendar
                                 value={startLunchTime}
                                 placeholder="Início Almoço"
-                                inputMode="numeric"
+                                inputMode="decimal"
                                 onChange={(e) => setStartLunchTime(e.value)}
                                 showIcon style={{ fontSize: '20px', touchAction: 'manipulation' }} timeOnly
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
@@ -210,7 +210,7 @@ const ProgramarDisponibilidadeCalendario = () => {
                                 value={endLunchTime}
                                 placeholder="Fim Almoço"
                                 onChange={(e) => setEndLunchTime(e.value)}
-                                inputMode="numeric"
+                                inputMode="decimal"
                                 showIcon style={{ fontSize: '20px', touchAction: 'manipulation' }} timeOnly
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
                         </div>

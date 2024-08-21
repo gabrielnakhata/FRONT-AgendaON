@@ -170,7 +170,7 @@ const CustomizarDisponibilidadeCalendario = () => {
                             <Calendar
                                 value={selectedHour}
                                 onChange={(e) => setSelectedHour(e.value)}
-                                inputMode="numeric"
+                                inputMode="decimal"
                                 showIcon style={{ fontSize: '20px', touchAction: 'manipulation' }} timeOnly
                                 icon={() => <i className="pi pi-clock" style={{ fontSize: '20px' }} />} />
                         </div>
