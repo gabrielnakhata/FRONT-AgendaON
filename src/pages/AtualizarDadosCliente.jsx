@@ -146,7 +146,6 @@ const AtualizarDadosCliente = () => {
                         <CustomInput label="Nome" name="nome" placeholder="Digite o nome completo" value={formData.nome} onChange={handleChange} />
                         <CustomInput label="Email" name="email" type="email" placeholder="Este e-mail será utilizado para o login" value={formData.email} onChange={handleChange} />
 
-                        {/* Campo de Senha com o ícone de visibilidade */}
                         <InputGroup>
                             <CustomInput
                                 label="Senha"

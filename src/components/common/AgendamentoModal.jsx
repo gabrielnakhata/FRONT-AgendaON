@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { ScrollTop } from 'primereact/scrolltop';
-import DataGridService from './DataGridService';
+import DataGridServicesAgendamento from './DataGridServicesAgendamento';
 import { getServicesFromAgendamento } from '../../services/serviceService';
 import { statusSchedulingForClient } from '../../services/schedulingService';
 import { getClientPhoneByScheduling } from '../../services/schedulingService';
@@ -29,7 +29,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 
 const AgendamentoModal = ({ isOpen, onClose, data }) => {
     const { user, token } = useAuth();
-    const [containerHeight] = useState('200px');
+    const [containerHeight] = useState('100%');
     const [dataService, setData] = useState([]);
     const toast = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,6 +37,8 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
     const [statusAtual, setStatusAtual] = useState(data.statusDescricao);
     const [clienteTelefone, setClienteTelefone] = useState('');
     const [whatsappLink, setWhatsappLink] = useState('');
+    const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
+
 
     const agendamentoId = data?.agendamentoId;
     const statusCancelado = 2;
@@ -220,36 +222,19 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 borderRadius="full"
                                 px={2}
                                 py={1}
-                                fontSize="0.8em"
+                                fontSize="15px"
                             >
                                 {statusAtual}
                             </Badge>
                         </HStack>
-                        <Text paddingTop={5} fontSize="18px" textTransform="uppercase" color="#172237" fontWeight="bold">
+                        <Text paddingTop={5} fontSize="16px" textTransform="uppercase" color="#172237" fontWeight="bold">
                             Veja os detalhes de seu agendamento:
                         </Text>
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack align="start" spacing={4} w="100%">
-                            <Card w="100%" bg='#FEFF92' p={5}>
-                                <HStack align="center" paddingBottom={2}>
-                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
-                                    <Text paddingLeft={4} fontSize="16px" color="#172237">
-                                        Os agendamentos poderão ser cancelados apenas uma vez. Esta medida visa garantir a disponibilidade e organização dos nossos serviços.
-                                    </Text>
-                                </HStack>
-                            </Card>
-                            <Card w="100%" bg='#F25E5E' p={5}>
-                                <HStack align="center" paddingBottom={2}>
-                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
-                                    <Text paddingLeft={4} fontSize="16px" color="white">
-                                        <strong>Atenção!</strong><br></br>
-                                        Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
-                                    </Text>
-                                </HStack>
-                            </Card>
-                            <Card w="99%" bg='#172237' p={5}>
+                            <Card w="100%" bg='#172237' p={5}>
                                 <Card w="100%" bg='#172237' p={5}>
                                     <HStack align="center" paddingBottom={2}>
                                         <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
@@ -281,7 +266,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                             <VStack spacing={4} w="100%">
                                 <ChakraProvider>
                                     <Box w="100%" height={containerHeight} overflow="auto" position="relative">
-                                        <DataGridService data={dataService} onUpdate={null} onDelete={null} />
+                                        <DataGridServicesAgendamento data={dataService} onUpdate={null} onDelete={null} />
                                         <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
                                     </Box>
                                 </ChakraProvider>
@@ -296,7 +281,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         ) : (
                             user.tipoUsuario !== 'Cliente' || statusAtual === "AGENDADO" || statusAtual === "PAUSADO" ? (
                                 <HStack spacing={4} paddingTop={5}>
-                                    <Button color="white" onClick={() => handleStatusChange(statusCancelado)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} justifyContent="space-between">Cancelar</Button>
+                                    <Button color="white" onClick={() => setIsModalConfirmOpen(true)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} justifyContent="space-between">Cancelar</Button>
                                 </HStack>
                             ) : null
                         )}
@@ -314,6 +299,52 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
 
                 </ModalContent>
             </Modal>
+
+            <Modal isOpen={isModalConfirmOpen} onClose={() => setIsModalConfirmOpen(false)} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Atenção!</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <VStack spacing={4}>
+                            <Card w="100%" bg='#FEFF92' p={5}>
+                                <HStack align="center" paddingBottom={2}>
+                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
+                                    <Text paddingLeft={4} fontSize="16px" color="#172237">
+                                        Os agendamentos poderão ser cancelados apenas uma vez. Esta medida visa garantir a disponibilidade e organização dos nossos serviços.
+                                    </Text>
+                                </HStack>
+                            </Card>
+                            <Card w="100%" bg='#F25E5E' p={5}>
+                                <HStack align="center" paddingBottom={2}>
+                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
+                                    <Text paddingLeft={4} fontSize="16px" color="white">
+                                        <strong>Atenção!</strong><br></br>
+                                        Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
+                                    </Text>
+                                </HStack>
+                            </Card>
+                            <Card bg='#59FFA7' p={5}>
+                                <HStack align="center" paddingBottom={2}>
+                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#38a169' }} />
+                                    <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
+                                        Após realizar o cancelamento, você receberá uma confirmação por e-mail.
+                                    </Text>
+                                </HStack>
+                            </Card>
+                        </VStack>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="red" mr={3} onClick={() => { setIsModalConfirmOpen(false); handleStatusChange(statusCancelado); }}>
+                            Sim, Cancelar
+                        </Button>
+                        <Button colorScheme="blue" onClick={() => setIsModalConfirmOpen(false)}>
+                            Não, Voltar
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
 
             <Modal isOpen={isPauseInfoOpen} onClose={closePauseInfoModal} isCentered size="xl" motionPreset="scale">
                 <ModalOverlay />
@@ -373,7 +404,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 colorScheme="green"
                                 leftIcon={<FaWhatsapp />}
                                 mt={4}
-                                _hover={{ 
+                                _hover={{
                                     bg: "green.300",
                                     color: "white"
                                 }}
