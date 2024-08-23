@@ -47,6 +47,7 @@ const CadastroAgendamento = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalInfoOpen, setIsModalInfoOpen] = useState(false);
     const [isInfoAgendamentoOn, setInfoAgendamento] = useState(false);
+    const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
     const [collaboratorName, setCollaboratorName] = useState('');
     const [collaboratorPhoto, setCollaboratorPhoto] = useState('');
     const [collaboratorDescription, setCollaboratorDescription] = useState('');
@@ -335,7 +336,7 @@ const CadastroAgendamento = () => {
                             >
                                 Verificar
                             </Button>
-                        </Card>                      
+                        </Card>
                     </Box>
                 </VStack>
             </Box>
@@ -375,29 +376,34 @@ const CadastroAgendamento = () => {
                             <ModalHeader>Atenção!</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody>
-                                    <VStack spacing={4}>
-                                            <Card bg='#FEFF92' p={5}>
-                                                <HStack align="center" paddingBottom={2}>
-                                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#172237' }} />
-                                                    <Text paddingLeft={4} fontSize="14px" color="#172237">
-                                                        Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
-                                                    </Text>
-                                                </HStack>
-                                            </Card>
-                                            <Card bg='#59FFA7' p={5}>
-                                                <HStack align="center" paddingBottom={2}>
-                                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#38a169' }} />
-                                                    <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
-                                                        Após realizar o agendamento, você receberá o comprovante por e-mail.
-                                                    </Text>
-                                                </HStack>
-                                            </Card>
-                                    </VStack>
-                                    <br></br>
+                                <VStack spacing={4}>
+                                    <Card bg='#FEFF92' p={5}>
+                                        <HStack align="center" paddingBottom={2}>
+                                            <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#172237' }} />
+                                            <Text paddingLeft={4} fontSize="14px" color="#172237">
+                                                Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
+                                            </Text>
+                                        </HStack>
+                                    </Card>
+                                    <Card bg='#59FFA7' p={5}>
+                                        <HStack align="center" paddingBottom={2}>
+                                            <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#38a169' }} />
+                                            <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
+                                                Após realizar o agendamento, você receberá o comprovante por e-mail.
+                                            </Text>
+                                        </HStack>
+                                    </Card>
+                                </VStack>
+                                <br></br>
                             </ModalBody>
                         </ModalContent>
                     </Modal>
-                    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isCentered>
+                    <Modal isOpen={isModalOpen} onClose={() => {
+                        setIsModalOpen(false);
+                        if (selectedCollaboratorId === 24) {
+                            setIsModalConfirmOpen(true);
+                        }
+                    }} isCentered>
                         <ModalOverlay />
                         <ModalContent>
                             <ModalHeader>Perfil do Profissional</ModalHeader>
@@ -405,12 +411,11 @@ const CadastroAgendamento = () => {
                             <ModalBody>
                                 <VStack spacing={4} paddingBottom={8} align="center">
                                     <Text fontSize="30px" fontWeight="bold">{collaboratorName}</Text>
-                                        <Image
-                                            src={collaboratorPhoto}
-                                            alt={collaboratorName}
-                                            w="40%"
-                                        />
-                                        
+                                    <Image
+                                        src={collaboratorPhoto}
+                                        alt={collaboratorName}
+                                        w="40%"
+                                    />
                                     <Text w="80%" fontSize="16px">{collaboratorDescription}</Text>
                                 </VStack>
                             </ModalBody>
@@ -443,8 +448,28 @@ const CadastroAgendamento = () => {
                                 </Box>
                             )}
                         </ChakraProvider>
-
                     )}
+
+                    <Modal isOpen={isModalConfirmOpen} onClose={() => setIsModalConfirmOpen(false)} isCentered>
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalHeader>Lembrete!</ModalHeader>
+                            <ModalCloseButton />
+                            <ModalBody>
+                                <VStack spacing={4}>
+                                    <Card w="100%" bg='#FEFF92' p={5}>
+                                        <HStack align="center">
+                                            <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
+                                            <Text paddingLeft={4} fontSize="16px" color="#172237">
+                                                Os atendimentos infantis são realizados apenas por Matheus Kezuka & Lucas Vinícius.
+                                            </Text>
+                                        </HStack>
+                                    </Card>
+                                </VStack>
+                                <br></br>
+                            </ModalBody>
+                        </ModalContent>
+                    </Modal>
 
                     <ActionButtons onBack={handleClose} onSave={handleSave} isSaveDisabled={isAdding || isSubmitting} saveLabel="Agendar" />
                     {isSubmitting && (
