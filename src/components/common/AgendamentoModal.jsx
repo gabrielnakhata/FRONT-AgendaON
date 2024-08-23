@@ -67,7 +67,6 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
 
     }, [token, agendamentoId, user.id, toast]);
 
-    // Novo useEffect para buscar o telefone quando o modal de "Pausado" for aberto
     useEffect(() => {
         if (isPauseInfoOpen && token) {
             const changeStatusToPausado = async () => {
@@ -228,40 +227,38 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                             </Badge>
                         </HStack>
                         <Text paddingTop={5} fontSize="16px" textTransform="uppercase" color="#172237" fontWeight="bold">
-                            Veja os detalhes de seu agendamento:
+                            Detalhes do agendamento:
                         </Text>
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack align="start" spacing={4} w="100%">
-                            <Card w="100%" bg='#172237' p={5}>
-                                <Card w="100%" bg='#172237' p={5}>
-                                    <HStack align="center" paddingBottom={2}>
-                                        <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
-                                        <Text fontSize="15px" color="#DEDDB9" fontWeight="bold">{formatDate(data.dataHoraAgendamento)}</Text>
+                                <Card w="100%" bg='#FEFF92' p={5}>
+                                    <HStack align="center" paddingBottom={3}>
+                                        <i className="pi pi-calendar-clock" style={{ fontSize: '24px', verticalAlign: 'middle', color: '#172237' }} />
+                                        <Text fontSize="18px" color="#172237" fontWeight="bold">{formatDate(data.dataHoraAgendamento)}</Text>
                                     </HStack>
-                                    <HStack align="center" paddingBottom={2}>
-                                        <i className="pi pi-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
-                                        <Text fontSize="15px" color="#DEDDB9" fontWeight="bold">{formatTime(data.dataHoraAgendamento)}</Text>
+                                    <HStack align="center" paddingBottom={3}>
+                                        <i className="pi pi-clock" style={{ fontSize: '24px', verticalAlign: 'middle', color: '#172237' }} />
+                                        <Text fontSize="18px" color="#172237" fontWeight="bold">{formatTime(data.dataHoraAgendamento)}</Text>
                                     </HStack>
-                                    <HStack align="center" paddingBottom={2}>
-                                        <i className="pi pi-user" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
-                                        <Text fontSize="15px" color="#DEDDB9" fontWeight="bold">{data.colaboradorNome}</Text>
+                                    <HStack align="center" paddingBottom={3}>
+                                        <i className="pi pi-user" style={{ fontSize: '24px', verticalAlign: 'middle', color: '#172237' }} />
+                                        <Text fontSize="18px" color="#172237" fontWeight="bold">{data.colaboradorNome}</Text>
                                     </HStack>
                                     <HStack align="center">
-                                        <i className="pi pi-tag" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#DEDDB9' }} />
-                                        <Text fontSize="15px" color="#DEDDB9" fontWeight="bold">{data.clienteNome}</Text>
+                                        <i className="pi pi-tag" style={{ fontSize: '24px', verticalAlign: 'middle', color: '#172237' }} />
+                                        <Text fontSize="18px" color="#172237" fontWeight="bold">{data.clienteNome}</Text>
                                     </HStack>
                                 </Card>
-                                <Card w="100%" bg='#4B5257'>
+                                <Card w="100%" bg='#FEFF92'>
                                     <HStack align="center">
-                                        <Text paddingTop={5} paddingLeft={5} paddingBottom={4} fontSize="14px" color="#DEDDB9" fontWeight="bold" alignItems="left">
-                                            O atendimento é p/ meu FILHO(a): &nbsp;
+                                        <Text paddingTop={5} paddingLeft={5} paddingBottom={4} fontSize="16px" color="#172237" fontWeight="bold" alignItems="left">
+                                            O atendimento é<br></br>p/ meu FILHO(a): &nbsp;
                                         </Text>
-                                        <Text color="#DEDDB9" fontWeight="bold" fontSize="18px"> {data.observacoes}</Text>
+                                        <Text color="#172237" fontWeight="bold" fontSize="20px"> {data.observacoes}</Text>
                                     </HStack>
                                 </Card>
-                            </Card>
 
                             <VStack spacing={4} w="100%">
                                 <ChakraProvider>
@@ -344,7 +341,6 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-
 
             <Modal isOpen={isPauseInfoOpen} onClose={closePauseInfoModal} isCentered size="xl" motionPreset="scale">
                 <ModalOverlay />
