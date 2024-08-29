@@ -20,6 +20,7 @@ import CadastroCliente from './pages/CadastroCliente';
 import ListaCliente from './pages/ListaCliente';
 import ModalLogin from './components/common/ModalLogin';
 import ProfilePage from './pages/ProfilePage';
+import LocalizacaoMaps from './pages/LocalizacaoMaps';
 import Dashboard from './pages/Dashboard';
 import DashboardColaborador from './pages/DashboardColaborador';
 import DashboardCliente from './pages/DashboardCliente';
@@ -125,10 +126,17 @@ function App() {
             <PrivateRoute allowedTypes={['Gestor']}>
               <ListaCliente />
             </PrivateRoute>} />
+          <Route path="/profile" element={
+            <PrivateRoute allowedTypes={['Cliente']}>
+              <ProfilePage />
+            </PrivateRoute>} />
+          <Route path="/localizacao" element={
+            <PrivateRoute allowedTypes={['Cliente']}>
+              <LocalizacaoMaps />
+            </PrivateRoute>} />
           <Route path="/cadastro-cliente" element={<CadastroCliente />} />
           <Route path="/esqueci-minha-senha" element={<EsqueciMinhaSenha/>} />
           <Route path="/login-modal" element={<ModalLogin />} />
-          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </Router>
     </AuthProvider>
