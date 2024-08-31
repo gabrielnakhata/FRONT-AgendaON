@@ -131,7 +131,7 @@ function App() {
               <ProfilePage />
             </PrivateRoute>} />
           <Route path="/localizacao" element={
-            <PrivateRoute allowedTypes={['Cliente']}>
+            <PrivateRoute allowedTypes={['Cliente', 'Gestor', 'Colaborador']}>
               <LocalizacaoMaps />
             </PrivateRoute>} />
           <Route path="/cadastro-cliente" element={<CadastroCliente />} />

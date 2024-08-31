@@ -147,6 +147,12 @@ const MenuColaborador = () => {
                                     </MenuList>
                                 </Menu>
 
+                                <RouterLink to="/localizacao" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                    <Button color="white" bg="#5F17E8" _hover={{ bg: "#521EEB" }} mb={4} py={8} w="full" justifyContent="space-between">
+                                        <i className="pi pi-map-marker" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Localização
+                                    </Button>
+                                </RouterLink>
+
                                 <RouterLink to="/" onClick={handleLogout} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                                     <Button color="white" boxSize="20" bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} rightIcon={<ArrowBackIcon />} justifyContent="space-between">
                                         Logout

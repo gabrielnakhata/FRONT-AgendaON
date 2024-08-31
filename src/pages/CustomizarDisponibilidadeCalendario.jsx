@@ -83,7 +83,7 @@ const CustomizarDisponibilidadeCalendario = () => {
         const newSchedule = {
             calendarioId: calendarioId,
             dataHoraConfigurada: localISOTime,
-            gestorId: user.id,
+            gestorId: user.tipoUsuario === 'Colaborador' ? null : user.id,
             colaboradorId:  user.tipoUsuario === 'Colaborador' ? user.id : selectedCollaboratorId
         };
     
