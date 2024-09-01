@@ -127,7 +127,7 @@ const ProgramarDisponibilidadeCalendario = () => {
                 status: "success",
                 duration: 2500,
                 isClosable: true,
-                onCloseComplete: () => { redirectToDashboard(); }
+                // onCloseComplete: () => { redirectToDashboard(); }
             });
         } catch (error) {
             toast({
