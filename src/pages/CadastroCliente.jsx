@@ -187,8 +187,19 @@ const CadastroCliente = () => {
                             </InputRightElement>
                         </InputGroup>
 
-                        <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
-                        <CustomInput label="Data de Nascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
+                        <Flex direction="column" align="flex-start" w="100%">
+    <Text fontSize="14px" textTransform="uppercase" color="#172237" fontWeight="bold" mb={1}>
+        Data de Nascimento:
+    </Text>
+    <CustomInput 
+        name="dataNascimento" 
+        type="date" 
+        placeholder="Data de Nascimento" 
+        value={formData.dataNascimento} 
+        onChange={handleChange} 
+    />
+</Flex>
+
                         <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
                     </VStack>
                 </form>
