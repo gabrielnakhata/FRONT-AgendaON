@@ -8,6 +8,8 @@ import {
     ModalCloseButton,
     useDisclosure,
     Input,
+    InputGroup,
+    InputRightElement,
     FormControl,
     FormLabel,
     Stack,
@@ -17,7 +19,9 @@ import {
     Link,
     Text,
     useToast,
+    Button,
 } from '@chakra-ui/react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/loginService';
@@ -33,6 +37,7 @@ function ModalLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         if (location.pathname === '/login-modal') {
@@ -113,7 +118,19 @@ function ModalLogin() {
                             </FormControl>
                             <FormControl isRequired>
                                 <FormLabel>Senha</FormLabel>
-                                <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Insira sua senha" />
+                                <InputGroup>
+                                    <Input
+                                        type={showPassword ? "text" : "password"}
+                                        value={password}
+                                        onChange={e => setPassword(e.target.value)}
+                                        placeholder="Insira sua senha"
+                                    />
+                                    <InputRightElement width="3rem">
+                                        <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
+                                            {showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                                        </Button>
+                                    </InputRightElement>
+                                </InputGroup>
                                 <HStack justifyContent="center">
                                     <Text mt={2} textAlign="center" fontSize="sm">
                                         <Link color="black" onClick={() => navigate('/esqueci-minha-senha')}>Esqueci minha senha</Link>

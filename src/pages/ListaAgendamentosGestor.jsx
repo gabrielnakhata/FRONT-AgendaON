@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
 import { ScrollTop } from 'primereact/scrolltop';
-import { ChakraProvider, Flex, Box, VStack, useToast, Select } from '@chakra-ui/react';
+import { ChakraProvider, Flex, Box, VStack, useToast, Select, Checkbox } from '@chakra-ui/react';
 import TitleSection from '../components/common/TitleSection';
 import DataGridScheduling from '../components/common/DataGridScheduling';
 import { useAuth } from '../contexts/AuthContext';
@@ -22,6 +22,7 @@ const ListaAgendamentosGestor = () => {
   const [containerHeight] = useState('400px');
   const { token } = useAuth();
   const [selectedAgendamento, setSelectedAgendamento] = useState(null);
+  const [allowPastDates, setAllowPastDates] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,25 +42,25 @@ const ListaAgendamentosGestor = () => {
     fetchData();
   }, [token, toast]);
 
-  useEffect(() => {
-    const fetchAgenda = async () => {
-      if (selectedCollaboratorId && selectedDate) {
-        const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
-        try {
-          const agendaData = await getAgendaInDay(selectedCollaboratorId, formattedDate, token);
-          setData(agendaData);
-        } catch (error) {
-          toast({
-            title: "Consulta",
-            description: error.message || "Não há horários disponíveis para esta data.",
-            status: "info",
-            duration: 3000,
-            isClosable: true,
-          });
-        }
+  const fetchAgenda = async () => {
+    if (selectedCollaboratorId && selectedDate) {
+      const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
+      try {
+        const agendaData = await getAgendaInDay(selectedCollaboratorId, formattedDate, token);
+        setData(agendaData);
+      } catch (error) {
+        toast({
+          title: "Consulta",
+          description: error.message || "Não há horários disponíveis para esta data.",
+          status: "info",
+          duration: 3000,
+          isClosable: true,
+        });
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchAgenda();
   }, [selectedCollaboratorId, selectedDate, token, toast]);
 
@@ -69,7 +70,7 @@ const ListaAgendamentosGestor = () => {
 
   const handleModalClose = () => {
     setSelectedAgendamento(null);
-    // fetchAgenda(); // Re-fetch data after closing the modal if needed
+    fetchAgenda();
   };
 
   return (
@@ -93,11 +94,19 @@ const ListaAgendamentosGestor = () => {
                   showIcon style={{ fontSize: '20px' }}
                   dateFormat="dd/mm/yy"
                   icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />}
-                  minDate={new Date()} />
+                  minDate={allowPastDates ? null : new Date()} // Ajusta a restrição de datas passadas com base no estado do checkbox
+                />
               </div>
             </div>
+            <Checkbox
+              isChecked={allowPastDates}
+              onChange={(e) => setAllowPastDates(e.target.checked)}
+              colorScheme="green"
+            >
+              Filtrar datas passadas
+            </Checkbox>
             <ChakraProvider>
-            <Box w={{ base: '100%', md: '80%' }} height={containerHeight} overflowY="auto" position="relative">
+              <Box w={{ base: '100%', md: '80%' }} height={containerHeight} overflowY="auto" position="relative">
                 <DataGridScheduling data={data} onRowClick={handleRowClick} onUpdate={null} onDelete={null} />
                 <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
               </Box>
