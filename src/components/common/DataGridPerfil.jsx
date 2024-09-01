@@ -8,7 +8,7 @@ const DataGridPerfil = ({ data, onUpdate }) => {
     }
 
     return (
-        <Flex justifyContent="center" alignItems="center"  bg="#f7f7f7" pt={5}>
+        <Flex justifyContent="center" alignItems="center" bg="#f7f7f7" pt={5}>
             <Box p={5} borderWidth="1px" borderRadius="md" bg="#fff" shadow="md" w={['90%', '70%', '50%', '40%']}>
                 <VStack align="start" spacing={3}>
                     <Box>

@@ -15,7 +15,7 @@ const ListaComissoes = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const { redirectToDashboard } = useUserRedirect();
-  const [containerHeight] = useState('300px');
+  const [containerHeight] = useState('500px');
   const { user } = useAuth();
 
   const handleUpdate = (commission) => {

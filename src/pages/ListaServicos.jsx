@@ -15,7 +15,7 @@ const ListaServicos = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const { redirectToDashboard } = useUserRedirect();
-  const [containerHeight] = useState('400px');
+  const [containerHeight] = useState('500px');
 
   const handleUpdate = (service) => {
     navigate(`/atualizar-servico/${service.servicoId}`, { state: { service } });

@@ -31,10 +31,8 @@ const ProfilePage = () => {
     };
 
     useEffect(() => {
-        // Abrir o modal quando a página carregar
         setIsModalOpen(true);
 
-        // Carregar os dados do cliente
         getClientId(token, user.id)
             .then(setData)
             .catch(error => {

@@ -56,7 +56,7 @@ export const getSchedulingForCollaborator = async (colaboradorId, token) => {
 };
 
 
-export const getSchedulingForClient = async (clienteId, token) => {
+export const getSchedulingForClient = async (clienteId, data, token) => {
     try {
         const config = {
             headers: {
@@ -64,7 +64,10 @@ export const getSchedulingForClient = async (clienteId, token) => {
             }
         };
 
-        const url = `/Agendamentos/Cliente/${clienteId}`;
+        const formattedDate = moment(data, 'YYYY-DD-MM').format('YYYY-MM-DD');
+
+        const url = `/Agendamentos/FiltroDiaCliente/${clienteId}/${formattedDate}`;
+
         const response = await calendarApi.get(url, config);
         return response.data;
     } catch (error) {
@@ -108,3 +111,21 @@ export const getAgendaInDay = async (colaboradorId, data, token) => {
     }
 };
 
+export const getAgendaInDayClient = async (clienteId, data, token) => {
+    try {
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        const formattedDate = moment(data, 'YYYY-DD-MM').format('YYYY-MM-DD');
+
+        const url = `/Agendamentos/FiltroDiaCliente/${clienteId}/${formattedDate}`;
+
+        const response = await calendarApi.get(url, config);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error("An unexpected error occurred");
+    }
+};

@@ -1,41 +1,48 @@
 import { useEffect, useState } from 'react';
-import { ChakraProvider, Flex, Box, useToast, VStack } from '@chakra-ui/react';
+import { Calendar } from 'primereact/calendar';
+import { ChakraProvider, Flex, Box, useToast, VStack, Checkbox } from '@chakra-ui/react';
+import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
 import { ScrollTop } from 'primereact/scrolltop';
 import DataGridScheduling from '../components/common/DataGridScheduling';
 import TitleSection from '../components/common/TitleSection';
-import { getSchedulingForClient } from '../services/schedulingService';
+import { getAgendaInDayClient } from '../services/schedulingService';
 import { useAuth } from '../contexts/AuthContext';
 import AgendamentoModal from '../components/common/AgendamentoModal';
 import MenuCliente from '../components/common/MenuCliente';
 import Footer from '../components/common/Footer';
 
 const ListaAgendamentos = () => {
+  usePrimeReactLocale();
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [data, setData] = useState([]);
+  const [allowPastDates, setAllowPastDates] = useState(false);
   const toast = useToast();
   const [containerHeight] = useState('400px');
   const { user, token } = useAuth();
   const [selectedAgendamento, setSelectedAgendamento] = useState(null);
 
-  const reloadData = () => {
-    if (token && user.id) {
-      getSchedulingForClient(user.id, token)
-        .then(setData)
-        .catch(error => {
-          console.error("Erro ao carregar dados:", error);
-          toast({
-            title: "Olá, " + user.tipoUsuario,
-            description: "Você não possui agendamentos...",
-            status: "info",
-            duration: 3000,
-            isClosable: true,
-          });
+  const reloadData = async () => {
+    setData([]);
+    if (user.id && selectedDate) {
+      const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
+      try {
+        const agendaData = await getAgendaInDayClient(user.id, formattedDate, token);
+        setData(agendaData);
+      } catch (error) {
+        toast({
+          title: "Consulta",
+          description: error.message || "Não há horários disponíveis para esta data.",
+          status: "info",
+          duration: 3000,
+          isClosable: true,
         });
+      }
     }
   };
 
   useEffect(() => {
     reloadData();
-  }, [token, user.id, toast]);
+  }, [user.id, selectedDate, token, toast]);
 
   const handleRowClick = (item) => {
     setSelectedAgendamento(item);
@@ -52,7 +59,29 @@ const ListaAgendamentos = () => {
       <Flex direction="column" align="center" justify="center" bgGradient="linear(180deg, #3C3885, #3CCB95)" w="100vw" m="0" p="0" flex="1" overflow="hidden">
         <TitleSection title="Meus Agendamentos" subtitle="Para ver os detalhes clique no agendamento" />
         <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" mx="auto" my="2rem">
-          <VStack spacing={4}>
+          <VStack spacing={7}>
+            <div className="card flex flex-wrap gap-3 p-fluid">
+              <div className="flex-auto">
+                <Calendar
+                  id="buttondisplay"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.value)}
+                  showIcon
+                  style={{ fontSize: '20px' }}
+                  dateFormat="dd/mm/yy"
+                  icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />}
+                  minDate={allowPastDates ? null : new Date()}
+                />
+              </div>
+            </div>
+            <Checkbox
+              isChecked={allowPastDates}
+              onChange={(e) => setAllowPastDates(e.target.checked)}
+              colorScheme="green"
+              alignSelf="center"
+            >
+              Filtrar datas passadas
+            </Checkbox>
             <ChakraProvider>
               <Box w="100%" height={containerHeight} overflowY="auto" position="relative">
                 <DataGridScheduling data={data} onRowClick={handleRowClick} onUpdate={null} onDelete={null} />
