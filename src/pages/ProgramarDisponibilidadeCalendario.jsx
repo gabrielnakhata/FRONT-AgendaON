@@ -20,11 +20,11 @@ const ProgramarDisponibilidadeCalendario = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedCollaboratorId, setSelectedCollaboratorId] = useState('');
     const [isAdding, setIsAdding] = useState(false);
-    const [startWorkTime, setStartWorkTime] = useState(null);
-    const [endWorkTime, setEndWorkTime] = useState(null);
-    const [startLunchTime, setStartLunchTime] = useState(null);
-    const [endLunchTime, setEndLunchTime] = useState(null);
-    const [timeInterval, setTimeInterval] = useState(null);
+    const [startWorkTime, setStartWorkTime] = useState(new Date(selectedDate.setHours(8, 0)));
+    const [endWorkTime, setEndWorkTime] = useState(new Date(selectedDate.setHours(19, 30)));
+    const [startLunchTime, setStartLunchTime] = useState(new Date(selectedDate.setHours(12, 0)));
+    const [endLunchTime, setEndLunchTime] = useState(new Date(selectedDate.setHours(13, 0)));
+    const [timeInterval, setTimeInterval] = useState(new Date(selectedDate.setHours(0, 30)));
     const [scheduleList, setScheduleList] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { redirectToDashboard } = useUserRedirect();
