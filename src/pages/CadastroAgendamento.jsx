@@ -232,7 +232,7 @@ const CadastroAgendamento = () => {
                 status: "info",
                 duration: 3000,
                 isClosable: true,
-                onCloseComplete: () => { setIsAdding(false); setIsSubmitting(false); }
+                onCloseComplete: () => { setIsAdding(false); setIsSubmitting(false);  window.location.reload(); }
             });
             return;
         }
@@ -308,7 +308,9 @@ const CadastroAgendamento = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-                onCloseComplete: () => { setIsAdding(false); setIsSubmitting(false); }
+                onCloseComplete: () => { setIsAdding(false); setIsSubmitting(false);
+                    window.location.reload();
+                }
             });
         } finally {
             setIsSubmitting(false);
