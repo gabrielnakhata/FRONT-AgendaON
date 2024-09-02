@@ -430,7 +430,7 @@ const CadastroAgendamento = () => {
 
                     <HStack py={4} align="left">
                         <Switch colorScheme="green" size='lg' isChecked={isServiceSwitchOn} onChange={handleServiceSwitchChange} />
-                        <Text fontSize="18px" color="#3D5A73" fontWeight="bold" paddingLeft={4} alignItems="left">Selecione os Serviços</Text>
+                        <Text fontSize="18px" color="#3D5A73" fontWeight="bold" paddingLeft={4} alignItems="left">Confirmar Horário</Text>
                     </HStack>
                     {isServiceSwitchOn && (
                         <ChakraProvider>
@@ -440,7 +440,7 @@ const CadastroAgendamento = () => {
                             </Box>
                             <HStack py={4} align="left">
                                 <Switch colorScheme="green" size="lg" isChecked={showSelectedServices} onChange={handleShowSelectedServices} />
-                                <Text fontSize="18px" color="#3D5A73" paddingLeft={4} alignItems="left" fontWeight="bold">Adicionar Serviços</Text>
+                                <Text fontSize="18px" color="#3D5A73" paddingLeft={4} alignItems="left" fontWeight="bold">Confirmar Serviços</Text>
                                 {isServiceSwitchOnObs && (
                                     <HStack align="left">
                                         <Switch paddingLeft={4} colorScheme="green" size="lg" isChecked={showInputObs} onChange={handleShowObs} />
