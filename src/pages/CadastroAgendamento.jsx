@@ -443,13 +443,14 @@ const CadastroAgendamento = () => {
                             <HStack py={4} align="left">
                                 <Switch colorScheme="green" size="lg" isChecked={showSelectedServices} onChange={handleShowSelectedServices} />
                                 <Text fontSize="18px" color="#3D5A73" paddingLeft={4} alignItems="left" fontWeight="bold">Confirmar Serviços</Text>
+                                </HStack>
                                 {isServiceSwitchOnObs && (
                                     <HStack align="left">
                                         <Switch paddingLeft={4} colorScheme="green" size="lg" isChecked={showInputObs} onChange={handleShowObs} />
                                         <Text fontSize="18px" color="#3D5A73" paddingLeft={4} alignItems="left" fontWeight="bold">O atendimento é p/ meu FILHO(a):</Text>
                                     </HStack>
                                 )}
-                            </HStack>
+                            
                             {isServiceSwitchOnObsInput && showInputObs && (
                                 <Box w={{ base: '100%', md: '70%' }} overflow="auto" position="relative">
                                     <Input placeholder='Digite o nome da Criança' size='lg' fontSize="18px" color="#3D5A73" fontWeight="bold" value={observacoes} onChange={(e) => setObservacoes(e.target.value)} />
