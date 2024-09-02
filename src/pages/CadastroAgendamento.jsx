@@ -370,7 +370,7 @@ const CadastroAgendamento = () => {
                     </Box>
                     {isCalendarSelectOn && (
                         <ChakraProvider>
-                            <Box w={{ base: '100%', md: '70%' }} height={containerHeight} overflow="auto" position="relative">
+                            <Box w={{ base: '100%', md: '85%' }} height={containerHeight} overflow="auto" position="relative">
                                 <DataGridHour data={data} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} />
                                 <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
                             </Box>
@@ -434,7 +434,7 @@ const CadastroAgendamento = () => {
                     </HStack>
                     {isServiceSwitchOn && (
                         <ChakraProvider>
-                            <Box w={{ base: '100%', md: '80%' }} height={containerHeight2} overflow="auto" position="relative">
+                            <Box w={{ base: '100%', md: '85%' }} height={containerHeight2} overflow="auto" position="relative">
                                 <DataGridHourService data={filteredDataService} onCheckboxClick={handleCheckboxServiceClick} selectedItemService={selectedItemService} />
                                 <ScrollTop target="parent" threshold={100} className="w-2rem h-2rem border-round bg-primary" icon="pi pi-arrow-up text-base" />
                             </Box>

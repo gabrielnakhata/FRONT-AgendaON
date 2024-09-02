@@ -99,7 +99,7 @@ const DataGridHour = ({ data, onCheckboxClick, selectedItem }) => {
     };
 
     return (
-        <Flex wrap="wrap" gap="4">
+        <Flex paddingTop={2} paddingBottom={2} wrap="wrap" gap="4" justifyContent="center" background="#CECECECE">
             {data.map(item => (
                 <Flex 
                     key={item.calendarioId} 
@@ -114,7 +114,7 @@ const DataGridHour = ({ data, onCheckboxClick, selectedItem }) => {
                     width="fit-content"
                 >
                     <Flex alignItems="center">
-                        <Icon as={TimeIcon} color="green.500" boxSize="6" mr="4" />
+                        <Icon as={TimeIcon} color="green" boxSize="6" mr="4" />
                         <Flex direction="column">
                             <Text fontSize="18px" color="#3D5A73" fontWeight="bold">
                                 {formatDate(item.dataHoraConfigurada)}

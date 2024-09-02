@@ -76,7 +76,7 @@ const DataGridHourService = ({ data, onCheckboxClick, selectedItemService }) => 
     };
 
     return (
-        <Flex wrap="wrap" gap="4" justifyContent="center">
+        <Flex paddingTop={2} paddingBottom={2} wrap="wrap" gap="4" justifyContent="center" background="#CECECECE">
             {data.map(item => (
                 <Flex 
                     key={item.servicoId} 
