@@ -68,7 +68,7 @@ function ModalLogin() {
                     navigate('/lista-agendamento-colaborador');
                     break;
                 case 'Cliente':
-                    navigate('/lista-agendamento');
+                    navigate('/agendamento');
                     break;
                 default:
                     navigate('/');
