@@ -275,7 +275,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 <Button color="white" onClick={() => handleStatusChange(statusReativado)} bg="green" _hover={{ bg: "#2A542B" }} w="full" py={6} justifyContent="space-between">Reagendar</Button>
                             </HStack>
                         ) : (
-                            user.tipoUsuario === 'Cliente' || statusAtual === "AGENDADO" || statusAtual === "PAUSADO" ? (
+                            user.tipoUsuario !== 'Cliente' || statusAtual === "AGENDADO" || statusAtual === "PAUSADO" ? (
                                 <HStack spacing={4} paddingTop={5}>
                                     <Button color="white" onClick={() => setIsModalConfirmOpen(true)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} justifyContent="space-between">Cancelar</Button>
                                 </HStack>
