@@ -165,7 +165,7 @@ const CadastroCliente = () => {
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
                         <CustomInput label="Nome" name="nome" placeholder="Digite o nome completo" value={formData.nome} onChange={handleChange} />
-                        <CustomInput label="Email" name="email" type="email" placeholder="Este e-mail será utilizado para o login" value={formData.email} onChange={handleChange} />
+                        <CustomInput label="Email" name="email" type="email" placeholder="E-mail" value={formData.email} onChange={handleChange} />
                         
                         <InputGroup>
                             <CustomInput
