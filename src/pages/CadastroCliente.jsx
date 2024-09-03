@@ -158,6 +158,21 @@ const CadastroCliente = () => {
         setIsModalOpen(false);
     };
 
+    // Função para adicionar "/" automaticamente no formato DD/MM/YYYY
+const formatDate = (e) => {
+    let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+
+    if (value.length > 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2);
+    }
+    if (value.length > 5) {
+        value = value.slice(0, 5) + '/' + value.slice(5, 9);
+    }
+
+    e.target.value = value;
+};
+
+
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Cadastro de Clientes" subtitle="Olá amigo(a) cliente para obter um login de acesso, gentileza efetuar o cadastro." />
@@ -190,7 +205,7 @@ const CadastroCliente = () => {
                         <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
                  
                         <InputGroup>
-                        <CustomInput label="Data de Nascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
+                        <CustomInput label="Data de Nascimento" onInput={formatDate} name="dataNascimento" type="date" inputMode="numeric" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
                         <InputRightElement h="full" d="flex" alignItems="center" width="4.5rem">
                         <i className="pi pi-calendar" style={{ fontSize: '18px', verticalAlign: 'middle', color: 'black', paddingLeft:'15px' }} />
                             </InputRightElement>
