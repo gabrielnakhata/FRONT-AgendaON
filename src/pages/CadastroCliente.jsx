@@ -188,12 +188,13 @@ const CadastroCliente = () => {
                         </InputGroup>
 
                         <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
-                        <Flex direction="column" align="flex-start" w="100%">
-                        <Text fontSize="14px" textTransform="uppercase" color="#172237" fontWeight="bold">
-                        Data de Nascimento:
-                        </Text>
-                        </Flex>
+                 
+                        <InputGroup>
                         <CustomInput label="Data de Nascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
+                        <InputRightElement h="full" d="flex" alignItems="center" width="4.5rem">
+                        <i className="pi pi-calendar" style={{ fontSize: '18px', verticalAlign: 'middle', color: 'black', paddingLeft:'15px' }} />
+                            </InputRightElement>
+                        </InputGroup>
                         <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
                     </VStack>
                 </form>
