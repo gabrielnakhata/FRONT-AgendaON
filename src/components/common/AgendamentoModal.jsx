@@ -270,12 +270,12 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         </VStack>
                     </ModalBody>
                     <ModalFooter>
-                        {(user?.tipoUsuario !== 'Cliente' && user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador' && statusAtual === "CANCELADO") ? (
+                        {(user?.tipoUsuario !== 'Cliente' && statusAtual === "CANCELADO") ? (
                             <HStack spacing={4} paddingTop={5}>
                                 <Button color="white" onClick={() => handleStatusChange(statusReativado)} bg="green" _hover={{ bg: "#2A542B" }} w="full" py={6} justifyContent="space-between">Reagendar</Button>
                             </HStack>
                         ) : (
-                            user.tipoUsuario !== 'Cliente' || statusAtual === "AGENDADO" || statusAtual === "PAUSADO" ? (
+                            user.tipoUsuario === 'Cliente' || statusAtual === "AGENDADO" || statusAtual === "PAUSADO" ? (
                                 <HStack spacing={4} paddingTop={5}>
                                     <Button color="white" onClick={() => setIsModalConfirmOpen(true)} bg="#A70D00" _hover={{ bg: "#460B06" }} w="full" py={6} justifyContent="space-between">Cancelar</Button>
                                 </HStack>
@@ -283,10 +283,10 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         )}
                         {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador') && statusAtual !== "CANCELADO" && (
                             <>
-                                <HStack spacing={4} paddingLeft={5} paddingTop={5}>
+                                <HStack spacing={4} paddingLeft={2} paddingTop={5}>
                                     <Button color="white" onClick={() => handleStatusChange(statusConcluido)} bg="#8965E2" _hover={{ bg: "#493678" }} w="full" py={6} justifyContent="space-between">Concluído</Button>
                                 </HStack>
-                                <HStack spacing={4} paddingLeft={5} paddingTop={5}>
+                                <HStack spacing={4} paddingLeft={2} paddingTop={5}>
                                     <Button color="white" onClick={openPauseInfoModal} bg="#EBC01B" _hover={{ bg: "#EA9F1B" }} w="full" py={6} justifyContent="space-between">Pausado</Button>
                                 </HStack>
                             </>
