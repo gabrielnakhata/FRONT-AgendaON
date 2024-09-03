@@ -44,7 +44,7 @@ const MenuGestor = () => {
     };
 
     return (
-        <Box px={10} py={3} boxShadow="md" w="100%" bg="#172237">
+        <Box px={5} py={3} boxShadow="md" w="100%" bg="#172237">
             <Flex justify="space-between" align="center" w="100%">
                 <HStack spacing={4}>
                     <Avatar name={user?.nome || 'No Name'} src={user?.image || 'https://fallback-url.com/default-avatar.png'} mr={2} />
