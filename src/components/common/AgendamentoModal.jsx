@@ -270,7 +270,7 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         </VStack>
                     </ModalBody>
                     <ModalFooter>
-                        {(user?.tipoUsuario === 'Gestor' && user?.tipoUsuario === 'Colaborador' && statusAtual === "CANCELADO") ? (
+                        {(user?.tipoUsuario !== 'Cliente' && user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador' && statusAtual === "CANCELADO") ? (
                             <HStack spacing={4} paddingTop={5}>
                                 <Button color="white" onClick={() => handleStatusChange(statusReativado)} bg="green" _hover={{ bg: "#2A542B" }} w="full" py={6} justifyContent="space-between">Reagendar</Button>
                             </HStack>
