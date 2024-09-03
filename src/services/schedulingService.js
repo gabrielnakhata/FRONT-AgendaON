@@ -38,7 +38,6 @@ export const getClientPhoneByScheduling = async (agendamentoId, token) => {
     }
 };
 
-
 export const getSchedulingForCollaborator = async (colaboradorId, token) => {
     try {
         const config = {
@@ -55,8 +54,7 @@ export const getSchedulingForCollaborator = async (colaboradorId, token) => {
     }
 };
 
-
-export const getSchedulingForClient = async (clienteId, data, token) => {
+export const getSchedulingForClient = async (clienteId, token) => {
     try {
         const config = {
             headers: {
@@ -64,10 +62,7 @@ export const getSchedulingForClient = async (clienteId, data, token) => {
             }
         };
 
-        const formattedDate = moment(data, 'YYYY-DD-MM').format('YYYY-MM-DD');
-
-        const url = `/Agendamentos/FiltroDiaCliente/${clienteId}/${formattedDate}`;
-
+        const url = `/Agendamentos/Cliente/${clienteId}`;
         const response = await calendarApi.get(url, config);
         return response.data;
     } catch (error) {

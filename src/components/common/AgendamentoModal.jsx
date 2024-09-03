@@ -200,9 +200,9 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
 
     return (
         <>
-            <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl" motionPreset="scale">
+            <Modal isOpen={isOpen} onClose={onClose} isCentered motionPreset="scale">
                 <ModalOverlay />
-                <ModalContent w={{ base: '90%', md: '70%', lg: '50%' }}>
+                <ModalContent w="370px">
                     <ModalHeader fontWeight="bold" color="#172237" mb={2}>
                         <HStack>
                             <Avatar name={user?.nome || 'No Name'} src={user?.image || 'https://fallback-url.com/default-avatar.png'} mr={2} />
@@ -211,54 +211,53 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 <Text fontSize="sm" color="#172237">{user?.email || 'noemail@example.com'}</Text>
                             </VStack>
                         </HStack>
-                        <HStack paddingTop={5} paddingBottom={1} align="center">
-                            <Text fontSize="16px" color="#504E42" fontWeight="bold" alignItems="left">
-                                Status:&nbsp;&nbsp;&nbsp;
-                            </Text>
-                            <Badge
-                                colorScheme={getStatusColor(statusAtual)}
-                                mb={0}
-                                borderRadius="full"
-                                px={2}
-                                py={1}
-                                fontSize="15px"
-                            >
-                                {statusAtual}
-                            </Badge>
-                        </HStack>
-                        <Text paddingTop={5} fontSize="16px" textTransform="uppercase" color="#172237" fontWeight="bold">
+                        <Text paddingTop={5} fontSize="16px" textTransform="uppercase" color="#172237">
                             Detalhes do agendamento:
                         </Text>
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <VStack align="start" spacing={4} w="100%">
-                                <Card w="100%" bg='#FEFF92' p={5}>
-                                    <HStack align="center" paddingBottom={3}>
-                                        <i className="pi pi-calendar-clock" style={{ fontSize: '24px', verticalAlign: 'middle', color: '#172237' }} />
+                        <VStack align="start" spacing={2} w="100%">
+                            <Card w="100%" bg='#CECECECE' p={3}>
+                                <Card w="300px" bg='#FFFF' p={5} position="relative" >
+                                    <Badge
+                                        colorScheme={getStatusColor(statusAtual)}
+                                        mb={0}
+                                        borderRadius="full"
+                                        px={2}
+                                        py={1}
+                                        fontSize="13px"
+                                        position="absolute"
+                                        top="10px"
+                                        right="10px"
+                                    >
+                                        {statusAtual}
+                                    </Badge>
+                                    <HStack align="center" paddingBottom={1}>
+                                        <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
                                         <Text fontSize="18px" color="#172237" fontWeight="bold">{formatDate(data.dataHoraAgendamento)}</Text>
                                     </HStack>
-                                    <HStack align="center" paddingBottom={3}>
-                                        <i className="pi pi-clock" style={{ fontSize: '24px', verticalAlign: 'middle', color: '#172237' }} />
+                                    <HStack align="center" paddingBottom={1}>
+                                        <i className="pi pi-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
                                         <Text fontSize="18px" color="#172237" fontWeight="bold">{formatTime(data.dataHoraAgendamento)}</Text>
                                     </HStack>
-                                    <HStack align="center" paddingBottom={3}>
-                                        <i className="pi pi-user" style={{ fontSize: '24px', verticalAlign: 'middle', color: '#172237' }} />
+                                    <HStack align="center">
+                                        <i className="pi pi-user" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
                                         <Text fontSize="18px" color="#172237" fontWeight="bold">{data.colaboradorNome}</Text>
                                     </HStack>
-                                    <HStack align="center">
-                                        <i className="pi pi-tag" style={{ fontSize: '24px', verticalAlign: 'middle', color: '#172237' }} />
-                                        <Text fontSize="18px" color="#172237" fontWeight="bold">{data.clienteNome}</Text>
-                                    </HStack>
+
                                 </Card>
-                                <Card w="100%" bg='#FEFF92'>
+                            </Card>
+                            <Card w="100%" bg='#CECECECE' p={3}>
+                                <Card w="300px" bg='#FFFF'>
                                     <HStack align="center">
-                                        <Text paddingTop={5} paddingLeft={5} paddingBottom={4} fontSize="16px" color="#172237" fontWeight="bold" alignItems="left">
+                                        <Text paddingTop={2} paddingLeft={5} paddingBottom={2} fontSize="12px" color="#172237" fontWeight="bold" alignItems="left">
                                             O atendimento é<br></br>p/ meu FILHO(a): &nbsp;
                                         </Text>
-                                        <Text color="#172237" fontWeight="bold" fontSize="20px"> {data.observacoes}</Text>
+                                        <Text color="#172237" fontWeight="bold" fontSize="18px"> {data.observacoes}</Text>
                                     </HStack>
                                 </Card>
+                            </Card>
 
                             <VStack spacing={4} w="100%">
                                 <ChakraProvider>

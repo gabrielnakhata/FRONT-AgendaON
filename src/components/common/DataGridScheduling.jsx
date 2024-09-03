@@ -1,6 +1,5 @@
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Badge, Flex } from '@chakra-ui/react';
+import { Box, Badge, Flex, Text, HStack, Card } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import { Icon, TimeIcon } from '@chakra-ui/icons';
 import { useUserRedirect } from '../../hooks/UseUserRedirect';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -39,66 +38,62 @@ const DataGridScheduling = ({ data, onRowClick }) => {
                 return 'yellow';
             case 'AGENDADO':
                 return 'green';
+            default:
+                return 'gray';
         }
     };
 
     return (
-        <TableContainer maxHeight="400px" overflowY="auto">
-            <Table size='md'>
-                <Thead position="sticky" top={0} bg="white" zIndex={1}>
-                    <Tr align="center">
-                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
-                            <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
-                            &nbsp; Data
-                        </Th>
-                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
-                            <i className="pi pi-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
-                            &nbsp;Hora
-                        </Th>
-                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
-                            <i className="pi pi-user" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
-                            &nbsp;{user.tipoUsuario === 'Cliente' ? 'Colaborador' : 'Cliente'}
-                        </Th>
-                        <Th fontSize="14px" color="#3D5A73" fontWeight="bold" alignItems="left">
-                            <i className="pi pi-tag" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
-                            &nbsp;&nbsp;Status
-                        </Th>
-                        {/* {isEditable && <Th><i className="pi pi-file-edit" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} /></Th>}
-                        {isEditable && <Th><i className="pi pi-trash" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'red' }} /></Th>} */}
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {sortedData.map(item => (
-                        <Tr key={item.agendamentoId} onClick={() => onRowClick(item)} cursor="pointer">
-                            <Td fontSize="18px" color="#3D5A73" fontWeight="bold" alignItems="center">
-                                <Flex align="center">
-                                    <Icon as={TimeIcon} color="green" mr="4" boxSize="6" alignItems="center" />
+        <Flex paddingTop={2} paddingBottom={2} wrap="wrap" gap="2" justifyContent="center" background="#CECECECE">
+            {sortedData.map(item => (
+                <Card
+                    key={item.agendamentoId}
+                    p={4}
+                    shadow="md"
+                    borderWidth="0px"
+                    borderRadius="md"
+                    cursor="pointer"
+                    onClick={() => onRowClick(item)}
+                    position="relative"
+                    w="270px"
+                >
+                    <Badge
+                        colorScheme={getStatusColor(item.statusDescricao)}
+                        borderRadius="full"
+                        px={3}
+                        py={1}
+                        fontSize="12px"
+                        position="absolute"
+                        top={2}
+                        right={2}
+                    >
+                        {item.statusDescricao}
+                    </Badge>
+                    <Flex justifyContent="space-between" alignItems="center">
+                        <Box paddingRight={4}>
+                            <HStack align="center" paddingBottom={1}>
+                                <i className="pi pi-calendar-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
+                                <Text fontSize="18px" color="#3D5A73" fontWeight="bold">
                                     {formatDate(item.dataHoraAgendamento)}
-                                </Flex>
-                            </Td>
-                            <Td fontSize="18px" color="#3D5A73" fontWeight="bold" alignItems="center">
-                                {formatTime(item.dataHoraAgendamento)}
-                            </Td>
-                            <Td fontSize="18px" color="#3D5A73" fontWeight="bold" alignItems="center">
-                                &nbsp; &nbsp;&nbsp;{user.tipoUsuario === 'Cliente' ? item.colaboradorNome : item.clienteNome}
-                            </Td>
-                            <Td fontSize="16px" color="#3D5A73" fontWeight="bold" alignItems="center">
-                                <Badge 
-                                    colorScheme={getStatusColor(item.statusDescricao)} 
-                                    mb={0} 
-                                    borderRadius="full" 
-                                    px={2} 
-                                    py={1} 
-                                    fontSize="0.8em"
-                                >
-                                    {item.statusDescricao}
-                                </Badge>
-                            </Td>
-                        </Tr>
-                    ))}
-                </Tbody>
-            </Table>
-        </TableContainer>
+                                </Text>
+                            </HStack>
+                            <HStack align="center" paddingBottom={1}>
+                                <i className="pi pi-clock" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
+                                <Text fontSize="18px" color="#3D5A73" fontWeight="bold">
+                                    {formatTime(item.dataHoraAgendamento)}
+                                </Text>
+                            </HStack>
+                            <HStack align="center" paddingBottom={1}>
+                                <i className="pi pi-user" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'green' }} />
+                                <Text fontSize="14px" color="#3D5A73" fontWeight="bold">
+                                    {user.tipoUsuario === 'Cliente' ? item.colaboradorNome : item.clienteNome}
+                                </Text>
+                            </HStack>
+                        </Box>
+                    </Flex>
+                </Card>
+            ))}
+        </Flex>
     );
 };
 
