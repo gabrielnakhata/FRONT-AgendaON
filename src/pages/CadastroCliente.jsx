@@ -140,15 +140,15 @@ const CadastroCliente = () => {
                 isClosable: true,
                 onCloseComplete: () => navigate('/login-modal')
             });
-        } catch (error) {
+        } catch {
             toast({
                 title: "Erro ao cadastrar",
-                description: error.message || "Não foi possível cadastrar o cliente.",
+                description: "Não foi possível cadastrar o cliente.",
                 status: "error",
                 duration: 4000,
                 isClosable: true,
                 onCloseComplete: () => {
-                    setIsSubmitting(false)
+                    setIsSubmitting(false), window.location.reload();
                 }
             });
         }

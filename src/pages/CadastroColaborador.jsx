@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Flex, Box, VStack, useToast } from '@chakra-ui/react';
+import { Flex, Box, VStack, useToast, InputGroup, InputRightElement, IconButton } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import CustomInput from '../components/common/CustomInput';
 import TitleSection from '../components/common/TitleSection';
 import { registerCollaborator } from '../services/collaboratorService';
@@ -28,6 +29,8 @@ const CadastroColaborador = () => {
         celular: '',
         dataNascimento: '',
     });
+
+    const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -158,7 +161,27 @@ const CadastroColaborador = () => {
                     <VStack spacing={4}>
                         <CustomInput label="Nome" name="nome" placeholder="Nome completo" value={formData.nome} onChange={handleChange} />
                         <CustomInput label="Email" name="email" type="email" placeholder="Este e-mail será utilizado para o login" value={formData.email} onChange={handleChange} />
-                        <CustomInput label="Senha" name="senha" type="password" placeholder="Senha" value={formData.senha} onChange={handleChange} />
+
+                        <InputGroup>
+                            <CustomInput
+                                label="Senha"
+                                name="senha"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Senha"
+                                value={formData.senha}
+                                onChange={handleChange}
+                            />
+                            <InputRightElement h="full" d="flex" alignItems="center" width="4.5rem">
+                                <IconButton
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                    icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    size="sm"
+                                    variant="ghost"
+                                />
+                            </InputRightElement>
+                        </InputGroup>
+
                         <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
                         <CustomInput label="Data de Nascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
                         <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
