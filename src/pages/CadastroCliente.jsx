@@ -203,7 +203,9 @@ const formatDate = (e) => {
                         </InputGroup>
 
                         <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
-                 
+                        <Text fontSize="14px" textTransform="uppercase" color="#172237" fontWeight="bold">
+                        Data de Nascimento:
+                        </Text>
                         <InputGroup>
                         <CustomInput label="Data de Nascimento" onInput={formatDate} name="dataNascimento" type="date" inputMode="numeric" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
                         <InputRightElement h="full" d="flex" alignItems="center" width="4.5rem">
