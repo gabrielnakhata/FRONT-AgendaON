@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Card, HStack, Text, Flex, Box, VStack, useToast, InputGroup, InputRightElement, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { VStack, useToast, InputGroup, InputRightElement, IconButton, Input, Flex, Box } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import CustomInput from '../components/common/CustomInput';
+import { useNavigate } from 'react-router-dom';
 import TitleSection from '../components/common/TitleSection';
 import { registerClient } from '../services/clientService';
 import moment from 'moment-timezone';
@@ -10,14 +9,13 @@ import ActionButtons from '../components/common/ActionButtons';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\d{10,11}$/;
-const dateOfBirthRegex = /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+const dateOfBirthRegex = /^([0-2]\d|3[01])\/(0\d|1[0-2])\/(19|20)\d{2}$/;
 const passwordRegex = /^.{6,}$/;
 
 const CadastroCliente = () => {
     const toast = useToast();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -28,11 +26,6 @@ const CadastroCliente = () => {
     });
 
     const [showPassword, setShowPassword] = useState(false);
-
-    useEffect(() => {
-        // Abrir o modal automaticamente ao carregar a página
-        setIsModalOpen(true);
-    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -46,8 +39,24 @@ const CadastroCliente = () => {
         navigate('/');
     };
 
+    // Função para formatar o número de telefone no formato (XX) XXXXX-XXXX
     const formatPhoneNumber = (phone) => {
-        return phone.replace(/\D/g, '');
+        const cleanPhone = phone.replace(/\D/g, ''); // Remove caracteres não numéricos
+        if (cleanPhone.length <= 2) return cleanPhone;
+        if (cleanPhone.length <= 7) return `(${cleanPhone.slice(0, 2)}) ${cleanPhone.slice(2)}`;
+        if (cleanPhone.length <= 11) return `(${cleanPhone.slice(0, 2)}) ${cleanPhone.slice(2, 7)}-${cleanPhone.slice(7)}`;
+        return `(${cleanPhone.slice(0, 2)}) ${cleanPhone.slice(2, 7)}-${cleanPhone.slice(7, 11)}`;
+    };
+
+    // Função para remover a formatação do telefone ao submeter
+    const getPlainPhoneNumber = (formattedPhone) => {
+        return formattedPhone.replace(/\D/g, ''); // Remove qualquer caractere que não seja numérico
+    };
+
+    // Função para formatar a data de DD/MM/YYYY para YYYY-MM-DD
+    const formatDateForSubmission = (date) => {
+        const [day, month, year] = date.split('/');
+        return `${year}-${month}-${day}`;
     };
 
     const handleSubmit = async (e) => {
@@ -56,8 +65,8 @@ const CadastroCliente = () => {
         if (isSubmitting) return;
         setIsSubmitting(true);
 
-        // Formatar número de celular
-        const formattedPhone = formatPhoneNumber(formData.celular);
+        const plainPhone = getPlainPhoneNumber(formData.celular); // Telefone sem formatação
+        const formattedDate = formatDateForSubmission(formData.dataNascimento); // Formata a data
 
         if (!formData.nome.trim()) {
             toast({
@@ -66,9 +75,7 @@ const CadastroCliente = () => {
                 status: "info",
                 duration: 2000,
                 isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false)
-                }
+                onCloseComplete: () => setIsSubmitting(false),
             });
             return;
         }
@@ -80,9 +87,7 @@ const CadastroCliente = () => {
                 status: "info",
                 duration: 2000,
                 isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false)
-                }
+                onCloseComplete: () => setIsSubmitting(false),
             });
             return;
         }
@@ -94,23 +99,19 @@ const CadastroCliente = () => {
                 status: "info",
                 duration: 2000,
                 isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false)
-                }
+                onCloseComplete: () => setIsSubmitting(false),
             });
             return;
         }
 
-        if (!phoneRegex.test(formattedPhone)) {
+        if (!phoneRegex.test(plainPhone)) {
             toast({
                 title: "Erro de validação",
                 description: "Por favor, insira um número de celular válido. (10 a 11 dígitos)",
                 status: "info",
                 duration: 2000,
                 isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false)
-                }
+                onCloseComplete: () => setIsSubmitting(false),
             });
             return;
         }
@@ -122,23 +123,26 @@ const CadastroCliente = () => {
                 status: "info",
                 duration: 2000,
                 isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false)
-                }
+                onCloseComplete: () => setIsSubmitting(false),
             });
             return;
         }
 
         try {
             const dataCadastro = moment().tz("America/Sao_Paulo").format();
-            const data = await registerClient({ ...formData, celular: formattedPhone, dataCadastro });
+            await registerClient({
+                ...formData,
+                celular: plainPhone, // Envia o telefone sem formatação
+                dataNascimento: formattedDate, // Envia a data formatada
+                dataCadastro
+            });
             toast({
                 title: "Cliente cadastrado",
-                description: `Os dados foram cadastrados com sucesso! Bem-vindo(a), ${data.nome || 'cliente'}.`,
+                description: "Os dados foram cadastrados com sucesso!",
                 status: "success",
                 duration: 2500,
                 isClosable: true,
-                onCloseComplete: () => navigate('/login-modal')
+                onCloseComplete: () => navigate('/login-modal'),
             });
         } catch {
             toast({
@@ -147,49 +151,60 @@ const CadastroCliente = () => {
                 status: "error",
                 duration: 4000,
                 isClosable: true,
-                onCloseComplete: () => {
-                    setIsSubmitting(false), window.location.reload();
-                }
+                onCloseComplete: () => setIsSubmitting(false),
             });
         }
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
+    const formatDate = (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+
+        if (value.length > 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2);
+        }
+        if (value.length > 5) {
+            value = value.slice(0, 5) + '/' + value.slice(5, 9);
+        }
+
+        setFormData(prevState => ({
+            ...prevState,
+            dataNascimento: value
+        }));
     };
-
-    // Função para adicionar "/" automaticamente no formato DD/MM/YYYY
-const formatDate = (e) => {
-    let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for dígito
-
-    if (value.length > 2) {
-        value = value.slice(0, 2) + '/' + value.slice(2);
-    }
-    if (value.length > 5) {
-        value = value.slice(0, 5) + '/' + value.slice(5, 9);
-    }
-
-    e.target.value = value;
-};
-
 
     return (
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #455559, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
-            <TitleSection title="Cadastro de Clientes" subtitle="Olá amigo(a) cliente para obter um login de acesso, gentileza efetuar o cadastro." />
-            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">
+            <TitleSection title="Cadastro de Clientes" subtitle="Por favor, efetue o cadastro." />
+            <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '50%']} marginTop="2rem">
                 <form onSubmit={handleSubmit}>
                     <VStack spacing={4}>
-                        <CustomInput label="Nome" name="nome" placeholder="Digite o nome completo" value={formData.nome} onChange={handleChange} />
-                        <CustomInput label="Email" name="email" type="email" placeholder="E-mail" value={formData.email} onChange={handleChange} />
-                        
+                        <Input
+                            placeholder="Digite o nome completo"
+                            name="nome"
+                            value={formData.nome}
+                            onChange={handleChange}
+                            isInvalid={!formData.nome.trim()}
+                            errorBorderColor="red.300"
+                        />
+                        <Input
+                            placeholder="E-mail"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            isInvalid={!emailRegex.test(formData.email)}
+                            errorBorderColor="red.300"
+                        />
+
                         <InputGroup>
-                            <CustomInput
-                                label="Senha"
+                            <Input
+                                placeholder="Senha"
                                 name="senha"
                                 type={showPassword ? "text" : "password"}
-                                placeholder="Senha"
                                 value={formData.senha}
                                 onChange={handleChange}
+                                isInvalid={!passwordRegex.test(formData.senha)}
+                                errorBorderColor="red.300"
                             />
                             <InputRightElement h="full" d="flex" alignItems="center" width="4.5rem">
                                 <IconButton
@@ -202,41 +217,34 @@ const formatDate = (e) => {
                             </InputRightElement>
                         </InputGroup>
 
-                        <CustomInput label="Celular" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
-                        <Text fontSize="14px" textTransform="uppercase" color="#172237" fontWeight="bold">
-                        Data de Nascimento:
-                        </Text>
-                        <InputGroup>
-                        <CustomInput label="Data de Nascimento" onInput={formatDate} name="dataNascimento" type="date" inputMode="numeric" placeholder="Data de Nascimento" value={formData.dataNascimento} onChange={handleChange} />
-                        <InputRightElement h="full" d="flex" alignItems="center" width="4.5rem">
-                        <i className="pi pi-calendar" style={{ fontSize: '18px', verticalAlign: 'middle', color: 'black', paddingLeft:'15px' }} />
-                            </InputRightElement>
-                        </InputGroup>
+                        <Input
+                            placeholder="Celular | exemplo: (31) 99487-5143"
+                            name="celular"
+                            value={formatPhoneNumber(formData.celular)}
+                            onChange={(e) =>
+                                setFormData(prevState => ({
+                                    ...prevState,
+                                    celular: e.target.value
+                                }))
+                            }
+                            inputMode="numeric"
+                            isInvalid={!phoneRegex.test(getPlainPhoneNumber(formData.celular))}
+                            errorBorderColor="red.300"
+                        />
+
+                        <Input
+                            placeholder="Data de Nascimento | exemplo: 21/06/1985"
+                            name="dataNascimento"
+                            value={formData.dataNascimento}
+                            onChange={formatDate}
+                            isInvalid={!dateOfBirthRegex.test(formData.dataNascimento)}
+                            errorBorderColor="red.300"
+                        />
+
                         <ActionButtons onBack={handleClose} onSave={handleSubmit} isSaveDisabled={null} />
                     </VStack>
                 </form>
             </Box>
-            
-            <Modal isOpen={isModalOpen} onClose={closeModal} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Atenção!</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <VStack spacing={4}>
-                            <Card bg='#FEFF92' p={5}>
-                                <HStack align="center" paddingBottom={2}>
-                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#172237' }} />
-                                    <Text paddingLeft={4} fontSize="14px" color="#172237">
-                                    Nosso sistema está em conformidade com a Lei Geral de Proteção de Dados (LGPD), assegurando a proteção e privacidade dos seus dados pessoais. Todas as informações coletadas são tratadas com segurança e utilizadas somente para os fins autorizados. Você tem o direito de acessar, corrigir ou solicitar a exclusão dos seus dados a qualquer momento. Estamos comprometidos em proteger sua privacidade e manter a sua confiança.
-                                    </Text>
-                                </HStack>
-                            </Card>
-                        </VStack>
-                        <br />
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
         </Flex>
     );
 };
