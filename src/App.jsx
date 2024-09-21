@@ -25,6 +25,7 @@ import Dashboard from './pages/Dashboard';
 import DashboardColaborador from './pages/DashboardColaborador';
 import DashboardCliente from './pages/DashboardCliente';
 import CadastroAgendamento from './pages/CadastroAgendamento';
+import NovoAgendamento from './pages/NovoAgendamento';
 import ListaAgendamentos from './pages/ListaAgendamentos';
 import ListaAgendamentosColaborador from './pages/ListaAgendamentosColaborador';
 import ListaAgendamentosGestor from './pages/ListaAgendamentosGestor';
@@ -41,6 +42,10 @@ function App() {
           <Route path="/agendamento" element={
             <PrivateRoute allowedTypes={['Cliente']}>
               <CadastroAgendamento />
+            </PrivateRoute>} />
+          <Route path="/agendamento2" element={
+            <PrivateRoute allowedTypes={['Cliente']}>
+              <NovoAgendamento />
             </PrivateRoute>} />
           <Route path="/lista-agendamento" element={
             <PrivateRoute allowedTypes={['Cliente']}>
