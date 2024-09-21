@@ -39,21 +39,18 @@ const CadastroCliente = () => {
         navigate('/');
     };
 
-    // Função para formatar o número de telefone no formato (XX) XXXXX-XXXX
     const formatPhoneNumber = (phone) => {
-        const cleanPhone = phone.replace(/\D/g, ''); // Remove caracteres não numéricos
+        const cleanPhone = phone.replace(/\D/g, '');
         if (cleanPhone.length <= 2) return cleanPhone;
         if (cleanPhone.length <= 7) return `(${cleanPhone.slice(0, 2)}) ${cleanPhone.slice(2)}`;
         if (cleanPhone.length <= 11) return `(${cleanPhone.slice(0, 2)}) ${cleanPhone.slice(2, 7)}-${cleanPhone.slice(7)}`;
         return `(${cleanPhone.slice(0, 2)}) ${cleanPhone.slice(2, 7)}-${cleanPhone.slice(7, 11)}`;
     };
 
-    // Função para remover a formatação do telefone ao submeter
     const getPlainPhoneNumber = (formattedPhone) => {
-        return formattedPhone.replace(/\D/g, ''); // Remove qualquer caractere que não seja numérico
+        return formattedPhone.replace(/\D/g, '');
     };
 
-    // Função para formatar a data de DD/MM/YYYY para YYYY-MM-DD
     const formatDateForSubmission = (date) => {
         const [day, month, year] = date.split('/');
         return `${year}-${month}-${day}`;
@@ -65,8 +62,8 @@ const CadastroCliente = () => {
         if (isSubmitting) return;
         setIsSubmitting(true);
 
-        const plainPhone = getPlainPhoneNumber(formData.celular); // Telefone sem formatação
-        const formattedDate = formatDateForSubmission(formData.dataNascimento); // Formata a data
+        const plainPhone = getPlainPhoneNumber(formData.celular);
+        const formattedDate = formatDateForSubmission(formData.dataNascimento);
 
         if (!formData.nome.trim()) {
             toast({
@@ -132,8 +129,8 @@ const CadastroCliente = () => {
             const dataCadastro = moment().tz("America/Sao_Paulo").format();
             await registerClient({
                 ...formData,
-                celular: plainPhone, // Envia o telefone sem formatação
-                dataNascimento: formattedDate, // Envia a data formatada
+                celular: plainPhone,
+                dataNascimento: formattedDate,
                 dataCadastro
             });
             toast({
