@@ -5,11 +5,17 @@
   text-align: center;
 }
 
+[data-theme="dark"] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
 html, body {
   overflow: hidden;
   height: 100%;
   margin: 0;
   padding: 0;
+  color-scheme: light;
 }
 
 .logo {
