@@ -1,6 +1,18 @@
 import { useEffect } from 'react';
 import { locale, addLocale } from 'primereact/api';
 
+const getNextAvailableDate = () => {
+    const today = new Date();
+    const day = today.getDay();
+
+    if (day === 0) {
+        today.setDate(today.getDate() + 2);
+    } else if (day === 1) {
+        today.setDate(today.getDate() + 1);
+    }
+    return today;
+};
+
 const usePrimeReactLocale = () => {
     useEffect(() => {
         addLocale('pt-BR', {
@@ -15,6 +27,8 @@ const usePrimeReactLocale = () => {
         });
         locale('pt-BR');
     }, []);
+
+    return { getNextAvailableDate };
 };
 
 export default usePrimeReactLocale;

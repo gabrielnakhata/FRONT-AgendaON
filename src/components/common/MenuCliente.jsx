@@ -79,14 +79,14 @@ const MenuCliente = () => {
 
                             <Flex direction="column" mt="50px" align="center" w="100%">
 
-                                <RouterLink to="/agendamento" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                {/* <RouterLink to="/agendamento" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                     <Button color="white" bg="green" _hover={{ bg: "#2A542B" }} mb={4} py={8} w="full" justifyContent="space-between">
                                         <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Agendar
                                     </Button>
-                                </RouterLink>
-                                <RouterLink to="/agendamento2" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
+                                </RouterLink> */}
+                                <RouterLink to="/agendamento" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>
                                     <Button color="white" bg="green" _hover={{ bg: "#2A542B" }} mb={4} py={8} w="full" justifyContent="space-between">
-                                        <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Agendar new
+                                        <i className="pi pi-clock" style={{ fontSize: '25px', verticalAlign: 'middle' }} />&nbsp;&nbsp;Agendar
                                     </Button>
                                 </RouterLink>
                                 <RouterLink to="/lista-agendamento" style={{ width: '100%', display: 'flex', justifyContent: 'center' }} onClick={onClose}>

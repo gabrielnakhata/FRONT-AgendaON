@@ -39,11 +39,11 @@ function App() {
       <Router basename={import.meta.env.VITE_BASE_URL}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/agendamento" element={
+          {/* <Route path="/agendamento" element={
             <PrivateRoute allowedTypes={['Cliente']}>
               <CadastroAgendamento />
-            </PrivateRoute>} />
-          <Route path="/agendamento2" element={
+            </PrivateRoute>} /> */}
+          <Route path="/agendamento" element={
             <PrivateRoute allowedTypes={['Cliente']}>
               <NovoAgendamento />
             </PrivateRoute>} />
