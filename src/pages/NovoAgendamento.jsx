@@ -49,7 +49,7 @@ const NovoAgendamento = () => {
     const handleNextStep = () => {
         if (step === 0 && !selectedCollaboratorId) {
             toast({
-                title: "Seleção de Profissional",
+                title: "Atenção!",
                 description: "Por favor, selecione um profissional antes de avançar.",
                 status: "warning",
                 duration: 3000,
@@ -60,7 +60,7 @@ const NovoAgendamento = () => {
 
         if (step === 1 && !selectedItem) {
             toast({
-                title: "Seleção de Horário",
+                title: "Atenção",
                 description: "Por favor, selecione um horário antes de avançar.",
                 status: "warning",
                 duration: 3000,
@@ -71,7 +71,7 @@ const NovoAgendamento = () => {
 
         if (step === 2 && selectedItemService.length === 0) {
             toast({
-                title: "Seleção de Serviços",
+                title: "Atenção!",
                 description: "Por favor, selecione pelo menos um serviço antes de avançar.",
                 status: "warning",
                 duration: 3000,
@@ -124,29 +124,29 @@ const NovoAgendamento = () => {
     const collaboratorDescriptions = {
         23: (
             <>
-                <Tag colorScheme="blue" mt={2} >Corte</Tag>
-                <Tag colorScheme="green" mt={2}>Infantil</Tag>
-                <Tag colorScheme="purple" mt={2}>Estética</Tag>
-                <Tag colorScheme="yellow" mt={2}>Visagismo</Tag>
-                <Tag colorScheme="red" mt={2}>Barbaterapia</Tag>
+                <Tag colorScheme="blue" mt={1} fontSize={8} >Corte</Tag>
+                <Tag colorScheme="green" mt={1} fontSize={8}>Infantil</Tag>
+                <Tag colorScheme="purple" mt={1} fontSize={8}>Estética</Tag>
+                <Tag colorScheme="yellow" mt={1} fontSize={8}>Visagismo</Tag>
+                <Tag colorScheme="red" mt={1} fontSize={7}>Barbaterapia</Tag>
             </>
         ),
         24: (
             <>
-                <Tag colorScheme="blue" mt={2}>Corte</Tag>
-                <Tag colorScheme="green" mt={2}>FreeStyle</Tag>
-                <Tag colorScheme="purple" mt={2}>Estética</Tag>
-                <Tag colorScheme="yellow" mt={2}>Visagismo</Tag>
-                <Tag colorScheme="red" mt={2}>Barbaterapia</Tag>
+                <Tag colorScheme="blue" mt={1} fontSize={8}>Corte</Tag>
+                <Tag colorScheme="green" mt={1} fontSize={8}>FreeStyle</Tag>
+                <Tag colorScheme="purple" mt={1} fontSize={8}>Estética</Tag>
+                <Tag colorScheme="yellow" mt={1} fontSize={8}>Visagismo</Tag>
+                <Tag colorScheme="red" mt={1} fontSize={7}>Barbaterapia</Tag>
             </>
         ),
         25: (
             <>
-                <Tag colorScheme="blue" mt={2}>Corte</Tag>
-                <Tag colorScheme="green" mt={2}>Infantil</Tag>
-                <Tag colorScheme="purple" mt={2}>Estética</Tag>
-                <Tag colorScheme="yellow" mt={2}>Visagismo</Tag>
-                <Tag colorScheme="red" mt={2}>Barbaterapia</Tag>
+                <Tag colorScheme="blue" mt={1} fontSize={8} >Corte</Tag>
+                <Tag colorScheme="green" mt={1} fontSize={8}>Infantil</Tag>
+                <Tag colorScheme="purple" mt={1} fontSize={8}>Estética</Tag>
+                <Tag colorScheme="yellow" mt={1} fontSize={8}>Visagismo</Tag>
+                <Tag colorScheme="red" mt={1} fontSize={7}>Barbaterapia</Tag>
             </>
         )
     };
@@ -355,14 +355,15 @@ const NovoAgendamento = () => {
                             display="flex"
                             flexDirection="column"
                             justifyContent="center"
-                            alignItems="center">
+                            alignItems="center"
+                            w="100%">
                             <Flex wrap="wrap" justifyContent="center">
                                 {collaborators.map(col => (
                                     <Card
                                         key={col.colaboradorId}
-                                        w="200px"
-                                        p={4}
-                                        m={2}
+                                        w="80px"
+                                        p={3}
+                                        m={1}
                                         textAlign="center"
                                         borderWidth={selectedCollaboratorId === col.colaboradorId ? "2px" : "1px"}
                                         borderColor={selectedCollaboratorId === col.colaboradorId ? "green.500" : "gray.200"}
@@ -373,17 +374,19 @@ const NovoAgendamento = () => {
                                         <Image
                                             src={collaboratorImages[col.colaboradorId]}
                                             alt={col.nome}
-                                            w="100px"
-                                            h="100px"
+                                            w="80px"
+                                            h="80px"
                                             objectFit="contain"
                                             mx="auto"
                                         />
-                                        <Text fontWeight="bold" mt={2}>{col.nome}</Text>
+                                        <Text fontSize="10px" fontWeight="bold" mt={2}>{col.nome}</Text>
                                         <Text mt={2} fontSize="sm">{collaboratorDescriptions[col.colaboradorId]}</Text>
                                     </Card>
                                 ))}
                             </Flex>
-                            <ActionButtons onSave={handleNextStep} onBack={handlePreviousStep} backLabel="Menu" saveLabel="Avançar" isSaveDisabled={!selectedCollaboratorId} />
+                            <Box w="100%" mt={4}>
+                            <ActionButtons w="full" onSave={handleNextStep} onBack={handlePreviousStep} backLabel="Menu" saveLabel="Avançar" isSaveDisabled={!selectedCollaboratorId} />
+                            </Box>
                         </Box>
                     )}
 
