@@ -257,7 +257,7 @@ const NovoAgendamento = () => {
 
         if (isForChild && observacoes.trim() === '') {
             toast({
-                title: "O atendimento está marcado para seu filho",
+                title: "Atenção!",
                 description: "Por favor, preencha o nome da criança antes de agendar.",
                 status: "warning",
                 duration: 1500,
