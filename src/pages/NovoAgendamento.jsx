@@ -124,29 +124,19 @@ const NovoAgendamento = () => {
     const collaboratorDescriptions = {
         23: (
             <>
-                <Tag colorScheme="blue" mt={1} fontSize={8} >Corte</Tag>
-                <Tag colorScheme="green" mt={1} fontSize={8}>Infantil</Tag>
-                <Tag colorScheme="purple" mt={1} fontSize={8}>Estética</Tag>
-                <Tag colorScheme="yellow" mt={1} fontSize={8}>Visagismo</Tag>
-                <Tag colorScheme="red" mt={1} fontSize={8}>Barbaterapia</Tag>
+                <Tag colorScheme="purple" mt={1} fontSize={8}>Infantil</Tag>
+                <Tag colorScheme="green" mt={1} fontSize={8}>Adulto</Tag>
             </>
         ),
         24: (
             <>
-                <Tag colorScheme="blue" mt={1} fontSize={8}>Corte</Tag>
-                <Tag colorScheme="green" mt={1} fontSize={8}>FreeStyle</Tag>
-                <Tag colorScheme="purple" mt={1} fontSize={8}>Estética</Tag>
-                <Tag colorScheme="yellow" mt={1} fontSize={8}>Visagismo</Tag>
-                <Tag colorScheme="red" mt={1} fontSize={8}>Barbaterapia</Tag>
+                <Tag colorScheme="green" mt={1} fontSize={8}>Adulto</Tag>
             </>
         ),
         25: (
             <>
-                <Tag colorScheme="blue" mt={1} fontSize={8} >Corte</Tag>
-                <Tag colorScheme="green" mt={1} fontSize={8}>Infantil</Tag>
-                <Tag colorScheme="purple" mt={1} fontSize={8}>Estética</Tag>
-                <Tag colorScheme="yellow" mt={1} fontSize={8}>Visagismo</Tag>
-                <Tag colorScheme="red" mt={1} fontSize={8}>Barbaterapia</Tag>
+                <Tag colorScheme="purple" mt={1} fontSize={8}>Infantil</Tag>
+                <Tag colorScheme="green" mt={1} fontSize={8}>Adulto</Tag>
             </>
         )
     };
