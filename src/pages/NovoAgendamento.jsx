@@ -128,7 +128,7 @@ const NovoAgendamento = () => {
                 <Tag colorScheme="green" mt={1} fontSize={8}>Infantil</Tag>
                 <Tag colorScheme="purple" mt={1} fontSize={8}>Estética</Tag>
                 <Tag colorScheme="yellow" mt={1} fontSize={8}>Visagismo</Tag>
-                <Tag colorScheme="red" mt={1} fontSize={7}>Barbaterapia</Tag>
+                <Tag colorScheme="red" mt={1} fontSize={8}>Barbaterapia</Tag>
             </>
         ),
         24: (
@@ -137,7 +137,7 @@ const NovoAgendamento = () => {
                 <Tag colorScheme="green" mt={1} fontSize={8}>FreeStyle</Tag>
                 <Tag colorScheme="purple" mt={1} fontSize={8}>Estética</Tag>
                 <Tag colorScheme="yellow" mt={1} fontSize={8}>Visagismo</Tag>
-                <Tag colorScheme="red" mt={1} fontSize={7}>Barbaterapia</Tag>
+                <Tag colorScheme="red" mt={1} fontSize={8}>Barbaterapia</Tag>
             </>
         ),
         25: (
@@ -146,7 +146,7 @@ const NovoAgendamento = () => {
                 <Tag colorScheme="green" mt={1} fontSize={8}>Infantil</Tag>
                 <Tag colorScheme="purple" mt={1} fontSize={8}>Estética</Tag>
                 <Tag colorScheme="yellow" mt={1} fontSize={8}>Visagismo</Tag>
-                <Tag colorScheme="red" mt={1} fontSize={7}>Barbaterapia</Tag>
+                <Tag colorScheme="red" mt={1} fontSize={8}>Barbaterapia</Tag>
             </>
         )
     };
@@ -361,7 +361,7 @@ const NovoAgendamento = () => {
                                 {collaborators.map(col => (
                                     <Card
                                         key={col.colaboradorId}
-                                        w="80px"
+                                        w="160px"
                                         p={3}
                                         m={1}
                                         textAlign="center"
@@ -374,12 +374,12 @@ const NovoAgendamento = () => {
                                         <Image
                                             src={collaboratorImages[col.colaboradorId]}
                                             alt={col.nome}
-                                            w="80px"
-                                            h="80px"
+                                            w="100px"
+                                            h="100px"
                                             objectFit="contain"
                                             mx="auto"
                                         />
-                                        <Text fontSize="10px" fontWeight="bold" mt={2}>{col.nome}</Text>
+                                        <Text fontSize="sm" fontWeight="bold" mt={1}>{col.nome}</Text>
                                         <Text mt={2} fontSize="sm">{collaboratorDescriptions[col.colaboradorId]}</Text>
                                     </Card>
                                 ))}
@@ -409,7 +409,7 @@ const NovoAgendamento = () => {
 
                             <ChakraProvider>
                                 <Box w={{ base: '100%', md: '85%' }} overflow="auto" position="relative">
-                                    <DataGridHour data={data} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} />
+                                    <DataGridHour data={selectedItem ? [selectedItem] : data} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} />
                                 </Box>
                             </ChakraProvider>
                             <ActionButtons onBack={handlePreviousStep} onSave={handleNextStep} backLabel="Voltar" saveLabel="Avançar" isSaveDisabled={!selectedItem} />
