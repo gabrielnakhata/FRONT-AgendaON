@@ -190,20 +190,38 @@ const NovoAgendamento = () => {
     }, [selectedCollaboratorId, token, toast]);
 
     useEffect(() => {
-        setData([]);
+        setData([]); // Limpa os dados anteriores
         if (selectedCollaboratorId && selectedDate) {
             const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
             getCalendarInDisponibility(selectedCollaboratorId, formattedDate, token)
                 .then(response => {
-                    setData(response);
-                    if (step !== 0) {
+                    // Filtra os horários para mostrar apenas os que não passaram
+                    const filteredData = response.filter(item => {
+                        const timeStr = item.dataHoraConfigurada.split('T')[1].substring(0, 5); // Extrai HH:MM da string
+                        return !isTimeInThePast(selectedDate, timeStr); // Retorna somente horários que ainda não passaram
+                    });
+    
+                    if (filteredData.length === 0) {
+                        // Se não restarem horários, mostra uma mensagem e limpa os dados
                         toast({
-                            title: "Consulta",
-                            description: "Escolha um horário para atendimento...",
-                            status: "success",
-                            duration: 2000,
+                            title: "Sem horários disponíveis",
+                            description: "Não há horários mais disponíveis para o profissional selecionado.",
+                            status: "warning",
+                            duration: 3000,
                             isClosable: true,
                         });
+                        setData([]); // Limpa os dados para garantir que não apareça nada
+                    } else {
+                        setData(filteredData); // Define a lista filtrada de horários
+                        if (step !== 0) {
+                            toast({
+                                title: "Consulta",
+                                description: "Escolha um horário para atendimento...",
+                                status: "success",
+                                duration: 2000,
+                                isClosable: true,
+                            });
+                        }
                     }
                 })
                 .catch(error => {
@@ -211,10 +229,55 @@ const NovoAgendamento = () => {
                 });
         }
     }, [selectedCollaboratorId, selectedDate, token, toast]);
+    
+    
+
+    // useEffect(() => {
+    //     setData([]);
+    //     if (selectedCollaboratorId && selectedDate) {
+    //         const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
+    //         getCalendarInDisponibility(selectedCollaboratorId, formattedDate, token)
+    //             .then(response => {
+    //                 setData(response);
+    //                 if (step !== 0) {
+    //                     toast({
+    //                         title: "Consulta",
+    //                         description: "Escolha um horário para atendimento...",
+    //                         status: "success",
+    //                         duration: 2000,
+    //                         isClosable: true,
+    //                     });
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error("Erro ao carregar horários:", error.message || "Não há horários disponíveis para esta data.");
+    //             });
+    //     }
+    // }, [selectedCollaboratorId, selectedDate, token, toast]);
+
+    const isTimeInThePast = (date, timeStr) => {
+        const now = new Date(); // Data e hora atuais
+        const dateSelected = new Date(date); // Data selecionada
+    
+        const [hours, minutes] = timeStr.split(":").map(Number); // Pega as horas e minutos do horário configurado
+        dateSelected.setHours(hours, minutes, 0, 0); // Ajusta a data selecionada com o horário do item
+    
+        return dateSelected < now; // Retorna true se o horário já passou
+    };
+    
+
+    // const handleCollaboratorSelect = (collaboratorId) => {
+    //     setSelectedCollaboratorId(collaboratorId);
+    // };
 
     const handleCollaboratorSelect = (collaboratorId) => {
+        // Limpa o calendário e os horários sempre que um colaborador for selecionado
         setSelectedCollaboratorId(collaboratorId);
+        setSelectedItem(null); // Limpa o horário selecionado
+        setSelectedDate(getNextAvailableDate()); // Reseta a data para a próxima disponível
+        setData([]); // Limpa os dados do calendário
     };
+    
 
     const handleCheckboxHourClick = (calendarioId, dataHoraConfigurada) => {
         setSelectedItem(prevSelected => {
@@ -234,13 +297,32 @@ const NovoAgendamento = () => {
         redirectToDashboard();
     };
 
+
     const handlePreviousStep = () => {
         if (step === 0) {
             handleClose();
-        } else {
-            setStep(prevStep => prevStep - 1);
+        } else if (step === 1) {
+            // Limpa os dados do colaborador e o calendário ao voltar para o Step 0
+            setSelectedCollaboratorId('');
+            setSelectedItem(null);
+            setSelectedDate(getNextAvailableDate());
+        } else if (step === 2) {
+            // Limpa os dados do serviço selecionado ao voltar para o Step 1
+            setSelectedItem(null);
+        } else if (step === 3) {
+            // Limpa os dados dos serviços ao voltar para o Step 2
+            setSelectedItemsService([]);
         }
+        setStep(prevStep => prevStep - 1);
     };
+    
+    // const handlePreviousStep = () => {
+    //     if (step === 0) {
+    //         handleClose();
+    //     } else {
+    //         setStep(prevStep => prevStep - 1);
+    //     }
+    // };
 
     const handleSave = async () => {
         if (isSubmitting) return;
@@ -399,7 +481,9 @@ const NovoAgendamento = () => {
 
                             <ChakraProvider>
                                 <Box w={{ base: '100%', md: '85%' }} overflow="auto" position="relative">
-                                    <DataGridHour data={selectedItem ? [selectedItem] : data} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} />
+                                    {/* <DataGridHour data={selectedItem ? [selectedItem] : data} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} /> */}
+                                    <DataGridHour data={data} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} />
+
                                 </Box>
                             </ChakraProvider>
                             <ActionButtons onBack={handlePreviousStep} onSave={handleNextStep} backLabel="Voltar" saveLabel="Avançar" isSaveDisabled={!selectedItem} />

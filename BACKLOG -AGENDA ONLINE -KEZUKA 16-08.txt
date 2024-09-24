@@ -1,16 +1,3 @@
-- Adicionar um info no Agendamento, informando que caso necessite de um horário
-  específico que não esteja disponível chamar no whatsApp do suporte 31 99487-5143. OK
-
-- Ajustar no Detalhes do AGENDAMENTO no acesso
-  gestor btn Cancelar não aparece.
-
-- bUG no usuário Herique Lucas; -ok
-
-- Implementar Perfil CLiente e atualização de senha; -ok
-
-- Implementar Instruções de Uso
-  (Video no youtube do Henrique Lucas apresentando o sistema;)
-
-- Implementar tela de listagem de atedimentos do dia e seus status e Soma
-  dos Serviços do dia, bruto -> todosOsStatus , liquido -> statusConcluidos;
-
+- No Agendamento se volta limparos dados já preenchidos...
+- Se no dia o horário disponível já passou não mostrar no agendamento...
+- Marcar horários com status agendado concluido ao final do dia...
