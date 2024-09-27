@@ -201,7 +201,7 @@ const NovoAgendamento = () => {
                         return !isTimeInThePast(selectedDate, timeStr);
                     });
 
-                    if (filteredData.length === 0 && step !== 0) {
+                    if (filteredData.length === 0 && step !== 0 && step === 1) {
                         toast({
                             title: "Sem horários disponíveis",
                             description: "Não há horários disponíveis para o profissional selecionado.",
@@ -322,6 +322,8 @@ const NovoAgendamento = () => {
                 quantidade: 1
             }))
         };
+
+        console.log('Payload:', payload);
 
         try {
             await registerScheduling(payload, token);
