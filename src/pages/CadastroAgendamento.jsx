@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import { ScrollTop } from 'primereact/scrolltop';
 import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
-import { ChakraProvider, Button, Grid, Flex, Box, VStack, useToast, Select, Switch, Text, HStack, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Image, Card } from '@chakra-ui/react';
+import { ChakraProvider, Button, Flex, Box, VStack, useToast, Select, Switch, Text, HStack, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Image, Card } from '@chakra-ui/react';
 import TitleSection from '../components/common/TitleSection';
 import DataGridHour from '../components/common/DataGridHour';
 import DataGridHourService from '../components/common/DataGridHourService';
@@ -321,7 +321,7 @@ const CadastroAgendamento = () => {
         <Flex direction="column" minH="100vh" align="center" justify="center" bgGradient="linear(180deg, #3D5A73, #182625)" w="100vw" m="0" p="0" overflowX="hidden">
             <TitleSection title="Agendamento" subtitle="Preencha os campos para realizar o agendamento" />
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" mt="1rem">
-                {/* <VStack spacing={4}>
+                <VStack spacing={4}>
                     <Box p={3} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '100%']}>
                         <Card bg='#59FFA7' p={5}>
                             <HStack align="center" paddingBottom={2}>
@@ -346,64 +346,7 @@ const CadastroAgendamento = () => {
                             </Button>
                         </Card>
                     </Box>
-                </VStack> */}
-                <VStack spacing={4}>
-    <Box p={3} shadow="md" borderWidth="1px" borderRadius="md" w="100%">
-        <Card bg='#59FFA7' p={5}>
-            <HStack align="center" paddingBottom={2}>
-                <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#38a169' }} />
-                <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
-                    Se precisar de um horário que não esteja disponível, entre em contato com nosso suporte pelo WhatsApp.
-                </Text>
-            </HStack>
-            <Button
-                as="a"
-                href={whatsappLink}
-                target="_blank"
-                colorScheme="green"
-                leftIcon={<FaWhatsapp />}
-                mt={4}
-                _hover={{
-                    bg: "green.300",
-                    color: "white"
-                }}
-            >
-                Verificar
-            </Button>
-        </Card>
-    </Box>
-</VStack>
-
-{/* Adicione aqui o Grid responsivo */}
-<Grid templateColumns={['1fr 1fr', null, 'repeat(4, 1fr)']} gap={4} w="100%">
-    {/* Repita para cada Box/Card que você deseja que tenha comportamento responsivo */}
-    <Box p={3} shadow="md" borderWidth="1px" borderRadius="md" w="100%">
-        <Card bg='#59FFA7' p={5}>
-            <HStack align="center" paddingBottom={2}>
-                <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#38a169' }} />
-                <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
-                    Outro card ou informação.
-                </Text>
-            </HStack>
-            <Button
-                as="a"
-                href={whatsappLink}
-                target="_blank"
-                colorScheme="green"
-                leftIcon={<FaWhatsapp />}
-                mt={4}
-                _hover={{
-                    bg: "green.300",
-                    color: "white"
-                }}
-            >
-                Verificar
-            </Button>
-        </Card>
-    </Box>
-</Grid>
-
-
+                </VStack>
             </Box>
 
             <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" marginX="auto" marginTop="2rem" marginBottom="2rem" mt="1rem">

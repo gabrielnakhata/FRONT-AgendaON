@@ -334,13 +334,21 @@ const NovoAgendamento = () => {
                 duration: 3000,
                 isClosable: true,
             });
-            redirectToDashboard();
+
+            setStep(0);
+            setSelectedCollaboratorId('');
+            setSelectedItem(null);
+            setSelectedItemsService([]);
+            setSelectedDate(getNextAvailableDate());
+            setData([]);
+            setDataService([]);
+
         } catch (error) {
             toast({
-                title: "Erro ao agendar",
-                description: error.message || "Falha ao registrar o agendamento.",
+                title: "Verifique o tempo por serviço!",
+                description: error.message || "Não foi possível registrar o agendamento, verifique o tempo por serviço pode haver conflito de horários ou falta disponibilidade!",
                 status: "error",
-                duration: 3000,
+                duration: 5000,
                 isClosable: true,
             });
         } finally {
