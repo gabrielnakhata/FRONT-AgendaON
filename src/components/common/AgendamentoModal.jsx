@@ -130,13 +130,10 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
 
         try {
             if (status === statusPausado) {
-                // Altera o status para Pausado
                 await statusSchedulingForClient(agendamentoId, statusPausado, token);
                 setStatusAtual("PAUSADO");
-                // Abre o modal com as informações sobre o status pausado
                 openPauseInfoModal();
             } else {
-                // Alterações para outros status
                 await statusSchedulingForClient(agendamentoId, status, token);
             }
 
@@ -296,9 +293,15 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                 </ModalContent>
             </Modal>
 
-            <Modal isOpen={isModalConfirmOpen} onClose={() => setIsModalConfirmOpen(false)} isCentered>
+            <Modal isOpen={isModalConfirmOpen} onClose={() => setIsModalConfirmOpen(false)} isCentered
+            motionPreset="slideInBottom">
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent
+                maxW="500px"
+                w="90%"
+                maxH="90vh"
+                overflowY="auto"
+                >
                     <ModalHeader>Atenção!</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
