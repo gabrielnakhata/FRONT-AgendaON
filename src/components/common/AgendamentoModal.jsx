@@ -308,16 +308,16 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         <VStack spacing={4}>
                             <Card w="100%" bg='#FEFF92' p={5}>
                                 <HStack align="center" paddingBottom={2}>
-                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
-                                    <Text paddingLeft={4} fontSize="16px" color="#172237">
+                                    <i className="pi pi-info-circle" style={{ fontSize: '20px', verticalAlign: 'middle' }} />
+                                    <Text paddingLeft={4} fontSize="10px" color="#172237">
                                         Os agendamentos poderão ser cancelados apenas uma vez. Esta medida visa garantir a disponibilidade e organização dos nossos serviços.
                                     </Text>
                                 </HStack>
                             </Card>
                             <Card w="100%" bg='#F25E5E' p={5}>
                                 <HStack align="center" paddingBottom={2}>
-                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
-                                    <Text paddingLeft={4} fontSize="16px" color="white">
+                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'white' }} />
+                                    <Text paddingLeft={4} fontSize="10px" color="white">
                                         <strong>Atenção!</strong><br></br>
                                         Informamos que o tempo máximo de tolerância para atrasos é de 10 minutos. Caso o cliente não compareça dentro deste período, não poderemos garantir a realização do atendimento, pois a agenda pode não permitir remanejamentos.
                                     </Text>
@@ -325,8 +325,8 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                             </Card>
                             <Card bg='#59FFA7' p={5}>
                                 <HStack align="center" paddingBottom={2}>
-                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle', color: '#38a169' }} />
-                                    <Text paddingLeft={4} fontSize="14px" fontWeight="bold" color="#38a169">
+                                    <i className="pi pi-info-circle" style={{ fontSize: '20px', verticalAlign: 'middle', color: '#38a169' }} />
+                                    <Text paddingLeft={4} fontSize="10px" fontWeight="bold" color="#38a169">
                                         Após realizar o cancelamento, você receberá uma confirmação por e-mail.
                                     </Text>
                                 </HStack>
@@ -376,8 +376,8 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                         <VStack align="start" spacing={4} w="100%">
                             <Card w="100%" bg='#FEFF92' p={5}>
                                 <HStack align="center">
-                                    <i className="pi pi-info-circle" style={{ fontSize: '27px', verticalAlign: 'middle' }} />
-                                    <Text paddingLeft={4} mb={4} fontSize={16}>
+                                    <i className="pi pi-info-circle" style={{ fontSize: '20px', verticalAlign: 'middle' }} />
+                                    <Text paddingLeft={4} mb={4} fontSize={12}>
                                         O status <strong>Pausado</strong> é utilizado para entrar em contato com o cliente.
                                         Após comunicar-se com ele pelo WhatsApp, você poderá efetuar o cancelamento, clicando no botão <strong>Cancelar</strong>.
                                     </Text>
@@ -385,14 +385,13 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                             </Card>
                             <Card w="100%" bg='#F25E5E' p={5}>
                                 <HStack align="center">
-                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '27px', verticalAlign: 'middle', color: 'white' }} />
-                                    <Text paddingLeft={4} mb={2} fontSize={14} color='white'>
+                                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '20px', verticalAlign: 'middle', color: 'white' }} />
+                                    <Text paddingLeft={4} mb={2} fontSize={12} color='white'>
                                         Obs.: Ao Cancelar o cliente receberá um e-mail formalizando o cancelamento do agendamento.
                                     </Text>
                                 </HStack>
                             </Card>
-                            <Text mb={4}>
-                                <br></br>
+                            <Text>
                                 Chamar cliente pelo WhatsApp abaixo:
                             </Text>
                             <Button
@@ -401,7 +400,6 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 target="_blank"
                                 colorScheme="green"
                                 leftIcon={<FaWhatsapp />}
-                                mt={4}
                                 _hover={{
                                     bg: "green.300",
                                     color: "white"
