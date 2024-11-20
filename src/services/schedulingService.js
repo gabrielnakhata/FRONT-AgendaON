@@ -106,6 +106,23 @@ export const getAgendaInDay = async (colaboradorId, data, token) => {
     }
 };
 
+export const getAgendaAllDayClient = async (clienteId, token) => {
+    try {
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        const url = `/Agendamentos/Cliente/${clienteId}`;
+
+        const response = await calendarApi.get(url, config);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : new Error("An unexpected error occurred");
+    }
+};
+
 export const getAgendaInDayClient = async (clienteId, data, token) => {
     try {
         const config = {

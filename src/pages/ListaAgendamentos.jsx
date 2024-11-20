@@ -5,7 +5,7 @@ import usePrimeReactLocale from '../hooks/usePrimeReactLocale';
 import { ScrollTop } from 'primereact/scrolltop';
 import DataGridScheduling from '../components/common/DataGridScheduling';
 import TitleSection from '../components/common/TitleSection';
-import { getAgendaInDayClient } from '../services/schedulingService';
+import { getAgendaInDayClient, getAgendaAllDayClient } from '../services/schedulingService';
 import { useAuth } from '../contexts/AuthContext';
 import AgendamentoModal from '../components/common/AgendamentoModal';
 import MenuCliente from '../components/common/MenuCliente';
@@ -15,7 +15,8 @@ const ListaAgendamentos = () => {
   usePrimeReactLocale();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [data, setData] = useState([]);
-  const [allowPastDates, setAllowPastDates] = useState(false);
+  const [allAgendamentos, setAllAgendamentos] = useState(true); // Checkbox "Todos os agendamentos"
+  const [allowPastDates, setAllowPastDates] = useState(false); // Checkbox para busca retroativa
   const toast = useToast();
   const [containerHeight] = useState('400px');
   const { user, token } = useAuth();
@@ -23,16 +24,23 @@ const ListaAgendamentos = () => {
 
   const reloadData = async () => {
     setData([]);
-    if (user.id && selectedDate) {
-      const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
+    if (user.id) {
       try {
-        const agendaData = await getAgendaInDayClient(user.id, formattedDate, token);
-        setData(agendaData);
+        if (allAgendamentos) {
+          // Buscar todos os agendamentos
+          const agendaData = await getAgendaAllDayClient(user.id, token);
+          setData(agendaData);
+        } else if (selectedDate) {
+          // Buscar agendamentos na data selecionada (mesma lógica anterior)
+          const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
+          const agendaData = await getAgendaInDayClient(user.id, formattedDate, token);
+          setData(agendaData);
+        }
       } catch (error) {
         toast({
-          title: "Consulta",
-          description: error.message || "Não há horários disponíveis para esta data.",
-          status: "info",
+          title: "Erro ao carregar agendamentos",
+          description: error.message || "Não foi possível carregar os agendamentos.",
+          status: "error",
           duration: 3000,
           isClosable: true,
         });
@@ -42,7 +50,7 @@ const ListaAgendamentos = () => {
 
   useEffect(() => {
     reloadData();
-  }, [user.id, selectedDate, token, toast]);
+  }, [user.id, selectedDate, allAgendamentos, token]);
 
   const handleRowClick = (item) => {
     setSelectedAgendamento(item);
@@ -60,28 +68,45 @@ const ListaAgendamentos = () => {
         <TitleSection title="Meus Agendamentos" subtitle="Para ver os detalhes clique no agendamento" />
         <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" mx="auto" my="2rem">
           <VStack spacing={7}>
-            <div className="card flex flex-wrap gap-3 p-fluid">
-              <div className="flex-auto">
-                <Calendar
-                  id="buttondisplay"
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.value)}
-                  showIcon
-                  style={{ fontSize: '20px' }}
-                  dateFormat="dd/mm/yy"
-                  icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />}
-                  minDate={allowPastDates ? null : new Date()}
-                />
-              </div>
-            </div>
+            {/* Checkbox: Todos os Agendamentos */}
             <Checkbox
-              isChecked={allowPastDates}
-              onChange={(e) => setAllowPastDates(e.target.checked)}
-              colorScheme="green"
+              isChecked={allAgendamentos}
+              onChange={(e) => setAllAgendamentos(e.target.checked)}
+              colorScheme="blue"
               alignSelf="center"
             >
-              Filtrar datas passadas
+              Todos os agendamentos
             </Checkbox>
+
+            {/* Mostrar Calendário e Checkbox Retroativo somente se "Todos os Agendamentos" estiver desmarcado */}
+            {!allAgendamentos && (
+              <>
+                <div className="card flex flex-wrap gap-3 p-fluid">
+                  <div className="flex-auto">
+                    <Calendar
+                      id="buttondisplay"
+                      value={selectedDate}
+                      onChange={(e) => setSelectedDate(e.value)}
+                      showIcon
+                      style={{ fontSize: '20px' }}
+                      dateFormat="dd/mm/yy"
+                      icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />}
+                      minDate={allowPastDates ? null : new Date()} // Considerar datas passadas
+                    />
+                  </div>
+                </div>
+                <Checkbox
+                  isChecked={allowPastDates}
+                  onChange={(e) => setAllowPastDates(e.target.checked)}
+                  colorScheme="green"
+                  alignSelf="center"
+                >
+                  Filtrar datas passadas
+                </Checkbox>
+              </>
+            )}
+
+            {/* Grid de Dados */}
             <ChakraProvider>
               <Box w="100%" height={containerHeight} overflowY="auto" position="relative">
                 <DataGridScheduling data={data} onRowClick={handleRowClick} onUpdate={null} onDelete={null} />
