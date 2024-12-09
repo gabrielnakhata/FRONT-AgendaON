@@ -15,7 +15,7 @@ const ListaAgendamentos = () => {
   usePrimeReactLocale();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [data, setData] = useState([]);
-  const [allAgendamentos, setAllAgendamentos] = useState(true); // Checkbox "Todos comm os agendamentos"
+  const [allAgendamentos, setAllAgendamentos] = useState(true); // Checkbox "Todos com os agendamentos"
   const [allowPastDates, setAllowPastDates] = useState(false); // Checkbox para busca retroativa
   const toast = useToast();
   const [containerHeight] = useState('400px');
