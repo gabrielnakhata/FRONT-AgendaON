@@ -94,7 +94,7 @@ const ListaAgendamentosGestor = () => {
                   showIcon style={{ fontSize: '20px' }}
                   dateFormat="dd/mm/yy"
                   icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />}
-                  minDate={allowPastDates ? null : new Date()} // Ajusta a restrição de datas passadas com base no estado do checkbox
+                  minDate={allowPastDates ? null : new Date()}
                 />
               </div>
             </div>

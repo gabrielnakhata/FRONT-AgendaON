@@ -15,8 +15,8 @@ const ListaAgendamentos = () => {
   usePrimeReactLocale();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [data, setData] = useState([]);
-  const [allAgendamentos, setAllAgendamentos] = useState(true); // Checkbox "Todos com os agendamentos"
-  const [allowPastDates, setAllowPastDates] = useState(false); // Checkbox para busca retroativa
+  const [allAgendamentos, setAllAgendamentos] = useState(true);
+  const [allowPastDates, setAllowPastDates] = useState(false);
   const toast = useToast();
   const [containerHeight] = useState('400px');
   const { user, token } = useAuth();
@@ -27,11 +27,9 @@ const ListaAgendamentos = () => {
     if (user.id) {
       try {
         if (allAgendamentos) {
-          // Buscar todos os agendamentos
           const agendaData = await getAgendaAllDayClient(user.id, token);
           setData(agendaData);
         } else if (selectedDate) {
-          // Buscar agendamentos na data selecionada (mesma lógica anterior)
           const formattedDate = `${selectedDate.getFullYear()}-${selectedDate.getDate().toString().padStart(2, '0')}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}`;
           const agendaData = await getAgendaInDayClient(user.id, formattedDate, token);
           setData(agendaData);
@@ -68,7 +66,6 @@ const ListaAgendamentos = () => {
         <TitleSection title="Meus Agendamentos" subtitle="Para ver os detalhes clique no agendamento" />
         <Box bg="#fff" p={5} shadow="md" borderWidth="1px" borderRadius="md" w={['100%', '100%', '50%']} maxWidth="960px" mx="auto" my="2rem">
           <VStack spacing={7}>
-            {/* Checkbox: Todos os Agendamentos */}
             <Checkbox
               isChecked={allAgendamentos}
               onChange={(e) => setAllAgendamentos(e.target.checked)}
@@ -78,7 +75,6 @@ const ListaAgendamentos = () => {
               Todos os agendamentos
             </Checkbox>
 
-            {/* Mostrar Calendário e Checkbox Retroativo somente se "Todos os Agendamentos" estiver desmarcado */}
             {!allAgendamentos && (
               <>
                 <div className="card flex flex-wrap gap-3 p-fluid">
@@ -91,7 +87,7 @@ const ListaAgendamentos = () => {
                       style={{ fontSize: '20px' }}
                       dateFormat="dd/mm/yy"
                       icon={() => <i className="pi pi-calendar" style={{ fontSize: '20px' }} />}
-                      minDate={allowPastDates ? null : new Date()} // Considerar datas passadas
+                      minDate={allowPastDates ? null : new Date()}
                     />
                   </div>
                 </div>
@@ -105,8 +101,6 @@ const ListaAgendamentos = () => {
                 </Checkbox>
               </>
             )}
-
-            {/* Grid de Dados */}
             <ChakraProvider>
               <Box w="100%" height={containerHeight} overflowY="auto" position="relative">
                 <DataGridScheduling data={data} onRowClick={handleRowClick} onUpdate={null} onDelete={null} />

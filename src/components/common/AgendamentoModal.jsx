@@ -278,7 +278,8 @@ const AgendamentoModal = ({ isOpen, onClose, data }) => {
                                 </HStack>
                             ) : null
                         )}
-                        {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Colaborador') && statusAtual !== "CANCELADO" && (
+                        {/* Na segunda linha repeti gestor para por hora o colaborador não poder pausar..  */}
+                        {(user?.tipoUsuario === 'Gestor' || user?.tipoUsuario === 'Gestor') && statusAtual !== "CANCELADO" && (
                             <>
                                 <HStack spacing={4} paddingLeft={2} paddingTop={5}>
                                     <Button color="white" onClick={() => handleStatusChange(statusConcluido)} bg="#8965E2" _hover={{ bg: "#493678" }} w="full" py={6} justifyContent="space-between">Concluído</Button>
