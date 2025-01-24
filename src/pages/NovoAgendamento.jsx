@@ -58,16 +58,29 @@ const NovoAgendamento = () => {
             return;
         }
 
-        if (step === 1 && !selectedItem) {
-            toast({
-                title: "Atenção",
-                description: "Por favor, selecione um horário antes de avançar.",
-                status: "warning",
-                duration: 3000,
-                isClosable: true,
-            });
-            return;
-        }
+        if (step === 1) {
+            if (data.length === 0) {
+                toast({
+                    title: "Não há horários para hoje",
+                    description: "Verifique outra data, ou selecione outro profissional!",
+                    status: "warning",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                return;
+            }
+        
+            if (!selectedItem) {
+                toast({
+                    title: "Atenção",
+                    description: "Por favor, selecione um horário antes de avançar.",
+                    status: "warning",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                return;
+            }
+        }        
 
         if (step === 2 && selectedItemService.length === 0) {
             toast({
@@ -91,7 +104,7 @@ const NovoAgendamento = () => {
             setSelectedDate(getNextAvailableDate());
             toast({
                 title: "Data Inválida",
-                description: "Datas de domingo e segunda são indisponíveis. Selecionando próxima data disponível.",
+                description: "Datas de domingo e segunda são indisponíveis. Selecione as próxima datas disponíveis.",
                 status: "warning",
                 duration: 3000,
                 isClosable: true,
@@ -201,18 +214,18 @@ const NovoAgendamento = () => {
                         return !isTimeInThePast(selectedDate, timeStr);
                     });
 
-                    if (filteredData.length === 0 && step !== 0 && step === 1) {
-                        toast({
-                            title: "Sem horários disponíveis",
-                            description: "Não há horários disponíveis para o profissional selecionado.",
-                            status: "warning",
-                            duration: 3000,
-                            isClosable: true,
-                        });
+                    if (filteredData.length === 0 && step == 0) {
+                        // toast({
+                        //     title: "Não há horários para hoje",
+                        //     description: "Verifique outra data em seguida, ou selecione outro profissional!",
+                        //     status: "warning",
+                        //     duration: 4000,
+                        //     isClosable: true,
+                        // });
                         setData([]);
                     } else {
                         setData(filteredData);
-                        if (step !== 0) {
+                        if (step == 1) {
                             toast({
                                 title: "Consulta",
                                 description: "Escolha um horário para atendimento...",
@@ -449,9 +462,7 @@ const NovoAgendamento = () => {
 
                             <ChakraProvider>
                                 <Box w={{ base: '100%', md: '85%' }} overflow="auto" position="relative">
-                                    {/* <DataGridHour data={selectedItem ? [selectedItem] : data} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} /> */}
                                     <DataGridHour data={data} onCheckboxClick={handleCheckboxHourClick} selectedItem={selectedItem} />
-
                                 </Box>
                             </ChakraProvider>
                             <ActionButtons onBack={handlePreviousStep} onSave={handleNextStep} backLabel="Voltar" saveLabel="Avançar" isSaveDisabled={!selectedItem} />
