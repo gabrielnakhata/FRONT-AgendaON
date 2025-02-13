@@ -24,13 +24,11 @@ import LocalizacaoMaps from './pages/LocalizacaoMaps';
 import Dashboard from './pages/Dashboard';
 import DashboardColaborador from './pages/DashboardColaborador';
 import DashboardCliente from './pages/DashboardCliente';
-import CadastroAgendamento from './pages/CadastroAgendamento';
 import NovoAgendamento from './pages/NovoAgendamento';
 import ListaAgendamentos from './pages/ListaAgendamentos';
 import ListaAgendamentosColaborador from './pages/ListaAgendamentosColaborador';
 import ListaAgendamentosGestor from './pages/ListaAgendamentosGestor';
 import EsqueciMinhaSenha from './pages/EsqueciMinhaSenha';
-
 
 function App() {
 
