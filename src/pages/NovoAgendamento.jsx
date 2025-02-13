@@ -347,8 +347,9 @@ const NovoAgendamento = () => {
                 duration: 3000,
                 isClosable: true,
             });
-
-            setStep(0);
+            
+            redirectToDashboard(); 
+            // setStep(0);
             setSelectedCollaboratorId('');
             setSelectedItem(null);
             setSelectedItemsService([]);
