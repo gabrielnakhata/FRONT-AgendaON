@@ -13,9 +13,9 @@ import { registerScheduling } from '../services/schedulingService';
 import { getCalendarInDisponibility } from '../services/calendarService';
 import { useUserRedirect } from '../hooks/UseUserRedirect';
 import { useAuth } from '../contexts/AuthContext';
-import kezukaIMGperfil from '../assets/kezuka.png';
-import lucasIMGperfil from '../assets/lucas.png';
-import henriqueIMGperfil from '../assets/henrique.png';
+import kezukaIMGperfil from '../assets/matheus_kezuka.jpeg';
+import danielIMGperfil from '../assets/daniel_sena.jpeg';
+import henriqueIMGperfil from '../assets/henrique_lucas.jpeg';
 
 const NovoAgendamento = () => {
     const { user, token } = useAuth();
@@ -131,7 +131,7 @@ const NovoAgendamento = () => {
     const collaboratorImages = {
         23: kezukaIMGperfil,
         24: henriqueIMGperfil,
-        25: lucasIMGperfil
+        25: danielIMGperfil
     };
 
     const collaboratorDescriptions = {
