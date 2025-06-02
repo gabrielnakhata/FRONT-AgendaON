@@ -143,6 +143,7 @@ const NovoAgendamento = () => {
         ),
         24: (
             <>
+                <Tag colorScheme="purple" mt={1} fontSize={8}>Infantil</Tag>
                 <Tag colorScheme="green" mt={1} fontSize={8}>Adulto</Tag>
             </>
         ),
