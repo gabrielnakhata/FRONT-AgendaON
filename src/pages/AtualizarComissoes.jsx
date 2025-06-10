@@ -24,7 +24,6 @@ const AtualizarComissoes = () => {
         percentual: '',
     });
 
-    // Preenche os campos com base nos dados recebidos
     useEffect(() => {
         if (commission) {
             setFormData({

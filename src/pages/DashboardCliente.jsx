@@ -36,4 +36,3 @@ const DashboardCliente = () => {
 };
 
 export default DashboardCliente;
-

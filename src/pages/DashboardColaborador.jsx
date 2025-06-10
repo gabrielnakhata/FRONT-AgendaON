@@ -36,4 +36,3 @@ const DashboardColaborador = () => {
 };
 
 export default DashboardColaborador;
-

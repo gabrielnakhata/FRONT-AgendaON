@@ -66,7 +66,6 @@ const CadastroComissoes = () => {
         redirectToDashboard();
     };
 
-    // Função para envio do formulário
     const handleSubmit = async (e) => {
         e.preventDefault();
 

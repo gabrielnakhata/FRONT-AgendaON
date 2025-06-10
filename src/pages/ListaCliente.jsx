@@ -85,4 +85,3 @@ const ListaCliente = () => {
 };
 
 export default ListaCliente;
-

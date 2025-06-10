@@ -144,9 +144,8 @@ const CustomizarDisponibilidadeCalendario = () => {
         redirectToDashboard();
     };
 
-    // Função para adicionar ":" automaticamente
     const formatTime = (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+        let value = e.target.value.replace(/\D/g, '');
         if (value.length >= 3) {
             value = value.slice(0, 2) + ':' + value.slice(2, 4);
         }
